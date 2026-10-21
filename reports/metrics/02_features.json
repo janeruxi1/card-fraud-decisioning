@@ -1,0 +1,112 @@
+{
+  "source": "real",
+  "features": [
+    "hour",
+    "amount_cents",
+    "cust_prior_tx",
+    "cust_tx_1h",
+    "cust_tx_24h",
+    "cust_tx_7d",
+    "cust_amt_24h",
+    "hours_since_prev",
+    "cust_mean_amt",
+    "amt_vs_cust_mean",
+    "amt_vs_cust_max",
+    "email_changed",
+    "device_changed",
+    "card_tx_24h",
+    "card_tx_1h"
+  ],
+  "point_in_time": {
+    "cutoffs": 3,
+    "checks": 885810,
+    "changed_values": 0
+  },
+  "history": {
+    "first transaction of customer": {
+      "share": 0.39814059854007555,
+      "fraud_rate": 0.026392642051306908
+    },
+    "returning customer": {
+      "share": 0.6018594014599244,
+      "fraud_rate": 0.04105877448937057
+    }
+  },
+  "signal": {
+    "cust_tx_7d": {
+      "auc": 0.6438087756457563,
+      "top_decile_lift": 2.5051168769822527,
+      "missing": 0.0
+    },
+    "hours_since_prev": {
+      "auc": 0.6436533715196923,
+      "top_decile_lift": 2.096919974376037,
+      "missing": 0.39814059854007555
+    },
+    "cust_tx_24h": {
+      "auc": 0.6242045071706631,
+      "top_decile_lift": 2.1712732865946727,
+      "missing": 0.0
+    },
+    "cust_amt_24h": {
+      "auc": 0.6187980303376867,
+      "top_decile_lift": 1.8858807523693368,
+      "missing": 0.0
+    },
+    "cust_prior_tx": {
+      "auc": 0.5817324542024347,
+      "top_decile_lift": 1.7859409010794804,
+      "missing": 0.0
+    },
+    "cust_tx_1h": {
+      "auc": 0.5804726748734731,
+      "top_decile_lift": 2.2882610930469625,
+      "missing": 0.0
+    },
+    "amount_cents": {
+      "auc": 0.5581244313815914,
+      "top_decile_lift": 0.6579515634155683,
+      "missing": 0.0
+    },
+    "card_tx_1h": {
+      "auc": 0.5428465084629053,
+      "top_decile_lift": 1.1016773511281677,
+      "missing": 0.0
+    },
+    "cust_mean_amt": {
+      "auc": 0.5326168307247017,
+      "top_decile_lift": 1.6439286398059147,
+      "missing": 0.39814059854007555
+    },
+    "card_tx_24h": {
+      "auc": 0.5258440292335538,
+      "top_decile_lift": 0.8537270650669205,
+      "missing": 0.0
+    },
+    "amt_vs_cust_mean": {
+      "auc": 0.5171254487722637,
+      "top_decile_lift": 0.9810463566727364,
+      "missing": 0.39814059854007555
+    },
+    "device_changed": {
+      "auc": 0.5156788797731836,
+      "top_decile_lift": null,
+      "missing": 0.9145321825050297
+    },
+    "hour": {
+      "auc": 0.5085642658767713,
+      "top_decile_lift": 1.1005616037345232,
+      "missing": 0.0
+    },
+    "email_changed": {
+      "auc": 0.5071527236175272,
+      "top_decile_lift": null,
+      "missing": 0.3981188878328372
+    },
+    "amt_vs_cust_max": {
+      "auc": 0.5060041091232201,
+      "top_decile_lift": 1.0069992190550565,
+      "missing": 0.39814059854007555
+    }
+  }
+}

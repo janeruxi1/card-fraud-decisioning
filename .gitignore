@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+.venv/
+.vscode/
+*.egg-info/
+
+# Competition data: never committed
+data/raw/*
+!data/raw/README.md
+data/interim/
+data/processed/
+
+# Private notes (not pushed to GitHub)
+reports/prep/

@@ -118,5 +118,3 @@ tests/                       known-answer tests, the leakage check, policy optim
 - [StreamFlix RAG Evaluation](https://github.com/janeruxi1/StreamFlix-RAG-evaluation)
 - [Hotel Search Ranking](https://github.com/janeruxi1/Hotel-Search-Ranking)
 - [Ride-hailing Driver Pay](https://github.com/janeruxi1/ridehail-driver-pay-optimization)
-#   c a r d - f r a u d - d e c i s i o n i n g  
- 

@@ -1,0 +1,216 @@
+{
+  "source": "real",
+  "primary_model": "Gradient boosting + V",
+  "v_gain_valid_pr_auc": 0.014305663031189075,
+  "boosting_rounds": {
+    "without V": 1043,
+    "with V": 1141
+  },
+  "valid": {
+    "Rules": {
+      "pr_auc": 0.0464427130659019,
+      "roc_auc": 0.5471000915651202,
+      "base_rate": 0.03410273898840507,
+      "recall_at_capacity": 0.022105263157894735,
+      "dollar_recall_at_capacity": 0.1552210702948989,
+      "precision_at_capacity": 0.050239234449760764,
+      "reviewed_at_capacity": 1254.0
+    },
+    "Logistic regression": {
+      "pr_auc": 0.29680228403125586,
+      "roc_auc": 0.8105348094161022,
+      "base_rate": 0.03410273898840507,
+      "recall_at_capacity": 0.21578947368421053,
+      "dollar_recall_at_capacity": 0.11064949135624426,
+      "precision_at_capacity": 0.4904306220095694,
+      "reviewed_at_capacity": 1254.0
+    },
+    "Gradient boosting": {
+      "pr_auc": 0.6095213349854389,
+      "roc_auc": 0.9263201753842616,
+      "base_rate": 0.03410273898840507,
+      "recall_at_capacity": 0.37719298245614036,
+      "dollar_recall_at_capacity": 0.3396482826438947,
+      "precision_at_capacity": 0.8572567783094099,
+      "reviewed_at_capacity": 1254.0
+    },
+    "Gradient boosting + V": {
+      "pr_auc": 0.623826998016628,
+      "roc_auc": 0.9299244201980529,
+      "base_rate": 0.03410273898840507,
+      "recall_at_capacity": 0.37859649122807015,
+      "dollar_recall_at_capacity": 0.3361810222157826,
+      "precision_at_capacity": 0.8604465709728868,
+      "reviewed_at_capacity": 1254.0
+    }
+  },
+  "test": {
+    "Rules": {
+      "pr_auc": 0.041908245160066436,
+      "roc_auc": 0.511753021726397,
+      "base_rate": 0.03476256937907754,
+      "recall_at_capacity": 0.0196078431372549,
+      "dollar_recall_at_capacity": 0.13559184698603852,
+      "precision_at_capacity": 0.045454545454545456,
+      "reviewed_at_capacity": 1386.0
+    },
+    "Logistic regression": {
+      "pr_auc": 0.24894898149752012,
+      "roc_auc": 0.8159664640024489,
+      "base_rate": 0.03476256937907754,
+      "recall_at_capacity": 0.191098661686897,
+      "dollar_recall_at_capacity": 0.12041286443583311,
+      "precision_at_capacity": 0.443001443001443,
+      "reviewed_at_capacity": 1386.0
+    },
+    "Gradient boosting": {
+      "pr_auc": 0.5259705350550753,
+      "roc_auc": 0.9065611747721782,
+      "base_rate": 0.03476256937907754,
+      "recall_at_capacity": 0.321817615935263,
+      "dollar_recall_at_capacity": 0.2597904820042605,
+      "precision_at_capacity": 0.746031746031746,
+      "reviewed_at_capacity": 1386.0
+    },
+    "Gradient boosting + V": {
+      "pr_auc": 0.5520103247730638,
+      "roc_auc": 0.90916259146318,
+      "base_rate": 0.03476256937907754,
+      "recall_at_capacity": 0.34173669467787116,
+      "dollar_recall_at_capacity": 0.26497580935431947,
+      "precision_at_capacity": 0.7922077922077922,
+      "reviewed_at_capacity": 1386.0
+    }
+  },
+  "test_ci": {
+    "Rules": {
+      "pr_auc": [
+        0.03603359807447722,
+        0.04846796721535186
+      ],
+      "recall_at_capacity": [
+        0.01462426968892696,
+        0.028407849452989964
+      ]
+    },
+    "Gradient boosting + V": {
+      "pr_auc": [
+        0.5194634647983076,
+        0.585066714921189
+      ],
+      "recall_at_capacity": [
+        0.31699141733903224,
+        0.36695733287760973
+      ]
+    }
+  },
+  "known_customers": {
+    "share_of_test_fraud": 0.15873015873015872,
+    "recall_at_capacity": {
+      "Rules": {
+        "customer already labelled fraud": 0.01568627450980392,
+        "new to fraud": 0.020347761746207917
+      },
+      "Gradient boosting + V": {
+        "customer already labelled fraud": 0.3215686274509804,
+        "new to fraud": 0.3455419903810581
+      }
+    }
+  },
+  "calibration": {
+    "brier": {
+      "calibrated": 0.0218842185533617,
+      "raw": 0.021953598638133304,
+      "base rate only": 0.03355434201868277
+    },
+    "table": [
+      {
+        "bin": 0,
+        "predicted": 0.001086547020523427,
+        "observed": 0.0019474196689386564,
+        "n": 9243
+      },
+      {
+        "bin": 1,
+        "predicted": 0.0015034122018443479,
+        "observed": 0.002596559558584875,
+        "n": 9243
+      },
+      {
+        "bin": 2,
+        "predicted": 0.0022520972458644753,
+        "observed": 0.0038952607660679506,
+        "n": 9242
+      },
+      {
+        "bin": 3,
+        "predicted": 0.0031814624964013522,
+        "observed": 0.0034620794114465,
+        "n": 9243
+      },
+      {
+        "bin": 4,
+        "predicted": 0.0047171271980660165,
+        "observed": 0.00551768906199286,
+        "n": 9243
+      },
+      {
+        "bin": 5,
+        "predicted": 0.005589246791248797,
+        "observed": 0.0075741181562432374,
+        "n": 9242
+      },
+      {
+        "bin": 6,
+        "predicted": 0.009872472663012062,
+        "observed": 0.012333657903278157,
+        "n": 9243
+      },
+      {
+        "bin": 7,
+        "predicted": 0.017437631942522524,
+        "observed": 0.020233715645964077,
+        "n": 9242
+      },
+      {
+        "bin": 8,
+        "predicted": 0.03762662204799054,
+        "observed": 0.03851563345234231,
+        "n": 9243
+      },
+      {
+        "bin": 9,
+        "predicted": 0.27592787301799376,
+        "observed": 0.25154170723790975,
+        "n": 9243
+      }
+    ]
+  },
+  "importance_top15": {
+    "C13": 0.35425069733475045,
+    "D1_date": 0.3529853296365938,
+    "D4_date": 0.1983799585157513,
+    "card6": 0.18003836387696662,
+    "P_emaildomain": 0.17938679220391138,
+    "card1_freq": 0.16401995307740988,
+    "card2_freq": 0.15986227023606261,
+    "log_amount": 0.15038460790042887,
+    "C1": 0.13794761113611442,
+    "C14": 0.1351348407985613,
+    "D15_date": 0.1162563612153325,
+    "card5_freq": 0.10871739241806411,
+    "V70": 0.10619196375686588,
+    "DeviceInfo": 0.10334295711615504,
+    "TransactionAmt": 0.09933449363777054
+  },
+  "top_reason_share": {
+    "C1": 0.2886002886002886,
+    "C13": 0.2683982683982684,
+    "V258": 0.22366522366522368,
+    "DeviceInfo": 0.046897546897546896,
+    "D1_date": 0.046897546897546896,
+    "log_amount": 0.022366522366522368,
+    "id_31": 0.015873015873015872,
+    "C6": 0.01443001443001443
+  }
+}

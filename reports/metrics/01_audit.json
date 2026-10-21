@@ -1,0 +1,241 @@
+{
+  "source": "real",
+  "shape": {
+    "transactions": 590540,
+    "frauds": 20663,
+    "fraud_rate": 0.03499000914417313,
+    "days": 182,
+    "identity_share": 0.2442391709283029,
+    "fraud_dollar_share": 0.0386742603072233
+  },
+  "splits": {
+    "train": {
+      "transactions": 414542,
+      "frauds": 14600,
+      "fraud_rate": 0.035219591742211884,
+      "days": [
+        0,
+        119
+      ]
+    },
+    "valid": {
+      "transactions": 83571,
+      "frauds": 2850,
+      "fraud_rate": 0.03410273898840507,
+      "days": [
+        120,
+        149
+      ]
+    },
+    "test": {
+      "transactions": 92427,
+      "frauds": 3213,
+      "fraud_rate": 0.03476256937907754,
+      "days": [
+        150,
+        181
+      ]
+    }
+  },
+  "weekly_fraud_rate": {
+    "min": 0.02074141981321263,
+    "max": 0.05071638675396148,
+    "weeks": 26
+  },
+  "segments": [
+    {
+      "dimension": "identity",
+      "level": "no device data",
+      "transactions": 446307,
+      "fraud_rate": 0.020938501972857248
+    },
+    {
+      "dimension": "identity",
+      "level": "device data",
+      "transactions": 144233,
+      "fraud_rate": 0.07847025299342036
+    },
+    {
+      "dimension": "product",
+      "level": "W",
+      "transactions": 439670,
+      "fraud_rate": 0.020399390451929858
+    },
+    {
+      "dimension": "product",
+      "level": "C",
+      "transactions": 68519,
+      "fraud_rate": 0.11687269224594637
+    },
+    {
+      "dimension": "product",
+      "level": "R",
+      "transactions": 37699,
+      "fraud_rate": 0.03782593702750736
+    },
+    {
+      "dimension": "product",
+      "level": "H",
+      "transactions": 33024,
+      "fraud_rate": 0.04766230620155039
+    },
+    {
+      "dimension": "product",
+      "level": "S",
+      "transactions": 11628,
+      "fraud_rate": 0.058995528035775714
+    }
+  ],
+  "missingness": {
+    "families": [
+      {
+        "family": "V",
+        "columns": 339.0,
+        "median missing": 0.47293494090154775,
+        "min": 2.0320384732617603e-05,
+        "max": 0.8612371727571375
+      },
+      {
+        "family": "C",
+        "columns": 14.0,
+        "median missing": 0.0,
+        "min": 0.0,
+        "max": 0.0
+      },
+      {
+        "family": "D",
+        "columns": 15.0,
+        "median missing": 0.524674027161581,
+        "min": 0.0021488806854743116,
+        "max": 0.9340992989467267
+      },
+      {
+        "family": "M",
+        "columns": 9.0,
+        "median missing": 0.47658753005723575,
+        "min": 0.28678836319300977,
+        "max": 0.5934940901547736
+      },
+      {
+        "family": "id",
+        "columns": 38.0,
+        "median missing": 0.8244284891793952,
+        "min": 0.7557608290716971,
+        "max": 0.9919615944728554
+      }
+    ],
+    "v_blocks": 15,
+    "v_blocks_same_rows": 15
+  },
+  "customers": {
+    "customers": 217020.0,
+    "transactions_per_customer": 2.7152843055939546,
+    "median_transactions": 1.0,
+    "customers_with_fraud": 0.03725002303935121,
+    "share_in_all_fraud_customers": 0.22008474163541616,
+    "no_uid_share": 0.0021488806854743116
+  },
+  "label_propagation": {
+    "first transaction of customer": {
+      "transactions": 217020,
+      "fraud_rate": 0.027739378859091328
+    },
+    "previous transaction fraud": {
+      "transactions": 14501,
+      "fraud_rate": 0.769740017929798
+    },
+    "previous transaction not fraud": {
+      "transactions": 357750,
+      "fraud_rate": 0.00960167714884696
+    }
+  },
+  "leakage": {
+    "test": {
+      "frauds": 3213,
+      "recall": 0.15873015873015872,
+      "precision": 0.4644808743169399
+    },
+    "valid": {
+      "frauds": 2850,
+      "recall": 0.3056140350877193,
+      "precision": 0.5250150693188668
+    },
+    "random 20% hold-out": {
+      "frauds": 4147,
+      "recall": 0.7412587412587412,
+      "precision": 0.4248790601243953
+    }
+  },
+  "amount_deciles": [
+    {
+      "decile": 1,
+      "min_amount": 0.251,
+      "max_amount": 25.95,
+      "fraud_rate": 0.056304399363294615,
+      "share_of_fraud_dollars": 0.017673217841444877
+    },
+    {
+      "decile": 2,
+      "min_amount": 25.95,
+      "max_amount": 35.95,
+      "fraud_rate": 0.03332543096149287,
+      "share_of_fraud_dollars": 0.01968866585590822
+    },
+    {
+      "decile": 3,
+      "min_amount": 35.95,
+      "max_amount": 49.0,
+      "fraud_rate": 0.031598198259220375,
+      "share_of_fraud_dollars": 0.02584419373158743
+    },
+    {
+      "decile": 4,
+      "min_amount": 49.0,
+      "max_amount": 57.95,
+      "fraud_rate": 0.023182172249127917,
+      "share_of_fraud_dollars": 0.023116624615156543
+    },
+    {
+      "decile": 5,
+      "min_amount": 57.95,
+      "max_amount": 68.758,
+      "fraud_rate": 0.024384461679141125,
+      "share_of_fraud_dollars": 0.028583688869484692
+    },
+    {
+      "decile": 6,
+      "min_amount": 68.78,
+      "max_amount": 100.0,
+      "fraud_rate": 0.039218342533951976,
+      "share_of_fraud_dollars": 0.06343862803785798
+    },
+    {
+      "decile": 7,
+      "min_amount": 100.0,
+      "max_amount": 117.0,
+      "fraud_rate": 0.01825447895146815,
+      "share_of_fraud_dollars": 0.036978484060316806
+    },
+    {
+      "decile": 8,
+      "min_amount": 117.0,
+      "max_amount": 159.95,
+      "fraud_rate": 0.035001862701933825,
+      "share_of_fraud_dollars": 0.09028834511474099
+    },
+    {
+      "decile": 9,
+      "min_amount": 159.95,
+      "max_amount": 275.293,
+      "fraud_rate": 0.0377451146408372,
+      "share_of_fraud_dollars": 0.15056428098007532
+    },
+    {
+      "decile": 10,
+      "min_amount": 275.293,
+      "max_amount": 31937.391,
+      "fraud_rate": 0.05088563010126325,
+      "share_of_fraud_dollars": 0.5438238708934272
+    }
+  ]
+}

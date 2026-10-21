@@ -1,0 +1,128 @@
+{
+  "source": "real",
+  "supervised_reference": "phase-3 primary model",
+  "test": {
+    "Isolation Forest": {
+      "pr_auc": 0.03818583955719722,
+      "roc_auc": 0.5510112031351773,
+      "base_rate": 0.03476256937907754,
+      "recall_at_capacity": 0.004979769685652039,
+      "dollar_recall_at_capacity": 0.009996441057268884,
+      "precision_at_capacity": 0.011544011544011544,
+      "reviewed_at_capacity": 1386.0
+    },
+    "Robust distance": {
+      "pr_auc": 0.02776876422013603,
+      "roc_auc": 0.42965784715233163,
+      "base_rate": 0.03476256937907754,
+      "recall_at_capacity": 0.0071584189231248055,
+      "dollar_recall_at_capacity": 0.017693680177468536,
+      "precision_at_capacity": 0.016594516594516596,
+      "reviewed_at_capacity": 1386.0
+    },
+    "Supervised": {
+      "pr_auc": 0.5520103247730638,
+      "roc_auc": 0.90916259146318,
+      "base_rate": 0.03476256937907754,
+      "recall_at_capacity": 0.34173669467787116,
+      "dollar_recall_at_capacity": 0.26497580935431947,
+      "precision_at_capacity": 0.7922077922077922,
+      "reviewed_at_capacity": 1386.0
+    }
+  },
+  "missed_by_supervised": 2115,
+  "caught_in_detector_top": {
+    "Isolation Forest": 0.0028368794326241137,
+    "Robust distance": 0.0028368794326241137
+  },
+  "best_detector": "Isolation Forest",
+  "capacity_blend": [
+    {
+      "share of capacity to anomalies": 0.0,
+      "recall": 0.34173669467787116,
+      "dollar_recall": 0.26497580935431947
+    },
+    {
+      "share of capacity to anomalies": 0.1,
+      "recall": 0.3208839091192032,
+      "dollar_recall": 0.23560412793866256
+    },
+    {
+      "share of capacity to anomalies": 0.2,
+      "recall": 0.2928727046374105,
+      "dollar_recall": 0.207139308662476
+    },
+    {
+      "share of capacity to anomalies": 0.3,
+      "recall": 0.26392779333955807,
+      "dollar_recall": 0.17694012305795576
+    },
+    {
+      "share of capacity to anomalies": 0.5,
+      "recall": 0.19638966697790228,
+      "dollar_recall": 0.13051524191563701
+    }
+  ],
+  "anomaly_profile": {
+    "Isolation Forest / top 1.5%": {
+      "fraud rate": 0.011544011544011544,
+      "median cust_prior_tx": 702.5,
+      "median C1": 5.0,
+      "median C13": 61.0,
+      "median TransactionAmt": 106.0
+    },
+    "Isolation Forest / rest": {
+      "fraud rate": 0.03511604661635966,
+      "median cust_prior_tx": 2.0,
+      "median C1": 1.0,
+      "median C13": 3.0,
+      "median TransactionAmt": 67.95
+    },
+    "Robust distance / top 1.5%": {
+      "fraud rate": 0.016594516594516596,
+      "median cust_prior_tx": 720.5,
+      "median C1": 5.0,
+      "median C13": 61.0,
+      "median TransactionAmt": 106.0
+    },
+    "Robust distance / rest": {
+      "fraud rate": 0.03503915818147867,
+      "median cust_prior_tx": 2.0,
+      "median C1": 1.0,
+      "median C13": 3.0,
+      "median TransactionAmt": 67.95
+    }
+  },
+  "label_scarcity": [
+    {
+      "share of training customers": 0.01,
+      "training frauds": 111,
+      "pr_auc": 0.3711641276652777,
+      "recall_at_capacity": 0.27762215997510115
+    },
+    {
+      "share of training customers": 0.03,
+      "training frauds": 494,
+      "pr_auc": 0.3568511690851821,
+      "recall_at_capacity": 0.2673513849984438
+    },
+    {
+      "share of training customers": 0.1,
+      "training frauds": 1534,
+      "pr_auc": 0.4121446301758381,
+      "recall_at_capacity": 0.3006535947712418
+    },
+    {
+      "share of training customers": 0.3,
+      "training frauds": 4304,
+      "pr_auc": 0.4605840577317978,
+      "recall_at_capacity": 0.29660753190164957
+    },
+    {
+      "share of training customers": 1.0,
+      "training frauds": 14600,
+      "pr_auc": 0.4964748203010094,
+      "recall_at_capacity": 0.3062558356676004
+    }
+  ]
+}
