@@ -4,8 +4,8 @@
 # A fraud model starts decaying the day it ships: fraudsters adapt, and the labels that would show
 # it arrive weeks later, when chargebacks come in. Three questions:
 #
-# 1. How fast does a gradient-boosting model (the phase-3 recipe, without the `V` columns) decay over the later
-#    months, and does refitting it help?
+# 1. How fast does a gradient-boosting model (the phase-3 primary model's parameters, without the `V`
+#    columns) decay over the later months, and does refitting it help?
 # 2. Which inputs drift, and does the score's own distribution move (a signal available at once)?
 # 3. With chargebacks arriving weeks late, what can monitoring see in time, and what fills the gap?
 
@@ -35,6 +35,10 @@ SOURCE = data.source()
 # several refits here are comparisons, not the production model: a faster learning rate keeps them affordable
 GBM_PARAMS = {"learning_rate": 0.1} if SOURCE == "real" else {"learning_rate": 0.2, "num_leaves": 15}
 GBM_ROUNDS = 400 if SOURCE == "real" else 150
+if SOURCE == "real":   # the phase-3 primary model's parameters (tuned or default), at this notebook's learning rate
+    from fraudrisk.records import read_metrics
+    GBM_PARAMS = {**{k: v for k, v in read_metrics("03_model")["primary_params"].items() if k != "learning_rate"},
+                  **GBM_PARAMS}
 WIDTH = 15                                     # days per monitoring window
 con = data.connect()
 features.build(con)
@@ -194,7 +198,7 @@ show_verdict(
         f"**{int((feature_psi > 0.25).sum())} of {len(feature_psi)} inputs drift strongly** (PSI > 0.25, train vs test); the "
         f"largest is `{feature_psi.index[0]}`" + (", which drifts by construction: the `_date` inputs are calendar dates"
                                                   if feature_psi.index[0].endswith("_date") else "") + ". "
-        + (f"**The score's own distribution barely moved** (PSI {score_psi.min():.2f}–{score_psi.max():.2f}) while recall fell, "
+        + (f"**The score's own distribution barely moved** (PSI at most {score_psi.max():.3f}) while recall fell, "
          "so score drift alone would not have raised an alarm." if score_psi.max() < 0.1 else
          f"The score's own distribution moved (PSI up to {score_psi.max():.2f}), a label-free warning available the same day."),
         f"**Late labels slow the dashboard; the review queue does not wait.** With a {delay}-day median chargeback delay, "

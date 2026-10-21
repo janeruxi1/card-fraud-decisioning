@@ -26,6 +26,10 @@ def expected():
     pol = p["policies"]
     pc, top, free = pol["Model: expected-cost policy"], pol["Model: review the top 1.5%"], pol["Model: expected cost, no guardrail"]
     lp, lk = a["label_propagation"], a["leakage"]
+    sel = m["selection"]
+    sel_prim = sel[prim]
+    sel_runner = sorted(sel.values(), key=lambda r: r["valid_policy_cost_per_1000"])[1]
+    test_best = min(sel.values(), key=lambda r: r["test_policy_cost_per_1000"])
     decay = [r for r in mo["decay"] if r["model"] == "frozen"]
     hit = list(mo["review_queue_hit_rate"].values())
     week = [r["share_of_fraud_labels_known"] for r in mo["label_lag"] if r["days after window"] == 7]
@@ -42,15 +46,20 @@ def expected():
         f"**{lp['previous transaction fraud']['fraud_rate']:.0%}**", f"**{lp['previous transaction not fraud']['fraud_rate']:.2%}**",
         f"**{lk['random 20% hold-out']['recall']:.0%}**", f"**{lk['test']['recall']:.0%}**",
         f"[95% interval {100 * m['test_ci'][prim]['recall_at_capacity'][0]:.0f}–{m['test_ci'][prim]['recall_at_capacity'][1]:.0%}]",
+        f"PSI ≤ {max(mo['score_psi'].values()):.3f}",
         f"{t['dollar_recall_at_capacity']:.0%} of fraud dollars", f"{t['precision_at_capacity']:.0%} precision",
         f"Brier {m['calibration']['brier']['calibrated']:.4f} vs {m['calibration']['brier']['base rate only']:.4f}",
         f"PR-AUC **{an['test']['Isolation Forest']['pr_auc']:.3f}**", f"{usd(pol['Approve everything']['cost_per_1000'])}",
-        f"{p['decline_threshold']:.2f}", f"PR-AUC {m['test']['Gradient boosting']['pr_auc']:.3f} vs {t['pr_auc']:.3f}",
-        f"{m['v_gain_valid_pr_auc']:.3f} validation PR-AUC",
+        f"{p['decline_threshold']:.2f}",
+        f"from {m['tuning']['default_pr_auc']:.3f} to {m['tuning']['best_pr_auc']:.3f}",
+        f"**{usd(sel_runner['valid_policy_cost_per_1000'] - sel_prim['valid_policy_cost_per_1000'])}**",
+        f"({usd(test_best['test_policy_cost_per_1000'])} vs {usd(sel_prim['test_policy_cost_per_1000'])})",
+        f"{m['known_customers']['recall_at_capacity'][prim]['customer already labelled fraud']:.0%} of fraud from customers already",
         f"[95% interval {usd(p['saving_vs_model_top_ci_per_1000'][0])}–{usd(p['saving_vs_model_top_ci_per_1000'][1])}]",
         f"{f['point_in_time']['changed_values']}** values",
     }
     memo = shared | {
+        usd(test_best["test_policy_cost_per_1000"]),
         f"(95% interval {usd(p['saving_vs_model_top_ci_per_1000'][0])}–{usd(p['saving_vs_model_top_ci_per_1000'][1])})",
         usd(pol["Today's rules"]["cost_per_1000"]), f"at least {p['decline_threshold']:.2f}",
     }

@@ -50,3 +50,29 @@ def test_robust_distance_ranks_outliers_high():
     Z = pd.DataFrame({"a": np.r_[np.zeros(99), 50.0], "b": np.r_[np.ones(99), 1.0]})
     s = anomaly.fit_robust_distance(Z)(Z)
     assert s.argmax() == 99
+
+
+def test_tuning_stays_inside_the_training_months(synthetic):
+    from fraudrisk import data, features
+
+    con = data.connect(synthetic)
+    features.build(con)
+    F = features.frame(con)
+    raw = con.sql(f"SELECT {', '.join(model.raw_columns(with_v=False))} FROM tx").df()
+    d = model.design(F, raw, with_v=False)
+    seen = []
+    real_fit = model.fit_lightgbm
+
+    def spy(sub, *a, **k):
+        seen.append(set(np.unique(sub.split)))
+        assert sub.day[sub.split == "valid"].min() >= model.TUNE_START
+        assert sub.day[np.isin(sub.split, ["train", "valid"])].max() < 120
+        return real_fit(sub, *a, **k)
+
+    model.fit_lightgbm = spy
+    try:
+        out = model.tune_lightgbm(d, n_trials=2, rounds=20, patience=5)
+    finally:
+        model.fit_lightgbm = real_fit
+    assert len(seen) == 2 and out["default_value"] > 0
+    assert len(out["trials"]) == 2

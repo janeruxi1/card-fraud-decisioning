@@ -1,7 +1,7 @@
 # %% [markdown]
 # # 03 · Supervised models, judged on later months
 #
-# Four ways to rank payments for review, fitted on the training months (days 0–119), tuned on the
+# Ways to rank payments for review, fitted on the training months (days 0–119), chosen on the
 # validation months (120–149) and scored **once** on the test months (150 onwards):
 #
 # | Model | What it is |
@@ -10,6 +10,11 @@
 # | Logistic regression | Numeric fields and phase-2 features, missing flags, standardized |
 # | Gradient boosting | LightGBM on the phase-2 features and the raw fields, **without** the provider's `V` columns |
 # | Gradient boosting + V | The same with the 339 `V` columns |
+# | … , tuned | The same two with parameters from an Optuna search inside the training months |
+#
+# **The primary model is the boosting model whose decisions cost least on the validation months**: each
+# candidate is calibrated there, gets its decline threshold there (the phase-5 procedure), and its
+# expected-cost policy is priced there. The test months only report.
 #
 # With about 3.5% fraud, ROC AUC flatters every model, so the headline metrics are PR-AUC and
 # **recall at review capacity**: the share of fraud (and of fraud dollars) in the top 1.5% of scores,
@@ -34,13 +39,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from fraudrisk import config, data, features, model
+from fraudrisk import config, data, features, model, policy
 from fraudrisk.records import show_verdict, write_metrics
 
 SOURCE = data.source()
 # the synthetic CI run only checks that the code runs: a faster learning rate keeps it short
 GBM_PARAMS = {} if SOURCE == "real" else {"learning_rate": 0.2, "num_leaves": 15}
 GBM_ROUNDS = 2000 if SOURCE == "real" else 150
+TUNING_TRIALS = 40 if SOURCE == "real" else 3
 con = data.connect()
 features.build(con)
 F = features.frame(con)
@@ -49,7 +55,13 @@ raw = con.sql(f"SELECT {', '.join(model.raw_columns(with_v=False))} FROM tx").df
 print(SOURCE, F.shape, raw.shape)
 
 # %% [markdown]
-# ## 1. Fit
+# ## 1. Tune, inside the training months
+#
+# An Optuna (TPE) search over tree shape and regularization: 40 trials, each fitted on days 0–89 and
+# scored by PR-AUC on days 90–119, with the defaults run first as trial 0. Neither the validation nor the
+# test months are touched. The search uses the model without the `V` columns (faster); its best
+# parameters are then fitted with and without `V`. Trials use a learning rate of 0.1 to keep each fit
+# short; the final models use 0.05.
 
 # %%
 d_nov = model.design(F, raw, with_v=False)
@@ -64,6 +76,15 @@ rule_frame = rule_frame.merge(con.sql("SELECT TransactionID, ProductCD, Transact
 rule_frame = rule_frame.set_index("TransactionID").loc[d_nov.transaction_id].reset_index()
 scores = {"Rules": model.rules_score(rule_frame)}
 
+tuning = model.tune_lightgbm(d_nov, n_trials=TUNING_TRIALS)
+TUNED_PARAMS = {**GBM_PARAMS, **tuning["best_params"]}
+print(f"PR-AUC on days {model.TUNE_START}-119: defaults {tuning['default_value']:.4f}, best trial {tuning['best_value']:.4f}")
+tuning["trials"].sort_values("value", ascending=False).head(8).round(4)
+
+# %% [markdown]
+# ## 2. Fit
+
+# %%
 logit = model.fit_logistic(d_nov)
 scores["Logistic regression"] = logit(d_nov.X)
 
@@ -75,25 +96,64 @@ print("rounds (no V):", gbm.best_iteration)
 # %%
 gbm_v = model.fit_lightgbm(d_v, GBM_PARAMS, GBM_ROUNDS)
 scores["Gradient boosting + V"] = gbm_v.predict(d_v.X, num_iteration=gbm_v.best_iteration)
-print({"rounds (no V)": gbm.best_iteration, "rounds (+V)": gbm_v.best_iteration})
-
-# %% [markdown]
-# ## 2. Validation months: choose the model
-#
-# The primary model is the one with the higher validation PR-AUC among the two boosting models,
-# unless the `V` columns add less than 0.01 PR-AUC, in which case the model without them is preferred
-# (a reviewer can be told what its inputs mean). This rule was set before the test months were scored.
+print("rounds (+V):", gbm_v.best_iteration)
 
 # %%
-valid = pd.DataFrame({k: model.evaluate(s[va], y[va], amount[va]) for k, s in scores.items()}).T
-gain_v = valid.loc["Gradient boosting + V", "pr_auc"] - valid.loc["Gradient boosting", "pr_auc"]
-PRIMARY = "Gradient boosting + V" if gain_v >= 0.01 else "Gradient boosting"
-booster, D = (gbm_v, d_v) if PRIMARY == "Gradient boosting + V" else (gbm, d_nov)
-print(f"V columns add {gain_v:+.3f} validation PR-AUC -> primary model: {PRIMARY}")
-valid[["pr_auc", "roc_auc", "recall_at_capacity", "dollar_recall_at_capacity", "precision_at_capacity"]].round(3)
+gbm_t = model.fit_lightgbm(d_nov, TUNED_PARAMS, GBM_ROUNDS)
+scores["Gradient boosting, tuned"] = gbm_t.predict(d_nov.X, num_iteration=gbm_t.best_iteration)
+print("rounds (tuned):", gbm_t.best_iteration)
+
+# %%
+gbm_tv = model.fit_lightgbm(d_v, TUNED_PARAMS, GBM_ROUNDS)
+scores["Gradient boosting + V, tuned"] = gbm_tv.predict(d_v.X, num_iteration=gbm_tv.best_iteration)
+print("rounds (+V, tuned):", gbm_tv.best_iteration)
+BOOSTERS = {"Gradient boosting": (gbm, d_nov, GBM_PARAMS), "Gradient boosting + V": (gbm_v, d_v, GBM_PARAMS),
+            "Gradient boosting, tuned": (gbm_t, d_nov, TUNED_PARAMS),
+            "Gradient boosting + V, tuned": (gbm_tv, d_v, TUNED_PARAMS)}
 
 # %% [markdown]
-# ## 3. Test months, scored once
+# ## 3. Validation months: choose the model by the cost of its decisions
+#
+# Each boosting model is calibrated on the validation months, gets the decline threshold that keeps
+# good-customer declines within the rules' rate there, and its expected-cost policy is priced there.
+# The cheapest becomes the primary model. Test-month costs are computed the same way and only reported.
+
+# %%
+C = policy.Costs()
+day = d_nov.day
+
+
+def rules_actions(mask, c):
+    hits = np.floor(scores["Rules"][mask])
+    a = policy.review_top(np.where(hits >= 1, scores["Rules"][mask], -np.inf), day[mask], c,
+                          decline=hits >= config.RULES_DECLINE_HITS)
+    a[(a == policy.REVIEW) & (hits < 1)] = policy.APPROVE
+    return a
+
+
+rules_valid = policy.realized(rules_actions(va, C), y[va], amount[va], C)
+selection = {}
+for name in BOOSTERS:
+    s = scores[name]
+    p = model.calibrate(s[va], y[va])(s)
+    tau = policy.decline_threshold(p[va], amount[va], day[va], y[va], C, rules_valid["good_decline_rate"])
+    selection[name] = {
+        "valid_pr_auc": model.evaluate(s[va], y[va], amount[va])["pr_auc"],
+        "decline_threshold": tau,
+        "valid_policy_cost_per_1000": policy.realized(policy.choose(p[va], amount[va], day[va], C, tau),
+                                                      y[va], amount[va], C)["cost_per_1000"],
+        "test_policy_cost_per_1000": policy.realized(policy.choose(p[te], amount[te], day[te], C, tau),
+                                                     y[te], amount[te], C)["cost_per_1000"],
+    }
+selection = pd.DataFrame(selection).T
+PRIMARY = selection["valid_policy_cost_per_1000"].idxmin()
+booster, D, PRIMARY_PARAMS = BOOSTERS[PRIMARY]
+valid = pd.DataFrame({k: model.evaluate(s[va], y[va], amount[va]) for k, s in scores.items()}).T
+print("primary model:", PRIMARY)
+selection.round(4)
+
+# %% [markdown]
+# ## 4. Test months, scored once
 
 # %%
 test = pd.DataFrame({k: model.evaluate(s[te], y[te], amount[te]) for k, s in scores.items()}).T
@@ -103,7 +163,7 @@ ci = {k: model.bootstrap(scores[k][te], y[te], amount[te], groups[te]) for k in 
 test[["pr_auc", "roc_auc", "recall_at_capacity", "dollar_recall_at_capacity", "precision_at_capacity"]].round(3)
 
 # %% [markdown]
-# ## 4. How much comes from customers already known as fraud?
+# ## 5. How much comes from customers already known as fraud?
 #
 # Phase 1 showed labels are shared within a customer. Split the test fraud by whether the customer
 # already had a fraud label in the training months, and measure recall at capacity within each group.
@@ -126,7 +186,7 @@ print(f"share of test fraud from customers already labelled fraud in training: {
 pd.DataFrame(by_group).round(3)
 
 # %% [markdown]
-# ## 5. Calibration
+# ## 6. Calibration
 #
 # Phase 5 turns scores into decisions by expected cost, which needs probabilities. An isotonic map is
 # fitted on the validation months and checked on the test months.
@@ -142,7 +202,7 @@ print({k: round(v, 5) for k, v in brier.items()})
 calib.round(4)
 
 # %% [markdown]
-# ## 6. What drives the score, and what a reviewer sees
+# ## 7. What drives the score, and what a reviewer sees
 
 # %%
 imp = model.global_importance(booster, D.X[te])
@@ -154,7 +214,7 @@ imp.head(15).round(4)
 top_reasons.round(3)
 
 # %% [markdown]
-# ## 7. Figure
+# ## 8. Figure
 
 # %%
 from sklearn.metrics import precision_recall_curve
@@ -183,7 +243,7 @@ fig.tight_layout()
 data.savefig(fig, "03_model", SOURCE)
 
 # %% [markdown]
-# ## 8. Save scores for phases 4–6 (real data only; never committed) and the record
+# ## 9. Save scores for phases 4–6 (real data only; never committed) and the record
 
 # %%
 if SOURCE == "real":
@@ -199,8 +259,14 @@ def _rec(df):
 
 
 record = {
-    "primary_model": PRIMARY, "v_gain_valid_pr_auc": float(gain_v),
-    "boosting_rounds": {"without V": int(gbm.best_iteration), "with V": int(gbm_v.best_iteration)},
+    "primary_model": PRIMARY,
+    "primary_params": {k: (int(v) if isinstance(v, (int, np.integer)) else float(v)) for k, v in PRIMARY_PARAMS.items()},
+    "tuning": {"trials": TUNING_TRIALS, "inner_split_day": model.TUNE_START,
+               "default_pr_auc": float(tuning["default_value"]), "best_pr_auc": float(tuning["best_value"]),
+               "best_params": {k: (int(v) if isinstance(v, (int, np.integer)) else float(v))
+                               for k, v in tuning["best_params"].items()}},
+    "selection": {k: {kk: float(vv) for kk, vv in r.items()} for k, r in selection.iterrows()},
+    "boosting_rounds": {k: int(b.best_iteration) for k, (b, _, _) in BOOSTERS.items()},
     "valid": _rec(valid), "test": _rec(test),
     "test_ci": {k: {m: list(v) for m, v in c.items()} for k, c in ci.items()},
     "known_customers": {"share_of_test_fraud": share_known, "recall_at_capacity": by_group},
@@ -212,12 +278,24 @@ write_metrics("03_model", record, SOURCE)
 
 # %%
 t, r = test.loc[PRIMARY], test.loc["Rules"]
+sel = selection.sort_values("valid_policy_cost_per_1000")
+runner = sel.index[1]
+test_best = selection["test_policy_cost_per_1000"].idxmin()
 c = record["test_ci"][PRIMARY]
 bg = by_group[PRIMARY]
 show_verdict(
     "Verdict: phase 3, supervised models",
     [
-        f"**{PRIMARY} is the primary model** (the `V` columns add {gain_v:+.3f} validation PR-AUC). On the test months it "
+        f"**Tuning**: {TUNING_TRIALS} Optuna trials inside the training months reached PR-AUC {tuning['best_value']:.3f} on "
+        f"days {model.TUNE_START}–119, against {tuning['default_value']:.3f} for the defaults.",
+        f"**{PRIMARY} is the primary model**: its decisions cost least on the validation months "
+        f"(${sel.loc[PRIMARY, 'valid_policy_cost_per_1000']:,.0f} per 1,000 payments; runner-up {runner} "
+        f"${sel.loc[runner, 'valid_policy_cost_per_1000']:,.0f}). On the test months the same procedure costs "
+        f"${sel.loc[PRIMARY, 'test_policy_cost_per_1000']:,.0f} for it and ${sel.loc[runner, 'test_policy_cost_per_1000']:,.0f} "
+        f"for the runner-up" + (f"; the cheapest on the test months is {test_best}, so the validation margin of "
+                                f"${sel.loc[runner, 'valid_policy_cost_per_1000'] - sel.loc[PRIMARY, 'valid_policy_cost_per_1000']:,.0f} "
+                                "did not hold: differences this small are within noise." if test_best != PRIMARY else ".")
+        + f" On the test months it "
         f"finds **{t['recall_at_capacity']:.0%} of fraud and {t['dollar_recall_at_capacity']:.0%} of fraud dollars** in the top "
         f"{config.REVIEW_CAPACITY:.1%} of scores [recall 95% interval {c['recall_at_capacity'][0]:.0%}–{c['recall_at_capacity'][1]:.0%}], "
         f"against {r['recall_at_capacity']:.0%} and {r['dollar_recall_at_capacity']:.0%} for the rules; PR-AUC "

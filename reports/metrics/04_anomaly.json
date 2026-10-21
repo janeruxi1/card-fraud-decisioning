@@ -21,46 +21,46 @@
       "reviewed_at_capacity": 1386.0
     },
     "Supervised": {
-      "pr_auc": 0.5520103247730638,
-      "roc_auc": 0.90916259146318,
+      "pr_auc": 0.5621947690157989,
+      "roc_auc": 0.8965188708851997,
       "base_rate": 0.03476256937907754,
-      "recall_at_capacity": 0.34173669467787116,
-      "dollar_recall_at_capacity": 0.26497580935431947,
-      "precision_at_capacity": 0.7922077922077922,
+      "recall_at_capacity": 0.3516962340491752,
+      "dollar_recall_at_capacity": 0.26975500263676866,
+      "precision_at_capacity": 0.8152958152958153,
       "reviewed_at_capacity": 1386.0
     }
   },
-  "missed_by_supervised": 2115,
+  "missed_by_supervised": 2083,
   "caught_in_detector_top": {
-    "Isolation Forest": 0.0028368794326241137,
-    "Robust distance": 0.0028368794326241137
+    "Isolation Forest": 0.004800768122899664,
+    "Robust distance": 0.00672107537205953
   },
   "best_detector": "Isolation Forest",
   "capacity_blend": [
     {
       "share of capacity to anomalies": 0.0,
-      "recall": 0.34173669467787116,
-      "dollar_recall": 0.26497580935431947
+      "recall": 0.3516962340491752,
+      "dollar_recall": 0.26975500263676866
     },
     {
       "share of capacity to anomalies": 0.1,
-      "recall": 0.3208839091192032,
-      "dollar_recall": 0.23560412793866256
+      "recall": 0.32337379396202925,
+      "dollar_recall": 0.24447681823770595
     },
     {
       "share of capacity to anomalies": 0.2,
-      "recall": 0.2928727046374105,
-      "dollar_recall": 0.207139308662476
+      "recall": 0.29411764705882354,
+      "dollar_recall": 0.21518109963750318
     },
     {
       "share of capacity to anomalies": 0.3,
-      "recall": 0.26392779333955807,
-      "dollar_recall": 0.17694012305795576
+      "recall": 0.2623716153127918,
+      "dollar_recall": 0.18972617537501907
     },
     {
       "share of capacity to anomalies": 0.5,
-      "recall": 0.19638966697790228,
-      "dollar_recall": 0.13051524191563701
+      "recall": 0.19514472455648926,
+      "dollar_recall": 0.133844125775623
     }
   ],
   "anomaly_profile": {

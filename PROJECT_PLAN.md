@@ -69,7 +69,7 @@ and tests for the code it adds. Phase N = notebook `0N_*`.
 | 4 | Unsupervised anomaly detection | Isolation Forest and a robust distance score fitted without labels; what they catch that the supervised model misses; value for new fraud patterns | `04_anomaly.json` |
 | 5 | Decision policy | Three-way approve / review / decline by expected cost, review capacity as a constraint, amount-dependent thresholds; sensitivity of the policy to every cost assumption | `05_policy.json`, decision memo |
 | 6 | Decay and monitoring | Performance month by month; feature drift (PSI); simulated label delay: how many weeks until a decline in recall is visible; retraining cadence | `06_monitoring.json` |
-| 7 | Packaging | README, model card, scoring function, Streamlit demo on aggregates only, CI on synthetic data | Repository |
+| 7 | Packaging | README, decision memo, model card, Streamlit demo on aggregates only, CI on synthetic data | Repository |
 
 ## Rules
 
@@ -87,3 +87,18 @@ and tests for the code it adds. Phase N = notebook `0N_*`.
   modelled.
 - The dataset's own engineered `V` features are used, but the headline model is also reported
   without them, since a reviewer cannot explain them.
+
+## Changes after this plan was written
+
+Recorded here rather than edited into the plan above, so the plan still shows what was decided first.
+
+- **Phase 3: tuning and model choice.** An Optuna search (inside the training months only) was added,
+  and the primary model became the boosting candidate whose decisions cost least on the validation
+  months, instead of the one with the best validation PR-AUC. Cost is the primary metric in
+  `reports/metrics_framework.md`; choosing by it keeps the model and the decision aligned.
+- **Phase 3: the rules baseline.** The merchant's rules are not in the data; a stand-in was written
+  before any model was fitted (`config.RULES`). It turned out close to chance, so results are also
+  compared with approving everything and with the model's own top scores.
+- **Phase 6: retraining cadence** was tested as one refit per 15-day window on the labels a live system
+  would have by then (median chargeback delay of 30 days, an assumption), not as a sweep of cadences.
+

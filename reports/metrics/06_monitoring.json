@@ -9,8 +9,8 @@
       "model": "frozen",
       "payments": 44258,
       "frauds": 1572,
-      "pr_auc": 0.6653275709943653,
-      "recall_at_capacity": 0.38994910941475824
+      "pr_auc": 0.7112119614282879,
+      "recall_at_capacity": 0.3982188295165394
     },
     {
       "window": 0,
@@ -18,8 +18,8 @@
       "model": "refitted",
       "payments": 44258,
       "frauds": 1572,
-      "pr_auc": 0.5217352011721134,
-      "recall_at_capacity": 0.3530534351145038
+      "pr_auc": 0.5232339366472426,
+      "recall_at_capacity": 0.344147582697201
     },
     {
       "window": 1,
@@ -27,8 +27,8 @@
       "model": "frozen",
       "payments": 39313,
       "frauds": 1278,
-      "pr_auc": 0.4809181345448398,
-      "recall_at_capacity": 0.32472613458528954
+      "pr_auc": 0.5117609052555852,
+      "recall_at_capacity": 0.3474178403755869
     },
     {
       "window": 1,
@@ -36,8 +36,8 @@
       "model": "refitted",
       "payments": 39313,
       "frauds": 1278,
-      "pr_auc": 0.4218363363265277,
-      "recall_at_capacity": 0.2895148669796557
+      "pr_auc": 0.43586629108140756,
+      "recall_at_capacity": 0.30203442879499215
     },
     {
       "window": 2,
@@ -45,8 +45,8 @@
       "model": "frozen",
       "payments": 45835,
       "frauds": 1404,
-      "pr_auc": 0.5078867098327757,
-      "recall_at_capacity": 0.34971509971509973
+      "pr_auc": 0.540095474677264,
+      "recall_at_capacity": 0.3789173789173789
     },
     {
       "window": 2,
@@ -54,8 +54,8 @@
       "model": "refitted",
       "payments": 45835,
       "frauds": 1404,
-      "pr_auc": 0.4959444563537243,
-      "recall_at_capacity": 0.34472934472934474
+      "pr_auc": 0.5230224730395012,
+      "recall_at_capacity": 0.3710826210826211
     },
     {
       "window": 3,
@@ -63,8 +63,8 @@
       "model": "frozen",
       "payments": 46592,
       "frauds": 1809,
-      "pr_auc": 0.49192571033257443,
-      "recall_at_capacity": 0.27860696517412936
+      "pr_auc": 0.5304966781844894,
+      "recall_at_capacity": 0.29187396351575456
     },
     {
       "window": 3,
@@ -72,8 +72,8 @@
       "model": "refitted",
       "payments": 46592,
       "frauds": 1809,
-      "pr_auc": 0.49192571033257443,
-      "recall_at_capacity": 0.27860696517412936
+      "pr_auc": 0.5304966781844894,
+      "recall_at_capacity": 0.29187396351575456
     }
   ],
   "feature_psi_top10": {
@@ -90,10 +90,10 @@
   },
   "features_psi_over_0_25": 6,
   "score_psi": {
-    "120": 0.0022520816112438454,
-    "135": 0.006643788767271156,
-    "150": 0.011247581875688455,
-    "165": 0.029980757524358453
+    "120": 0.009237367033090657,
+    "135": 0.006349712062117568,
+    "150": 0.01153260968341617,
+    "165": 0.009498434146073006
   },
   "label_lag": [
     {
@@ -101,119 +101,119 @@
       "days after window": 7,
       "share_of_fraud_labels_known": 0.2748091603053435,
       "measured_recall": 0.41898148148148145,
-      "review_queue_hit_rate": 0.9231927710843374
+      "review_queue_hit_rate": 0.9427710843373494
     },
     {
       "window_first_day": 120,
       "days after window": 30,
       "share_of_fraud_labels_known": 0.5782442748091603,
-      "measured_recall": 0.39713971397139713,
-      "review_queue_hit_rate": 0.9231927710843374
+      "measured_recall": 0.41474147414741475,
+      "review_queue_hit_rate": 0.9427710843373494
     },
     {
       "window_first_day": 120,
       "days after window": 60,
       "share_of_fraud_labels_known": 0.787531806615776,
-      "measured_recall": 0.3788368336025848,
-      "review_queue_hit_rate": 0.9231927710843374
+      "measured_recall": 0.39337641357027464,
+      "review_queue_hit_rate": 0.9427710843373494
     },
     {
       "window_first_day": 120,
       "days after window": "final",
       "share_of_fraud_labels_known": 1.0,
-      "measured_recall": 0.38994910941475824,
-      "review_queue_hit_rate": 0.9231927710843374
+      "measured_recall": 0.3982188295165394,
+      "review_queue_hit_rate": 0.9427710843373494
     },
     {
       "window_first_day": 135,
       "days after window": 7,
       "share_of_fraud_labels_known": 0.2730829420970266,
-      "measured_recall": 0.31805157593123207,
-      "review_queue_hit_rate": 0.7033898305084746
+      "measured_recall": 0.32664756446991405,
+      "review_queue_hit_rate": 0.752542372881356
     },
     {
       "window_first_day": 135,
       "days after window": 30,
       "share_of_fraud_labels_known": 0.5657276995305164,
-      "measured_recall": 0.326417704011065,
-      "review_queue_hit_rate": 0.7033898305084746
+      "measured_recall": 0.35269709543568467,
+      "review_queue_hit_rate": 0.752542372881356
     },
     {
       "window_first_day": 135,
       "days after window": 60,
       "share_of_fraud_labels_known": 0.7801251956181534,
-      "measured_recall": 0.32698094282848544,
-      "review_queue_hit_rate": 0.7033898305084746
+      "measured_recall": 0.3530591775325978,
+      "review_queue_hit_rate": 0.752542372881356
     },
     {
       "window_first_day": 135,
       "days after window": "final",
       "share_of_fraud_labels_known": 1.0,
-      "measured_recall": 0.32472613458528954,
-      "review_queue_hit_rate": 0.7033898305084746
+      "measured_recall": 0.3474178403755869,
+      "review_queue_hit_rate": 0.752542372881356
     },
     {
       "window_first_day": 150,
       "days after window": 7,
       "share_of_fraud_labels_known": 0.28917378917378916,
-      "measured_recall": 0.3645320197044335,
-      "review_queue_hit_rate": 0.7136627906976745
+      "measured_recall": 0.4014778325123153,
+      "review_queue_hit_rate": 0.7732558139534884
     },
     {
       "window_first_day": 150,
       "days after window": 30,
       "share_of_fraud_labels_known": 0.5769230769230769,
-      "measured_recall": 0.34814814814814815,
-      "review_queue_hit_rate": 0.7136627906976745
+      "measured_recall": 0.3925925925925926,
+      "review_queue_hit_rate": 0.7732558139534884
     },
     {
       "window_first_day": 150,
       "days after window": 60,
       "share_of_fraud_labels_known": 0.7841880341880342,
-      "measured_recall": 0.35603996366939145,
-      "review_queue_hit_rate": 0.7136627906976745
+      "measured_recall": 0.38782924613987285,
+      "review_queue_hit_rate": 0.7732558139534884
     },
     {
       "window_first_day": 150,
       "days after window": "final",
       "share_of_fraud_labels_known": 1.0,
-      "measured_recall": 0.34971509971509973,
-      "review_queue_hit_rate": 0.7136627906976745
+      "measured_recall": 0.3789173789173789,
+      "review_queue_hit_rate": 0.7732558139534884
     },
     {
       "window_first_day": 165,
       "days after window": 7,
       "share_of_fraud_labels_known": 0.31730237700386954,
-      "measured_recall": 0.2979094076655052,
-      "review_queue_hit_rate": 0.721030042918455
+      "measured_recall": 0.3048780487804878,
+      "review_queue_hit_rate": 0.7553648068669528
     },
     {
       "window_first_day": 165,
       "days after window": 30,
       "share_of_fraud_labels_known": 0.5986733001658375,
-      "measured_recall": 0.28439519852262235,
-      "review_queue_hit_rate": 0.721030042918455
+      "measured_recall": 0.3028624192059095,
+      "review_queue_hit_rate": 0.7553648068669528
     },
     {
       "window_first_day": 165,
       "days after window": 60,
       "share_of_fraud_labels_known": 0.798783858485351,
-      "measured_recall": 0.28096885813148786,
-      "review_queue_hit_rate": 0.721030042918455
+      "measured_recall": 0.2948096885813149,
+      "review_queue_hit_rate": 0.7553648068669528
     },
     {
       "window_first_day": 165,
       "days after window": "final",
       "share_of_fraud_labels_known": 1.0,
-      "measured_recall": 0.27860696517412936,
-      "review_queue_hit_rate": 0.721030042918455
+      "measured_recall": 0.29187396351575456,
+      "review_queue_hit_rate": 0.7553648068669528
     }
   ],
   "review_queue_hit_rate": {
-    "120": 0.9231927710843374,
-    "135": 0.7033898305084746,
-    "150": 0.7136627906976745,
-    "165": 0.721030042918455
+    "120": 0.9427710843373494,
+    "135": 0.752542372881356,
+    "150": 0.7732558139534884,
+    "165": 0.7553648068669528
   },
-  "measured_recall_error_at_7_days": 0.017456573300372577
+  "measured_recall_error_at_7_days": 0.019274366682571112
 }

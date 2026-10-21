@@ -217,3 +217,54 @@ def load_or_fit_scores(con, source: str, path=None) -> pd.DataFrame:
     out = pd.DataFrame({"TransactionID": d.transaction_id, "split": d.split, "day": d.day, "isFraud": d.y,
                         "amount": d.amount, "score": score, "prob": prob, "rules_score": rules_score(rf)})
     return out.merge(uid, on="TransactionID", how="left")
+
+
+TUNE_START = 90   # inner split for tuning: fit on days [0, 90), score on [90, TRAIN_END)
+SEARCH_SPACE = {
+    "num_leaves": (15, 255, "log_int"), "min_child_samples": (20, 1000, "log_int"),
+    "feature_fraction": (0.3, 1.0, "float"), "bagging_fraction": (0.5, 1.0, "float"),
+    "lambda_l2": (1e-3, 50.0, "log_float"), "cat_smooth": (1.0, 100.0, "log_float"),
+}
+DEFAULTS = {"num_leaves": 63, "min_child_samples": 100, "feature_fraction": 0.5, "bagging_fraction": 0.8,
+            "lambda_l2": 5.0, "cat_smooth": 20.0}
+
+
+def tune_lightgbm(d: Design, n_trials: int = 40, seed: int = 0, learning_rate: float = 0.1,
+                  rounds: int = 1000, patience: int = 30) -> dict:
+    """Optuna (TPE) search over tree-shape and regularization parameters, inside the training months only.
+
+    Trials are fitted on days [0, TUNE_START) and scored by PR-AUC on [TUNE_START, train end). The
+    validation months stay untouched for early stopping, calibration and the decline threshold, and the
+    test months for the final score. The current defaults are evaluated first, as trial 0, so the search
+    is compared with them on the same footing.
+    """
+    import optuna
+
+    tr = d.split == "train"
+    inner = np.where(tr & (d.day < TUNE_START), "train", np.where(tr & (d.day >= TUNE_START), "valid", "other"))
+    sub = Design(X=d.X, y=d.y, split=inner, amount=d.amount, day=d.day, transaction_id=d.transaction_id)
+
+    def suggest(trial):
+        out = {}
+        for k, (lo, hi, kind) in SEARCH_SPACE.items():
+            if kind == "log_int":
+                out[k] = trial.suggest_int(k, lo, hi, log=True)
+            elif kind == "log_float":
+                out[k] = trial.suggest_float(k, lo, hi, log=True)
+            else:
+                out[k] = trial.suggest_float(k, lo, hi)
+        return out
+
+    def objective(trial):
+        params = suggest(trial)
+        booster = fit_lightgbm(sub, {**params, "learning_rate": learning_rate}, rounds, seed=seed, patience=patience)
+        trial.set_user_attr("rounds", booster.best_iteration)
+        return booster.best_score["valid_0"]["average_precision"]
+
+    optuna.logging.set_verbosity(optuna.logging.WARNING)
+    study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=seed))
+    study.enqueue_trial(DEFAULTS)
+    study.optimize(objective, n_trials=n_trials)
+    trials = study.trials_dataframe(attrs=("number", "value", "params", "user_attrs"))
+    return {"best_params": study.best_params, "best_value": study.best_value,
+            "default_value": study.trials[0].value, "trials": trials}
