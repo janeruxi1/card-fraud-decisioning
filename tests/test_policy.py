@@ -40,6 +40,16 @@ def test_decline_threshold_blocks_declines():
     assert policy.choose(p, amt, day, c, decline_min_p=0.9).tolist() == [policy.APPROVE, policy.DECLINE]
 
 
+def test_reviews_go_where_the_guardrail_leaves_the_largest_risk():
+    # payment 0: declining would be cheapest, but the guardrail forces approve, so a review saves a lot;
+    # payment 1: allowed to decline cheaply, so a review saves less. One review: it must go to payment 0.
+    p = np.array([0.8, 0.97])
+    amt = np.array([1000.0, 1000.0])
+    c = policy.Costs(capacity=0.5)
+    a = policy.choose(p, amt, np.zeros(2, int), c, decline_min_p=0.9)
+    assert a.tolist() == [policy.REVIEW, policy.DECLINE]
+
+
 def test_realized_counts():
     y = np.array([1, 0, 1, 0])
     amt = np.array([100.0, 100.0, 100.0, 100.0])

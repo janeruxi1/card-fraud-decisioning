@@ -27,26 +27,26 @@
     "Gradient boosting": {
       "valid_pr_auc": 0.6095213349854389,
       "decline_threshold": 0.9400000000000001,
-      "valid_policy_cost_per_1000": 4386.279585454285,
-      "test_policy_cost_per_1000": 4249.181755655814
+      "valid_policy_cost_per_1000": 3369.631423831233,
+      "test_policy_cost_per_1000": 3650.9516631611973
     },
     "Gradient boosting + V": {
       "valid_pr_auc": 0.623826998016628,
       "decline_threshold": 0.9400000000000001,
-      "valid_policy_cost_per_1000": 4183.588035921552,
-      "test_policy_cost_per_1000": 3869.284526934771
+      "valid_policy_cost_per_1000": 3219.1752993502528,
+      "test_policy_cost_per_1000": 3440.7583218323657
     },
     "Gradient boosting, tuned": {
       "valid_pr_auc": 0.6566864349563926,
       "decline_threshold": 0.9400000000000001,
-      "valid_policy_cost_per_1000": 4137.838984695648,
-      "test_policy_cost_per_1000": 4056.408790126261
+      "valid_policy_cost_per_1000": 3174.06199718802,
+      "test_policy_cost_per_1000": 3495.6621366700206
     },
     "Gradient boosting + V, tuned": {
       "valid_pr_auc": 0.6442497000252159,
       "decline_threshold": 0.9500000000000001,
-      "valid_policy_cost_per_1000": 4371.29909139534,
-      "test_policy_cost_per_1000": 4114.572035184524
+      "valid_policy_cost_per_1000": 3287.4379756494473,
+      "test_policy_cost_per_1000": 3451.04641021563
     }
   },
   "boosting_rounds": {

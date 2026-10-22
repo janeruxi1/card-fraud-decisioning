@@ -17,13 +17,13 @@ input uses a fraud label: labels arrive weeks after a payment.
 ## Evaluation (test months, scored once)
 
 - Chosen among four boosting models (default or tuned parameters, with or without the `V` columns) by the
-  cost of the expected-cost policy on the validation months ($4,138 vs $4,184 for the runner-up). On the
-  test months the runner-up (defaults, with `V`) was cheaper, $3,869 vs $4,056: the choice is close.
+  cost of the expected-cost policy on the validation months ($3,174 vs $3,219 for the runner-up). On the
+  test months the runner-up (defaults, with `V`) was cheaper, $3,441 vs $3,496: the choice is close.
 - Top 1.5% of scores: 35% of fraud (95% interval 32–38%), 27% of fraud dollars, 82% precision.
 - PR-AUC 0.562 (logistic regression 0.249).
 - Fraud from customers new to fraud: 32% caught at capacity; from customers already labelled fraud: 50%.
 - Calibration: Brier 0.0213 (base rate alone 0.0336); predicted and observed fraud rates agree closely by decile.
-- Policy: $4,056 per 1,000 payments vs $4,566 for reviewing the top scores (see the decision memo).
+- Policy: $3,496 per 1,000 payments vs $4,566 for reviewing the top scores (see the decision memo).
 
 ## Known limitations
 

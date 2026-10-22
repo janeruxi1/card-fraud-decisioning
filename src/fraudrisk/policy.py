@@ -43,10 +43,12 @@ def action_costs(p: np.ndarray, amount: np.ndarray, c: Costs) -> np.ndarray:
 def choose(p: np.ndarray, amount: np.ndarray, day: np.ndarray, c: Costs, decline_min_p: float = 0.0) -> np.ndarray:
     """Expected-cost policy. Each payment gets the cheaper of approve and decline (decline only allowed
     when p >= ``decline_min_p``, the guardrail); then, day by day, the payments where a review saves the
-    most are reviewed, up to capacity (greedy is optimal: every review uses one unit of capacity)."""
+    most against that default action are reviewed, up to capacity (greedy is optimal: every review uses
+    one unit of capacity). Under the guardrail the default can be approve even where declining would be
+    cheaper, so the saving is measured against the default, not against the cheaper of the two."""
     cost = action_costs(p, amount, c)
     base = np.where((cost[:, DECLINE] < cost[:, APPROVE]) & (p >= decline_min_p), DECLINE, APPROVE)
-    saving = np.minimum(cost[:, APPROVE], cost[:, DECLINE]) - cost[:, REVIEW]
+    saving = cost[np.arange(len(p)), base] - cost[:, REVIEW]
     action = base.copy()
     for d in np.unique(day):
         idx = np.flatnonzero(day == d)

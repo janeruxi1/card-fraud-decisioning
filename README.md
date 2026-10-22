@@ -24,10 +24,10 @@ its costs and its review team are a scenario ([brief](reports/scenario_brief.md)
 | How is fraud labelled, and what would leak? | Labels follow the customer: after a payment labelled fraud, the customer's next payment is fraud **77%** of the time, against **0.96%** otherwise. Recognizing customers already labelled fraud finds **74%** of fraud in a random hold-out but **16%** in later months, so every result here is measured on later months. | [01](notebooks/01_audit.ipynb) |
 | Can the features see the future? | No: rebuilding them with everything after three cutoffs deleted changed **0** values. 40% of payments are a customer's first, with no history to use. | [02](notebooks/02_features.ipynb) |
 | How well can fraud be ranked on unseen months? | The chosen model puts **35% of fraud** [95% interval 32–38%] and 27% of fraud dollars in the top 1.5% of scores, at 82% precision; logistic regression 19%. On fraud from customers new to fraud it finds **32%**. Calibrated: Brier 0.0213 vs 0.0336 for the base rate. | [03](notebooks/03_model.ipynb) |
-| Which model, and does tuning help? | 40 Optuna trials inside the training months raised PR-AUC there from 0.586 to 0.629. Four boosting models (default or tuned, with or without the provider's `V` columns) were compared by **the cost of their decisions on the validation months**; the tuned model without `V` won by **$46** per 1,000 payments. On the test months the default model with `V` was cheaper ($3,869 vs $4,056): a validation margin that small is noise. The tuned model also leans on returning fraudsters: it finds 50% of fraud from customers already labelled fraud and 32% from customers new to fraud. | [03](notebooks/03_model.ipynb) |
+| Which model, and does tuning help? | 40 Optuna trials inside the training months raised PR-AUC there from 0.586 to 0.629. Four boosting models (default or tuned, with or without the provider's `V` columns) were compared by **the cost of their decisions on the validation months**; the tuned model without `V` won by **$45** per 1,000 payments. On the test months the default model with `V` was cheaper ($3,441 vs $3,496): a validation margin that small is noise. The tuned model also leans on returning fraudsters: it finds 50% of fraud from customers already labelled fraud and 32% from customers new to fraud. | [03](notebooks/03_model.ipynb) |
 | Do anomaly detectors that need no labels help? | No better than chance here (Isolation Forest PR-AUC **0.038** at a 0.035 fraud rate). Its most "unusual" payments come from heavy legitimate customers (median **702** earlier payments). With just 111 fraud labels, a supervised model already reaches PR-AUC 0.37. | [04](notebooks/04_anomaly.ipynb) |
-| What should we do with each payment? | An expected-cost policy costs **$4,056 per 1,000 payments** against $5,795 for approving everything and $4,566 for reviewing the model's top scores: the decision layer alone saves **$510** [95% interval $41–$949] with the same model and the same reviewers. | [05](notebooks/05_policy.ipynb) |
-| What does the good-customer guardrail cost? | Without it the policy would decline 1.35% of good customers and cost $2,741 per 1,000 payments. By the brief's costs the guardrail costs **$1,316 per 1,000 payments**; it pays off only if a wrongly declined customer costs more than the brief assumes. That is a decision for finance, made visible. | [05](notebooks/05_policy.ipynb) |
+| What should we do with each payment? | An expected-cost policy costs **$3,496 per 1,000 payments** against $5,795 for approving everything and $4,566 for reviewing the model's top scores: the decision layer alone saves **$1,070** [95% interval $699–$1,425] with the same model and the same reviewers. | [05](notebooks/05_policy.ipynb) |
+| What does the good-customer guardrail cost? | Without it the policy would decline 1.35% of good customers and cost $2,741 per 1,000 payments. By the brief's costs the guardrail costs **$755 per 1,000 payments**; it pays off only if a wrongly declined customer costs more than the brief assumes. That is a decision for finance, made visible. | [05](notebooks/05_policy.ipynb) |
 | How fast does it decay, and when would we know? | Recall at capacity falls from **40%** to **29%** over the two months after training; refitting on the labels available at the time does not help. A week after a period ends only **29%** of its fraud labels are in. The score's distribution barely moves (PSI ≤ 0.012), but reviewers' same-day verdicts do: the queue's hit rate fell from **94%** to **76%**. | [06](notebooks/06_monitoring.ipynb) |
 
 ![Model comparison on the test months](reports/figures/03_model.png)
@@ -39,17 +39,17 @@ its costs and its review team are a scenario ([brief](reports/scenario_brief.md)
 | Approve everything | $5,795 | 0% | 0% |
 | Rules stand-in (review / decline on fixed rules) | $5,299 | 12% | 0.009% |
 | Model: review the top 1.5% of scores | $4,566 | 23% | 0% |
-| **Model: expected-cost policy** | **$4,056** | **32%** | **0.010%** |
+| **Model: expected-cost policy** | **$3,496** | **42%** | **0.010%** |
 | Model: expected cost, no guardrail | $2,741 | 62% | 1.35% |
 
 Each payment gets the action with the lowest expected cost from its calibrated fraud probability and the
 scenario's costs (lost order + chargeback fee; lost margin and customer; review time). Reviews go, day by
-day and within capacity, where a review saves the most dollars, which means large orders: 22% of orders
-over $1,000 are reviewed. Declines are allowed only above a probability threshold (0.94) chosen on the
+day and within capacity, where a review saves the most dollars, which means large orders: 11–12% of orders
+over $500 are reviewed. Declines are allowed only above a probability threshold (0.94) chosen on the
 validation months so that good customers are declined no more often than under the rules; on the test
 months the policy declines 0.010% of good customers against 0.009% for the rules, a hair over the
 guardrail. Every cost assumption halved or doubled leaves the saving against the rules stand-in positive
-(smallest: $961 per 1,000 payments).
+(smallest: $1,630 per 1,000 payments).
 
 ![Policy costs and sensitivity](reports/figures/05_policy.png)
 

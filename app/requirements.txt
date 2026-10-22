@@ -1,3 +1,5 @@
+# Streamlit Community Cloud installs this file for app/streamlit_app.py (the app needs no data download)
 streamlit>=1.48
+plotly>=5.20
 pandas>=2.0
 numpy>=1.24

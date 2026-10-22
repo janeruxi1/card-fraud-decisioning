@@ -6,299 +6,299 @@
     {
       "pbin": 0,
       "band": "$100-250",
-      "payments": 850,
+      "payments": 655,
       "frauds": 1,
-      "mean_p": 0.00248,
-      "mean_amount": 139.63,
+      "mean_p": 0.00237,
+      "mean_amount": 141.05,
       "mean_fraud_amount": 129.95
     },
     {
       "pbin": 0,
       "band": "$250-500",
-      "payments": 152,
+      "payments": 122,
       "frauds": 0,
-      "mean_p": 0.00249,
-      "mean_amount": 336.33,
+      "mean_p": 0.0024,
+      "mean_amount": 336.52,
       "mean_fraud_amount": null
     },
     {
       "pbin": 0,
       "band": "$50-100",
-      "payments": 1018,
-      "frauds": 3,
-      "mean_p": 0.00238,
-      "mean_amount": 67.3,
-      "mean_fraud_amount": 69.32
+      "payments": 794,
+      "frauds": 2,
+      "mean_p": 0.00224,
+      "mean_amount": 67.27,
+      "mean_fraud_amount": 54.98
     },
     {
       "pbin": 0,
       "band": "$500-1k",
-      "payments": 32,
+      "payments": 31,
       "frauds": 0,
-      "mean_p": 0.00231,
-      "mean_amount": 661.1,
+      "mean_p": 0.0023,
+      "mean_amount": 661.62,
       "mean_fraud_amount": null
     },
     {
       "pbin": 0,
       "band": "<$50",
-      "payments": 1605,
-      "frauds": 4,
-      "mean_p": 0.00217,
-      "mean_amount": 33.24,
-      "mean_fraud_amount": 32.0
+      "payments": 1261,
+      "frauds": 3,
+      "mean_p": 0.00198,
+      "mean_amount": 32.76,
+      "mean_fraud_amount": 32.35
     },
     {
       "pbin": 0,
       "band": ">$1k",
-      "payments": 41,
+      "payments": 35,
       "frauds": 1,
-      "mean_p": 0.00252,
-      "mean_amount": 1674.51,
+      "mean_p": 0.00246,
+      "mean_amount": 1674.78,
       "mean_fraud_amount": 3076.97
     },
     {
       "pbin": 1,
       "band": "$100-250",
-      "payments": 885,
-      "frauds": 5,
+      "payments": 728,
+      "frauds": 1,
       "mean_p": 0.00287,
-      "mean_amount": 137.03,
-      "mean_fraud_amount": 111.68
+      "mean_amount": 137.85,
+      "mean_fraud_amount": 107.95
     },
     {
       "pbin": 1,
       "band": "$250-500",
-      "payments": 138,
+      "payments": 131,
       "frauds": 1,
       "mean_p": 0.00287,
-      "mean_amount": 339.74,
+      "mean_amount": 338.41,
       "mean_fraud_amount": 440.99
     },
     {
       "pbin": 1,
       "band": "$50-100",
-      "payments": 1160,
-      "frauds": 5,
+      "payments": 885,
+      "frauds": 6,
       "mean_p": 0.00287,
-      "mean_amount": 66.87,
-      "mean_fraud_amount": 72.18
+      "mean_amount": 67.31,
+      "mean_fraud_amount": 76.48
     },
     {
       "pbin": 1,
       "band": "$500-1k",
-      "payments": 45,
+      "payments": 34,
       "frauds": 0,
       "mean_p": 0.00287,
-      "mean_amount": 686.34,
+      "mean_amount": 680.02,
       "mean_fraud_amount": null
     },
     {
       "pbin": 1,
       "band": "<$50",
-      "payments": 1443,
-      "frauds": 4,
+      "payments": 1097,
+      "frauds": 2,
       "mean_p": 0.00287,
-      "mean_amount": 33.97,
-      "mean_fraud_amount": 34.61
+      "mean_amount": 34.4,
+      "mean_fraud_amount": 39.98
     },
     {
       "pbin": 1,
       "band": ">$1k",
-      "payments": 26,
+      "payments": 22,
       "frauds": 1,
       "mean_p": 0.00287,
-      "mean_amount": 1695.57,
+      "mean_amount": 1656.75,
       "mean_fraud_amount": 1402.85
     },
     {
       "pbin": 2,
       "band": "$100-250",
-      "payments": 831,
-      "frauds": 1,
+      "payments": 646,
+      "frauds": 5,
       "mean_p": 0.00287,
-      "mean_amount": 138.05,
-      "mean_fraud_amount": 107.95
+      "mean_amount": 136.42,
+      "mean_fraud_amount": 111.68
     },
     {
       "pbin": 2,
       "band": "$250-500",
-      "payments": 130,
+      "payments": 82,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 340.17,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 2,
+      "band": "$50-100",
+      "payments": 887,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 66.41,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 2,
+      "band": "$500-1k",
+      "payments": 32,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 674.03,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 2,
+      "band": "<$50",
+      "payments": 1230,
+      "frauds": 3,
+      "mean_p": 0.00287,
+      "mean_amount": 33.59,
+      "mean_fraud_amount": 29.82
+    },
+    {
+      "pbin": 2,
+      "band": ">$1k",
+      "payments": 21,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 1770.25,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 3,
+      "band": "$100-250",
+      "payments": 629,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 137.68,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 3,
+      "band": "$250-500",
+      "payments": 109,
       "frauds": 1,
       "mean_p": 0.00287,
-      "mean_amount": 337.36,
+      "mean_amount": 340.74,
       "mean_fraud_amount": 335.0
     },
     {
-      "pbin": 2,
+      "pbin": 3,
       "band": "$50-100",
-      "payments": 1117,
-      "frauds": 2,
+      "payments": 885,
+      "frauds": 3,
       "mean_p": 0.00287,
-      "mean_amount": 67.63,
-      "mean_fraud_amount": 55.98
+      "mean_amount": 68.38,
+      "mean_fraud_amount": 56.98
     },
     {
-      "pbin": 2,
+      "pbin": 3,
       "band": "$500-1k",
-      "payments": 65,
+      "payments": 49,
       "frauds": 2,
       "mean_p": 0.00287,
-      "mean_amount": 664.72,
+      "mean_amount": 664.69,
       "mean_fraud_amount": 582.98
     },
     {
-      "pbin": 2,
+      "pbin": 3,
       "band": "<$50",
-      "payments": 1514,
+      "payments": 1194,
       "frauds": 1,
       "mean_p": 0.00287,
-      "mean_amount": 33.18,
+      "mean_amount": 33.23,
       "mean_fraud_amount": 25.45
     },
     {
-      "pbin": 2,
+      "pbin": 3,
       "band": ">$1k",
-      "payments": 40,
+      "payments": 31,
       "frauds": 0,
       "mean_p": 0.00287,
-      "mean_amount": 1704.94,
+      "mean_amount": 1640.14,
       "mean_fraud_amount": null
     },
     {
-      "pbin": 3,
+      "pbin": 4,
       "band": "$100-250",
-      "payments": 767,
+      "payments": 620,
       "frauds": 1,
       "mean_p": 0.00287,
-      "mean_amount": 140.53,
+      "mean_amount": 140.66,
       "mean_fraud_amount": 218.0
     },
     {
-      "pbin": 3,
+      "pbin": 4,
       "band": "$250-500",
-      "payments": 120,
+      "payments": 88,
       "frauds": 0,
       "mean_p": 0.00287,
-      "mean_amount": 345.08,
+      "mean_amount": 340.49,
       "mean_fraud_amount": null
     },
     {
-      "pbin": 3,
+      "pbin": 4,
       "band": "$50-100",
-      "payments": 1202,
-      "frauds": 3,
+      "payments": 934,
+      "frauds": 2,
       "mean_p": 0.00287,
       "mean_amount": 67.8,
-      "mean_fraud_amount": 58.3
+      "mean_fraud_amount": 57.95
     },
     {
-      "pbin": 3,
+      "pbin": 4,
       "band": "$500-1k",
-      "payments": 45,
+      "payments": 38,
       "frauds": 0,
       "mean_p": 0.00287,
-      "mean_amount": 628.23,
+      "mean_amount": 635.5,
       "mean_fraud_amount": null
     },
     {
-      "pbin": 3,
+      "pbin": 4,
       "band": "<$50",
-      "payments": 1528,
+      "payments": 1187,
       "frauds": 3,
       "mean_p": 0.00287,
-      "mean_amount": 32.95,
+      "mean_amount": 32.7,
       "mean_fraud_amount": 30.12
     },
     {
-      "pbin": 3,
+      "pbin": 4,
       "band": ">$1k",
-      "payments": 35,
+      "payments": 31,
       "frauds": 0,
       "mean_p": 0.00287,
-      "mean_amount": 1818.23,
+      "mean_amount": 1885.35,
       "mean_fraud_amount": null
     },
     {
-      "pbin": 4,
+      "pbin": 5,
       "band": "$100-250",
-      "payments": 737,
+      "payments": 579,
       "frauds": 5,
       "mean_p": 0.00287,
-      "mean_amount": 139.73,
+      "mean_amount": 140.22,
       "mean_fraud_amount": 109.76
     },
     {
-      "pbin": 4,
+      "pbin": 5,
       "band": "$250-500",
-      "payments": 130,
+      "payments": 100,
       "frauds": 1,
       "mean_p": 0.00287,
-      "mean_amount": 344.61,
+      "mean_amount": 350.41,
       "mean_fraud_amount": 445.0
     },
     {
-      "pbin": 4,
+      "pbin": 5,
       "band": "$50-100",
-      "payments": 1103,
-      "frauds": 4,
+      "payments": 868,
+      "frauds": 3,
       "mean_p": 0.00287,
-      "mean_amount": 67.43,
+      "mean_amount": 67.69,
       "mean_fraud_amount": 59.0
-    },
-    {
-      "pbin": 4,
-      "band": "$500-1k",
-      "payments": 48,
-      "frauds": 0,
-      "mean_p": 0.00287,
-      "mean_amount": 648.71,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 4,
-      "band": "<$50",
-      "payments": 1633,
-      "frauds": 9,
-      "mean_p": 0.00287,
-      "mean_amount": 33.75,
-      "mean_fraud_amount": 27.7
-    },
-    {
-      "pbin": 4,
-      "band": ">$1k",
-      "payments": 46,
-      "frauds": 0,
-      "mean_p": 0.00287,
-      "mean_amount": 1800.17,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 5,
-      "band": "$100-250",
-      "payments": 800,
-      "frauds": 1,
-      "mean_p": 0.00287,
-      "mean_amount": 138.7,
-      "mean_fraud_amount": 117.0
-    },
-    {
-      "pbin": 5,
-      "band": "$250-500",
-      "payments": 132,
-      "frauds": 1,
-      "mean_p": 0.00287,
-      "mean_amount": 336.2,
-      "mean_fraud_amount": 417.5
-    },
-    {
-      "pbin": 5,
-      "band": "$50-100",
-      "payments": 1147,
-      "frauds": 2,
-      "mean_p": 0.00287,
-      "mean_amount": 67.83,
-      "mean_fraud_amount": 79.5
     },
     {
       "pbin": 5,
@@ -306,1052 +306,1574 @@
       "payments": 38,
       "frauds": 0,
       "mean_p": 0.00287,
-      "mean_amount": 647.92,
+      "mean_amount": 647.8,
       "mean_fraud_amount": null
     },
     {
       "pbin": 5,
       "band": "<$50",
-      "payments": 1549,
-      "frauds": 9,
+      "payments": 1275,
+      "frauds": 7,
       "mean_p": 0.00287,
-      "mean_amount": 33.49,
-      "mean_fraud_amount": 39.1
+      "mean_amount": 33.65,
+      "mean_fraud_amount": 29.77
     },
     {
       "pbin": 5,
       "band": ">$1k",
-      "payments": 31,
+      "payments": 37,
       "frauds": 0,
       "mean_p": 0.00287,
-      "mean_amount": 1737.17,
+      "mean_amount": 1792.32,
       "mean_fraud_amount": null
     },
     {
       "pbin": 6,
       "band": "$100-250",
-      "payments": 954,
-      "frauds": 2,
-      "mean_p": 0.00322,
-      "mean_amount": 143.78,
-      "mean_fraud_amount": 131.5
-    },
-    {
-      "pbin": 6,
-      "band": "$250-500",
-      "payments": 191,
-      "frauds": 2,
-      "mean_p": 0.00324,
-      "mean_amount": 348.76,
-      "mean_fraud_amount": 323.48
-    },
-    {
-      "pbin": 6,
-      "band": "$50-100",
-      "payments": 1043,
-      "frauds": 8,
-      "mean_p": 0.00319,
-      "mean_amount": 67.96,
-      "mean_fraud_amount": 77.49
-    },
-    {
-      "pbin": 6,
-      "band": "$500-1k",
-      "payments": 77,
-      "frauds": 0,
-      "mean_p": 0.0032,
-      "mean_amount": 649.06,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 6,
-      "band": "<$50",
-      "payments": 1378,
-      "frauds": 9,
-      "mean_p": 0.00315,
-      "mean_amount": 34.4,
-      "mean_fraud_amount": 33.32
-    },
-    {
-      "pbin": 6,
-      "band": ">$1k",
-      "payments": 54,
-      "frauds": 0,
-      "mean_p": 0.00308,
-      "mean_amount": 1793.76,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 7,
-      "band": "$100-250",
-      "payments": 972,
-      "frauds": 5,
-      "mean_p": 0.0035,
-      "mean_amount": 144.16,
-      "mean_fraud_amount": 121.16
-    },
-    {
-      "pbin": 7,
-      "band": "$250-500",
-      "payments": 224,
-      "frauds": 3,
-      "mean_p": 0.0035,
-      "mean_amount": 352.04,
-      "mean_fraud_amount": 334.3
-    },
-    {
-      "pbin": 7,
-      "band": "$50-100",
-      "payments": 1139,
-      "frauds": 8,
-      "mean_p": 0.0035,
-      "mean_amount": 68.26,
-      "mean_fraud_amount": 72.09
-    },
-    {
-      "pbin": 7,
-      "band": "$500-1k",
-      "payments": 88,
+      "payments": 613,
       "frauds": 1,
-      "mean_p": 0.0035,
-      "mean_amount": 634.87,
-      "mean_fraud_amount": 554.0
-    },
-    {
-      "pbin": 7,
-      "band": "<$50",
-      "payments": 1241,
-      "frauds": 6,
-      "mean_p": 0.0035,
-      "mean_amount": 34.58,
-      "mean_fraud_amount": 32.85
-    },
-    {
-      "pbin": 7,
-      "band": ">$1k",
-      "payments": 33,
-      "frauds": 1,
-      "mean_p": 0.0035,
-      "mean_amount": 1624.44,
-      "mean_fraud_amount": 1402.85
-    },
-    {
-      "pbin": 8,
-      "band": "$100-250",
-      "payments": 901,
-      "frauds": 5,
-      "mean_p": 0.0035,
-      "mean_amount": 147.12,
-      "mean_fraud_amount": 163.38
-    },
-    {
-      "pbin": 8,
-      "band": "$250-500",
-      "payments": 192,
-      "frauds": 4,
-      "mean_p": 0.0035,
-      "mean_amount": 341.71,
-      "mean_fraud_amount": 361.86
-    },
-    {
-      "pbin": 8,
-      "band": "$50-100",
-      "payments": 1120,
-      "frauds": 3,
-      "mean_p": 0.0035,
-      "mean_amount": 70.52,
-      "mean_fraud_amount": 71.67
-    },
-    {
-      "pbin": 8,
-      "band": "$500-1k",
-      "payments": 80,
-      "frauds": 0,
-      "mean_p": 0.0035,
-      "mean_amount": 621.75,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 8,
-      "band": "<$50",
-      "payments": 1355,
-      "frauds": 14,
-      "mean_p": 0.0035,
-      "mean_amount": 33.54,
-      "mean_fraud_amount": 33.61
-    },
-    {
-      "pbin": 8,
-      "band": ">$1k",
-      "payments": 49,
-      "frauds": 1,
-      "mean_p": 0.0035,
-      "mean_amount": 2054.56,
-      "mean_fraud_amount": 1504.47
-    },
-    {
-      "pbin": 9,
-      "band": "$100-250",
-      "payments": 914,
-      "frauds": 4,
-      "mean_p": 0.0035,
-      "mean_amount": 144.8,
-      "mean_fraud_amount": 140.99
-    },
-    {
-      "pbin": 9,
-      "band": "$250-500",
-      "payments": 231,
-      "frauds": 4,
-      "mean_p": 0.0035,
-      "mean_amount": 348.63,
-      "mean_fraud_amount": 343.75
-    },
-    {
-      "pbin": 9,
-      "band": "$50-100",
-      "payments": 1115,
-      "frauds": 4,
-      "mean_p": 0.0035,
-      "mean_amount": 68.61,
-      "mean_fraud_amount": 64.49
-    },
-    {
-      "pbin": 9,
-      "band": "$500-1k",
-      "payments": 56,
-      "frauds": 0,
-      "mean_p": 0.0035,
-      "mean_amount": 634.51,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 9,
-      "band": "<$50",
-      "payments": 1327,
-      "frauds": 10,
-      "mean_p": 0.0035,
-      "mean_amount": 33.59,
-      "mean_fraud_amount": 29.96
-    },
-    {
-      "pbin": 9,
-      "band": ">$1k",
-      "payments": 54,
-      "frauds": 2,
-      "mean_p": 0.0035,
-      "mean_amount": 1706.97,
-      "mean_fraud_amount": 1214.95
-    },
-    {
-      "pbin": 10,
-      "band": "$100-250",
-      "payments": 990,
-      "frauds": 1,
-      "mean_p": 0.0035,
-      "mean_amount": 145.75,
+      "mean_p": 0.00287,
+      "mean_amount": 138.25,
       "mean_fraud_amount": 117.0
     },
     {
+      "pbin": 6,
+      "band": "$250-500",
+      "payments": 117,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 335.42,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 6,
+      "band": "$50-100",
+      "payments": 872,
+      "frauds": 3,
+      "mean_p": 0.00287,
+      "mean_amount": 67.08,
+      "mean_fraud_amount": 72.67
+    },
+    {
+      "pbin": 6,
+      "band": "$500-1k",
+      "payments": 42,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 659.01,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 6,
+      "band": "<$50",
+      "payments": 1214,
+      "frauds": 11,
+      "mean_p": 0.00287,
+      "mean_amount": 33.8,
+      "mean_fraud_amount": 35.71
+    },
+    {
+      "pbin": 6,
+      "band": ">$1k",
+      "payments": 39,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 1735.64,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 7,
+      "band": "$100-250",
+      "payments": 608,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 140.95,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 7,
+      "band": "$250-500",
+      "payments": 106,
+      "frauds": 2,
+      "mean_p": 0.00287,
+      "mean_amount": 341.34,
+      "mean_fraud_amount": 364.72
+    },
+    {
+      "pbin": 7,
+      "band": "$50-100",
+      "payments": 897,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 67.54,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 7,
+      "band": "$500-1k",
+      "payments": 29,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 613.92,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 7,
+      "band": "<$50",
+      "payments": 1239,
+      "frauds": 3,
+      "mean_p": 0.00287,
+      "mean_amount": 33.6,
+      "mean_fraud_amount": 34.65
+    },
+    {
+      "pbin": 7,
+      "band": ">$1k",
+      "payments": 19,
+      "frauds": 0,
+      "mean_p": 0.00287,
+      "mean_amount": 1802.99,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 8,
+      "band": "$100-250",
+      "payments": 793,
+      "frauds": 2,
+      "mean_p": 0.00333,
+      "mean_amount": 144.42,
+      "mean_fraud_amount": 131.5
+    },
+    {
+      "pbin": 8,
+      "band": "$250-500",
+      "payments": 142,
+      "frauds": 1,
+      "mean_p": 0.00339,
+      "mean_amount": 347.99,
+      "mean_fraud_amount": 335.0
+    },
+    {
+      "pbin": 8,
+      "band": "$50-100",
+      "payments": 822,
+      "frauds": 8,
+      "mean_p": 0.00332,
+      "mean_amount": 68.56,
+      "mean_fraud_amount": 77.49
+    },
+    {
+      "pbin": 8,
+      "band": "$500-1k",
+      "payments": 63,
+      "frauds": 0,
+      "mean_p": 0.00334,
+      "mean_amount": 642.98,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 8,
+      "band": "<$50",
+      "payments": 1037,
+      "frauds": 6,
+      "mean_p": 0.00329,
+      "mean_amount": 34.57,
+      "mean_fraud_amount": 32.65
+    },
+    {
+      "pbin": 8,
+      "band": ">$1k",
+      "payments": 40,
+      "frauds": 0,
+      "mean_p": 0.00318,
+      "mean_amount": 1771.1,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 9,
+      "band": "$100-250",
+      "payments": 776,
+      "frauds": 4,
+      "mean_p": 0.0035,
+      "mean_amount": 143.33,
+      "mean_fraud_amount": 116.46
+    },
+    {
+      "pbin": 9,
+      "band": "$250-500",
+      "payments": 176,
+      "frauds": 2,
+      "mean_p": 0.0035,
+      "mean_amount": 352.34,
+      "mean_fraud_amount": 283.48
+    },
+    {
+      "pbin": 9,
+      "band": "$50-100",
+      "payments": 887,
+      "frauds": 8,
+      "mean_p": 0.0035,
+      "mean_amount": 68.09,
+      "mean_fraud_amount": 72.09
+    },
+    {
+      "pbin": 9,
+      "band": "$500-1k",
+      "payments": 66,
+      "frauds": 0,
+      "mean_p": 0.0035,
+      "mean_amount": 636.28,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 9,
+      "band": "<$50",
+      "payments": 970,
+      "frauds": 5,
+      "mean_p": 0.0035,
+      "mean_amount": 34.63,
+      "mean_fraud_amount": 34.2
+    },
+    {
+      "pbin": 9,
+      "band": ">$1k",
+      "payments": 23,
+      "frauds": 1,
+      "mean_p": 0.0035,
+      "mean_amount": 1675.39,
+      "mean_fraud_amount": 1402.85
+    },
+    {
+      "pbin": 10,
+      "band": "$100-250",
+      "payments": 706,
+      "frauds": 4,
+      "mean_p": 0.0035,
+      "mean_amount": 147.63,
+      "mean_fraud_amount": 153.46
+    },
+    {
       "pbin": 10,
       "band": "$250-500",
-      "payments": 200,
+      "payments": 161,
+      "frauds": 5,
+      "mean_p": 0.0035,
+      "mean_amount": 341.94,
+      "mean_fraud_amount": 376.68
+    },
+    {
+      "pbin": 10,
+      "band": "$50-100",
+      "payments": 876,
+      "frauds": 1,
+      "mean_p": 0.0035,
+      "mean_amount": 70.7,
+      "mean_fraud_amount": 59.0
+    },
+    {
+      "pbin": 10,
+      "band": "$500-1k",
+      "payments": 67,
+      "frauds": 1,
+      "mean_p": 0.0035,
+      "mean_amount": 633.85,
+      "mean_fraud_amount": 554.0
+    },
+    {
+      "pbin": 10,
+      "band": "<$50",
+      "payments": 1050,
+      "frauds": 9,
+      "mean_p": 0.0035,
+      "mean_amount": 33.5,
+      "mean_fraud_amount": 35.55
+    },
+    {
+      "pbin": 10,
+      "band": ">$1k",
+      "payments": 37,
+      "frauds": 0,
+      "mean_p": 0.0035,
+      "mean_amount": 2108.86,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 11,
+      "band": "$100-250",
+      "payments": 700,
+      "frauds": 5,
+      "mean_p": 0.0035,
+      "mean_amount": 145.1,
+      "mean_fraud_amount": 157.99
+    },
+    {
+      "pbin": 11,
+      "band": "$250-500",
+      "payments": 178,
+      "frauds": 1,
+      "mean_p": 0.0035,
+      "mean_amount": 348.87,
+      "mean_fraud_amount": 334.99
+    },
+    {
+      "pbin": 11,
+      "band": "$50-100",
+      "payments": 886,
+      "frauds": 4,
+      "mean_p": 0.0035,
+      "mean_amount": 69.57,
+      "mean_fraud_amount": 73.99
+    },
+    {
+      "pbin": 11,
+      "band": "$500-1k",
+      "payments": 52,
+      "frauds": 0,
+      "mean_p": 0.0035,
+      "mean_amount": 629.79,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 11,
+      "band": "<$50",
+      "payments": 1036,
+      "frauds": 10,
+      "mean_p": 0.0035,
+      "mean_amount": 33.9,
+      "mean_fraud_amount": 29.14
+    },
+    {
+      "pbin": 11,
+      "band": ">$1k",
+      "payments": 45,
+      "frauds": 2,
+      "mean_p": 0.0035,
+      "mean_amount": 1772.02,
+      "mean_fraud_amount": 1444.71
+    },
+    {
+      "pbin": 12,
+      "band": "$100-250",
+      "payments": 737,
+      "frauds": 1,
+      "mean_p": 0.0035,
+      "mean_amount": 144.7,
+      "mean_fraud_amount": 117.0
+    },
+    {
+      "pbin": 12,
+      "band": "$250-500",
+      "payments": 157,
       "frauds": 3,
       "mean_p": 0.0035,
-      "mean_amount": 354.34,
+      "mean_amount": 353.34,
+      "mean_fraud_amount": 346.67
+    },
+    {
+      "pbin": 12,
+      "band": "$50-100",
+      "payments": 889,
+      "frauds": 3,
+      "mean_p": 0.0035,
+      "mean_amount": 68.68,
+      "mean_fraud_amount": 61.0
+    },
+    {
+      "pbin": 12,
+      "band": "$500-1k",
+      "payments": 42,
+      "frauds": 0,
+      "mean_p": 0.0035,
+      "mean_amount": 653.19,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 12,
+      "band": "<$50",
+      "payments": 1039,
+      "frauds": 9,
+      "mean_p": 0.0035,
+      "mean_amount": 33.67,
+      "mean_fraud_amount": 30.8
+    },
+    {
+      "pbin": 12,
+      "band": ">$1k",
+      "payments": 34,
+      "frauds": 1,
+      "mean_p": 0.0035,
+      "mean_amount": 1667.27,
+      "mean_fraud_amount": 1044.95
+    },
+    {
+      "pbin": 13,
+      "band": "$100-250",
+      "payments": 780,
+      "frauds": 1,
+      "mean_p": 0.0035,
+      "mean_amount": 145.9,
+      "mean_fraud_amount": 117.0
+    },
+    {
+      "pbin": 13,
+      "band": "$250-500",
+      "payments": 161,
+      "frauds": 3,
+      "mean_p": 0.0035,
+      "mean_amount": 349.54,
       "mean_fraud_amount": 382.5
     },
     {
-      "pbin": 10,
+      "pbin": 13,
       "band": "$50-100",
-      "payments": 1101,
-      "frauds": 8,
-      "mean_p": 0.0035,
-      "mean_amount": 69.14,
-      "mean_fraud_amount": 62.14
-    },
-    {
-      "pbin": 10,
-      "band": "$500-1k",
-      "payments": 75,
-      "frauds": 0,
-      "mean_p": 0.0035,
-      "mean_amount": 675.68,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 10,
-      "band": "<$50",
-      "payments": 1284,
-      "frauds": 14,
-      "mean_p": 0.0035,
-      "mean_amount": 34.35,
-      "mean_fraud_amount": 30.86
-    },
-    {
-      "pbin": 10,
-      "band": ">$1k",
-      "payments": 47,
-      "frauds": 0,
-      "mean_p": 0.0035,
-      "mean_amount": 1550.15,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 11,
-      "band": "$100-250",
-      "payments": 1000,
-      "frauds": 4,
-      "mean_p": 0.00471,
-      "mean_amount": 146.87,
-      "mean_fraud_amount": 138.95
-    },
-    {
-      "pbin": 11,
-      "band": "$250-500",
-      "payments": 259,
-      "frauds": 0,
-      "mean_p": 0.00476,
-      "mean_amount": 346.28,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 11,
-      "band": "$50-100",
-      "payments": 1084,
+      "payments": 867,
       "frauds": 7,
-      "mean_p": 0.00474,
-      "mean_amount": 69.64,
-      "mean_fraud_amount": 77.85
+      "mean_p": 0.0035,
+      "mean_amount": 68.53,
+      "mean_fraud_amount": 61.73
     },
     {
-      "pbin": 11,
+      "pbin": 13,
       "band": "$500-1k",
-      "payments": 90,
+      "payments": 63,
       "frauds": 0,
-      "mean_p": 0.00481,
-      "mean_amount": 653.4,
+      "mean_p": 0.0035,
+      "mean_amount": 659.97,
       "mean_fraud_amount": null
     },
     {
-      "pbin": 11,
+      "pbin": 13,
       "band": "<$50",
-      "payments": 1214,
-      "frauds": 5,
-      "mean_p": 0.00473,
-      "mean_amount": 34.24,
-      "mean_fraud_amount": 34.69
+      "payments": 989,
+      "frauds": 10,
+      "mean_p": 0.0035,
+      "mean_amount": 34.22,
+      "mean_fraud_amount": 32.98
     },
     {
-      "pbin": 11,
+      "pbin": 13,
       "band": ">$1k",
-      "payments": 50,
-      "frauds": 1,
-      "mean_p": 0.00478,
-      "mean_amount": 1864.16,
-      "mean_fraud_amount": 2259.95
+      "payments": 37,
+      "frauds": 0,
+      "mean_p": 0.0035,
+      "mean_amount": 1517.43,
+      "mean_fraud_amount": null
     },
     {
-      "pbin": 12,
+      "pbin": 14,
       "band": "$100-250",
-      "payments": 1029,
-      "frauds": 4,
-      "mean_p": 0.00561,
-      "mean_amount": 147.93,
-      "mean_fraud_amount": 169.24
+      "payments": 805,
+      "frauds": 3,
+      "mean_p": 0.00457,
+      "mean_amount": 147.17,
+      "mean_fraud_amount": 131.95
     },
     {
-      "pbin": 12,
+      "pbin": 14,
       "band": "$250-500",
-      "payments": 234,
+      "payments": 198,
+      "frauds": 0,
+      "mean_p": 0.00457,
+      "mean_amount": 350.02,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 14,
+      "band": "$50-100",
+      "payments": 841,
+      "frauds": 5,
+      "mean_p": 0.00461,
+      "mean_amount": 69.38,
+      "mean_fraud_amount": 77.19
+    },
+    {
+      "pbin": 14,
+      "band": "$500-1k",
+      "payments": 64,
+      "frauds": 0,
+      "mean_p": 0.0046,
+      "mean_amount": 648.82,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 14,
+      "band": "<$50",
+      "payments": 949,
+      "frauds": 3,
+      "mean_p": 0.00458,
+      "mean_amount": 34.43,
+      "mean_fraud_amount": 31.66
+    },
+    {
+      "pbin": 14,
+      "band": ">$1k",
+      "payments": 41,
+      "frauds": 0,
+      "mean_p": 0.0045,
+      "mean_amount": 1825.87,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 15,
+      "band": "$100-250",
+      "payments": 789,
+      "frauds": 4,
+      "mean_p": 0.00541,
+      "mean_amount": 146.87,
+      "mean_fraud_amount": 182.24
+    },
+    {
+      "pbin": 15,
+      "band": "$250-500",
+      "payments": 199,
       "frauds": 1,
-      "mean_p": 0.00561,
-      "mean_amount": 347.76,
+      "mean_p": 0.0054,
+      "mean_amount": 342.08,
       "mean_fraud_amount": 305.97
     },
     {
-      "pbin": 12,
+      "pbin": 15,
       "band": "$50-100",
-      "payments": 1048,
-      "frauds": 13,
-      "mean_p": 0.00561,
-      "mean_amount": 70.96,
-      "mean_fraud_amount": 75.37
+      "payments": 797,
+      "frauds": 6,
+      "mean_p": 0.00539,
+      "mean_amount": 71.11,
+      "mean_fraud_amount": 76.99
     },
     {
-      "pbin": 12,
+      "pbin": 15,
       "band": "$500-1k",
-      "payments": 79,
+      "payments": 73,
       "frauds": 0,
-      "mean_p": 0.00564,
-      "mean_amount": 669.79,
+      "mean_p": 0.00539,
+      "mean_amount": 660.53,
       "mean_fraud_amount": null
     },
     {
-      "pbin": 12,
+      "pbin": 15,
       "band": "<$50",
-      "payments": 1245,
-      "frauds": 14,
-      "mean_p": 0.0056,
-      "mean_amount": 34.75,
-      "mean_fraud_amount": 34.23
-    },
-    {
-      "pbin": 12,
-      "band": ">$1k",
-      "payments": 62,
-      "frauds": 0,
-      "mean_p": 0.00562,
-      "mean_amount": 1838.6,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 13,
-      "band": "$100-250",
-      "payments": 1062,
+      "payments": 991,
       "frauds": 10,
-      "mean_p": 0.00648,
-      "mean_amount": 150.5,
-      "mean_fraud_amount": 142.88
+      "mean_p": 0.0054,
+      "mean_amount": 34.56,
+      "mean_fraud_amount": 32.15
     },
     {
-      "pbin": 13,
-      "band": "$250-500",
-      "payments": 248,
+      "pbin": 15,
+      "band": ">$1k",
+      "payments": 48,
       "frauds": 1,
-      "mean_p": 0.00648,
-      "mean_amount": 346.43,
+      "mean_p": 0.00543,
+      "mean_amount": 1896.82,
+      "mean_fraud_amount": 2259.95
+    },
+    {
+      "pbin": 16,
+      "band": "$100-250",
+      "payments": 823,
+      "frauds": 1,
+      "mean_p": 0.00602,
+      "mean_amount": 150.46,
+      "mean_fraud_amount": 107.95
+    },
+    {
+      "pbin": 16,
+      "band": "$250-500",
+      "payments": 198,
+      "frauds": 1,
+      "mean_p": 0.00606,
+      "mean_amount": 349.68,
       "mean_fraud_amount": 323.0
     },
     {
-      "pbin": 13,
+      "pbin": 16,
       "band": "$50-100",
-      "payments": 1056,
-      "frauds": 10,
-      "mean_p": 0.00648,
-      "mean_amount": 70.53,
-      "mean_fraud_amount": 59.83
+      "payments": 852,
+      "frauds": 11,
+      "mean_p": 0.006,
+      "mean_amount": 70.15,
+      "mean_fraud_amount": 73.72
     },
     {
-      "pbin": 13,
+      "pbin": 16,
       "band": "$500-1k",
-      "payments": 86,
+      "payments": 71,
       "frauds": 1,
-      "mean_p": 0.00648,
-      "mean_amount": 660.36,
+      "mean_p": 0.00612,
+      "mean_amount": 674.53,
       "mean_fraud_amount": 680.45
     },
     {
-      "pbin": 13,
+      "pbin": 16,
       "band": "<$50",
-      "payments": 1185,
-      "frauds": 13,
-      "mean_p": 0.00648,
-      "mean_amount": 34.48,
-      "mean_fraud_amount": 34.27
-    },
-    {
-      "pbin": 13,
-      "band": ">$1k",
-      "payments": 60,
-      "frauds": 2,
-      "mean_p": 0.00648,
-      "mean_amount": 1838.28,
-      "mean_fraud_amount": 1377.5
-    },
-    {
-      "pbin": 14,
-      "band": "$100-250",
-      "payments": 1066,
-      "frauds": 13,
-      "mean_p": 0.0065,
-      "mean_amount": 147.76,
-      "mean_fraud_amount": 154.06
-    },
-    {
-      "pbin": 14,
-      "band": "$250-500",
-      "payments": 270,
-      "frauds": 2,
-      "mean_p": 0.0065,
-      "mean_amount": 351.1,
-      "mean_fraud_amount": 319.12
-    },
-    {
-      "pbin": 14,
-      "band": "$50-100",
-      "payments": 1021,
+      "payments": 905,
       "frauds": 11,
-      "mean_p": 0.00649,
-      "mean_amount": 70.39,
-      "mean_fraud_amount": 62.87
+      "mean_p": 0.00597,
+      "mean_amount": 34.72,
+      "mean_fraud_amount": 37.34
     },
     {
-      "pbin": 14,
-      "band": "$500-1k",
-      "payments": 112,
-      "frauds": 1,
-      "mean_p": 0.0065,
-      "mean_amount": 645.5,
-      "mean_fraud_amount": 554.0
-    },
-    {
-      "pbin": 14,
-      "band": "<$50",
-      "payments": 1162,
-      "frauds": 11,
-      "mean_p": 0.00649,
-      "mean_amount": 33.79,
-      "mean_fraud_amount": 35.64
-    },
-    {
-      "pbin": 14,
+      "pbin": 16,
       "band": ">$1k",
-      "payments": 66,
-      "frauds": 0,
-      "mean_p": 0.0065,
-      "mean_amount": 1791.02,
-      "mean_fraud_amount": null
-    },
-    {
-      "pbin": 15,
-      "band": "$100-250",
-      "payments": 1121,
-      "frauds": 8,
-      "mean_p": 0.00792,
-      "mean_amount": 148.25,
-      "mean_fraud_amount": 139.96
-    },
-    {
-      "pbin": 15,
-      "band": "$250-500",
-      "payments": 253,
-      "frauds": 9,
-      "mean_p": 0.00791,
-      "mean_amount": 348.13,
-      "mean_fraud_amount": 342.72
-    },
-    {
-      "pbin": 15,
-      "band": "$50-100",
-      "payments": 1020,
-      "frauds": 12,
-      "mean_p": 0.00779,
-      "mean_amount": 71.81,
-      "mean_fraud_amount": 70.36
-    },
-    {
-      "pbin": 15,
-      "band": "$500-1k",
-      "payments": 96,
+      "payments": 48,
       "frauds": 1,
-      "mean_p": 0.00795,
-      "mean_amount": 661.24,
-      "mean_fraud_amount": 664.0
-    },
-    {
-      "pbin": 15,
-      "band": "<$50",
-      "payments": 1149,
-      "frauds": 10,
-      "mean_p": 0.00778,
-      "mean_amount": 34.11,
-      "mean_fraud_amount": 32.21
-    },
-    {
-      "pbin": 15,
-      "band": ">$1k",
-      "payments": 58,
-      "frauds": 1,
-      "mean_p": 0.00778,
-      "mean_amount": 1808.9,
+      "mean_p": 0.00602,
+      "mean_amount": 1745.06,
       "mean_fraud_amount": 1104.0
     },
     {
-      "pbin": 16,
-      "band": "$100-250",
-      "payments": 1075,
-      "frauds": 15,
-      "mean_p": 0.01083,
-      "mean_amount": 150.46,
-      "mean_fraud_amount": 156.62
-    },
-    {
-      "pbin": 16,
-      "band": "$250-500",
-      "payments": 296,
-      "frauds": 1,
-      "mean_p": 0.01087,
-      "mean_amount": 351.49,
-      "mean_fraud_amount": 464.34
-    },
-    {
-      "pbin": 16,
-      "band": "$50-100",
-      "payments": 983,
-      "frauds": 10,
-      "mean_p": 0.01084,
-      "mean_amount": 70.64,
-      "mean_fraud_amount": 72.33
-    },
-    {
-      "pbin": 16,
-      "band": "$500-1k",
-      "payments": 103,
-      "frauds": 1,
-      "mean_p": 0.01094,
-      "mean_amount": 683.89,
-      "mean_fraud_amount": 554.0
-    },
-    {
-      "pbin": 16,
-      "band": "<$50",
-      "payments": 1165,
-      "frauds": 16,
-      "mean_p": 0.01084,
-      "mean_amount": 34.04,
-      "mean_fraud_amount": 30.19
-    },
-    {
-      "pbin": 16,
-      "band": ">$1k",
-      "payments": 75,
-      "frauds": 2,
-      "mean_p": 0.01091,
-      "mean_amount": 1775.69,
-      "mean_fraud_amount": 1417.74
-    },
-    {
       "pbin": 17,
       "band": "$100-250",
-      "payments": 1156,
-      "frauds": 18,
-      "mean_p": 0.01276,
-      "mean_amount": 152.02,
-      "mean_fraud_amount": 141.49
-    },
-    {
-      "pbin": 17,
-      "band": "$250-500",
-      "payments": 306,
-      "frauds": 6,
-      "mean_p": 0.01287,
-      "mean_amount": 357.39,
-      "mean_fraud_amount": 337.15
-    },
-    {
-      "pbin": 17,
-      "band": "$50-100",
-      "payments": 1012,
+      "payments": 804,
       "frauds": 12,
-      "mean_p": 0.01284,
-      "mean_amount": 70.94,
-      "mean_fraud_amount": 72.95
+      "mean_p": 0.00648,
+      "mean_amount": 148.88,
+      "mean_fraud_amount": 141.64
+    },
+    {
+      "pbin": 17,
+      "band": "$250-500",
+      "payments": 189,
+      "frauds": 0,
+      "mean_p": 0.00648,
+      "mean_amount": 347.13,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 17,
+      "band": "$50-100",
+      "payments": 829,
+      "frauds": 9,
+      "mean_p": 0.00648,
+      "mean_amount": 71.23,
+      "mean_fraud_amount": 57.58
     },
     {
       "pbin": 17,
       "band": "$500-1k",
-      "payments": 117,
+      "payments": 58,
       "frauds": 0,
-      "mean_p": 0.01288,
-      "mean_amount": 658.87,
+      "mean_p": 0.00648,
+      "mean_amount": 656.55,
       "mean_fraud_amount": null
     },
     {
       "pbin": 17,
       "band": "<$50",
-      "payments": 1041,
-      "frauds": 28,
-      "mean_p": 0.01279,
-      "mean_amount": 33.73,
-      "mean_fraud_amount": 31.79
+      "payments": 968,
+      "frauds": 10,
+      "mean_p": 0.00648,
+      "mean_amount": 33.99,
+      "mean_fraud_amount": 32.8
     },
     {
       "pbin": 17,
       "band": ">$1k",
-      "payments": 65,
-      "frauds": 2,
-      "mean_p": 0.01271,
-      "mean_amount": 1742.52,
-      "mean_fraud_amount": 2104.82
-    },
-    {
-      "pbin": 18,
-      "band": "$100-250",
-      "payments": 1138,
-      "frauds": 13,
-      "mean_p": 0.01688,
-      "mean_amount": 148.54,
-      "mean_fraud_amount": 166.75
-    },
-    {
-      "pbin": 18,
-      "band": "$250-500",
-      "payments": 309,
-      "frauds": 5,
-      "mean_p": 0.01695,
-      "mean_amount": 354.62,
-      "mean_fraud_amount": 382.49
-    },
-    {
-      "pbin": 18,
-      "band": "$50-100",
-      "payments": 991,
-      "frauds": 14,
-      "mean_p": 0.01691,
-      "mean_amount": 73.2,
-      "mean_fraud_amount": 70.58
-    },
-    {
-      "pbin": 18,
-      "band": "$500-1k",
-      "payments": 144,
-      "frauds": 3,
-      "mean_p": 0.01675,
-      "mean_amount": 673.57,
-      "mean_fraud_amount": 747.33
-    },
-    {
-      "pbin": 18,
-      "band": "<$50",
-      "payments": 1036,
-      "frauds": 22,
-      "mean_p": 0.01685,
-      "mean_amount": 33.85,
-      "mean_fraud_amount": 30.59
-    },
-    {
-      "pbin": 18,
-      "band": ">$1k",
-      "payments": 79,
+      "payments": 50,
       "frauds": 1,
-      "mean_p": 0.01698,
-      "mean_amount": 1701.95,
-      "mean_fraud_amount": 1392.36
+      "mean_p": 0.00648,
+      "mean_amount": 1942.87,
+      "mean_fraud_amount": 1651.0
     },
     {
-      "pbin": 19,
+      "pbin": 18,
       "band": "$100-250",
-      "payments": 1319,
-      "frauds": 18,
-      "mean_p": 0.02032,
-      "mean_amount": 148.33,
-      "mean_fraud_amount": 146.43
-    },
-    {
-      "pbin": 19,
-      "band": "$250-500",
-      "payments": 299,
-      "frauds": 10,
-      "mean_p": 0.02033,
-      "mean_amount": 343.68,
-      "mean_fraud_amount": 343.56
-    },
-    {
-      "pbin": 19,
-      "band": "$50-100",
-      "payments": 922,
+      "payments": 830,
       "frauds": 9,
-      "mean_p": 0.02025,
-      "mean_amount": 71.26,
-      "mean_fraud_amount": 67.22
+      "mean_p": 0.00649,
+      "mean_amount": 146.59,
+      "mean_fraud_amount": 167.55
     },
     {
-      "pbin": 19,
-      "band": "$500-1k",
-      "payments": 145,
+      "pbin": 18,
+      "band": "$250-500",
+      "payments": 211,
       "frauds": 2,
-      "mean_p": 0.02037,
-      "mean_amount": 684.08,
-      "mean_fraud_amount": 609.0
+      "mean_p": 0.00649,
+      "mean_amount": 353.23,
+      "mean_fraud_amount": 319.12
     },
     {
-      "pbin": 19,
-      "band": "<$50",
-      "payments": 934,
-      "frauds": 28,
-      "mean_p": 0.02028,
-      "mean_amount": 33.31,
-      "mean_fraud_amount": 29.25
-    },
-    {
-      "pbin": 19,
-      "band": ">$1k",
-      "payments": 78,
-      "frauds": 1,
-      "mean_p": 0.02054,
-      "mean_amount": 1862.21,
-      "mean_fraud_amount": 3133.06
-    },
-    {
-      "pbin": 20,
-      "band": "$100-250",
-      "payments": 1496,
-      "frauds": 20,
-      "mean_p": 0.02272,
-      "mean_amount": 142.76,
-      "mean_fraud_amount": 145.78
-    },
-    {
-      "pbin": 20,
-      "band": "$250-500",
-      "payments": 316,
-      "frauds": 11,
-      "mean_p": 0.02282,
-      "mean_amount": 353.08,
-      "mean_fraud_amount": 379.04
-    },
-    {
-      "pbin": 20,
+      "pbin": 18,
       "band": "$50-100",
-      "payments": 890,
-      "frauds": 24,
-      "mean_p": 0.02273,
-      "mean_amount": 72.62,
-      "mean_fraud_amount": 71.4
+      "payments": 805,
+      "frauds": 9,
+      "mean_p": 0.00649,
+      "mean_amount": 70.15,
+      "mean_fraud_amount": 62.28
     },
     {
-      "pbin": 20,
+      "pbin": 18,
       "band": "$500-1k",
-      "payments": 103,
-      "frauds": 5,
-      "mean_p": 0.02267,
-      "mean_amount": 675.17,
-      "mean_fraud_amount": 884.4
+      "payments": 91,
+      "frauds": 1,
+      "mean_p": 0.00649,
+      "mean_amount": 646.93,
+      "mean_fraud_amount": 554.0
     },
     {
-      "pbin": 20,
+      "pbin": 18,
       "band": "<$50",
-      "payments": 826,
-      "frauds": 30,
-      "mean_p": 0.0228,
-      "mean_amount": 33.4,
-      "mean_fraud_amount": 31.28
+      "payments": 913,
+      "frauds": 9,
+      "mean_p": 0.00649,
+      "mean_amount": 34.17,
+      "mean_fraud_amount": 34.0
     },
     {
-      "pbin": 20,
+      "pbin": 18,
       "band": ">$1k",
-      "payments": 66,
-      "frauds": 5,
-      "mean_p": 0.02282,
-      "mean_amount": 1683.08,
-      "mean_fraud_amount": 1436.88
+      "payments": 47,
+      "frauds": 0,
+      "mean_p": 0.00648,
+      "mean_amount": 1688.45,
+      "mean_fraud_amount": null
     },
     {
-      "pbin": 21,
+      "pbin": 19,
       "band": "$100-250",
-      "payments": 1406,
-      "frauds": 27,
-      "mean_p": 0.03029,
-      "mean_amount": 147.77,
-      "mean_fraud_amount": 153.26
+      "payments": 869,
+      "frauds": 7,
+      "mean_p": 0.00657,
+      "mean_amount": 150.32,
+      "mean_fraud_amount": 127.54
     },
     {
-      "pbin": 21,
+      "pbin": 19,
       "band": "$250-500",
-      "payments": 275,
+      "payments": 192,
+      "frauds": 7,
+      "mean_p": 0.00657,
+      "mean_amount": 348.08,
+      "mean_fraud_amount": 352.78
+    },
+    {
+      "pbin": 19,
+      "band": "$50-100",
+      "payments": 801,
       "frauds": 10,
-      "mean_p": 0.03019,
-      "mean_amount": 356.32,
-      "mean_fraud_amount": 350.7
+      "mean_p": 0.00657,
+      "mean_amount": 71.33,
+      "mean_fraud_amount": 72.14
+    },
+    {
+      "pbin": 19,
+      "band": "$500-1k",
+      "payments": 75,
+      "frauds": 1,
+      "mean_p": 0.00657,
+      "mean_amount": 657.0,
+      "mean_fraud_amount": 664.0
+    },
+    {
+      "pbin": 19,
+      "band": "<$50",
+      "payments": 912,
+      "frauds": 8,
+      "mean_p": 0.00657,
+      "mean_amount": 33.83,
+      "mean_fraud_amount": 33.8
+    },
+    {
+      "pbin": 19,
+      "band": ">$1k",
+      "payments": 49,
+      "frauds": 1,
+      "mean_p": 0.00657,
+      "mean_amount": 1879.81,
+      "mean_fraud_amount": 1104.0
+    },
+    {
+      "pbin": 20,
+      "band": "$100-250",
+      "payments": 4288,
+      "frauds": 55,
+      "mean_p": 0.01394,
+      "mean_amount": 149.15,
+      "mean_fraud_amount": 152.74
+    },
+    {
+      "pbin": 20,
+      "band": "$250-500",
+      "payments": 1115,
+      "frauds": 18,
+      "mean_p": 0.01392,
+      "mean_amount": 352.43,
+      "mean_fraud_amount": 345.24
+    },
+    {
+      "pbin": 20,
+      "band": "$50-100",
+      "payments": 3685,
+      "frauds": 42,
+      "mean_p": 0.01382,
+      "mean_amount": 71.6,
+      "mean_fraud_amount": 71.22
+    },
+    {
+      "pbin": 20,
+      "band": "$500-1k",
+      "payments": 457,
+      "frauds": 6,
+      "mean_p": 0.01427,
+      "mean_amount": 675.23,
+      "mean_fraud_amount": 669.0
+    },
+    {
+      "pbin": 20,
+      "band": "<$50",
+      "payments": 3978,
+      "frauds": 77,
+      "mean_p": 0.01366,
+      "mean_amount": 33.9,
+      "mean_fraud_amount": 31.64
+    },
+    {
+      "pbin": 20,
+      "band": ">$1k",
+      "payments": 265,
+      "frauds": 6,
+      "mean_p": 0.01397,
+      "mean_amount": 1765.63,
+      "mean_fraud_amount": 1928.42
+    },
+    {
+      "pbin": 21,
+      "band": "$100-250",
+      "payments": 3292,
+      "frauds": 48,
+      "mean_p": 0.02354,
+      "mean_amount": 146.07,
+      "mean_fraud_amount": 155.82
+    },
+    {
+      "pbin": 21,
+      "band": "$250-500",
+      "payments": 697,
+      "frauds": 25,
+      "mean_p": 0.02347,
+      "mean_amount": 352.01,
+      "mean_fraud_amount": 367.49
     },
     {
       "pbin": 21,
       "band": "$50-100",
-      "payments": 881,
-      "frauds": 27,
-      "mean_p": 0.02984,
-      "mean_amount": 74.16,
-      "mean_fraud_amount": 75.55
+      "payments": 2094,
+      "frauds": 50,
+      "mean_p": 0.02354,
+      "mean_amount": 72.8,
+      "mean_fraud_amount": 71.7
     },
     {
       "pbin": 21,
       "band": "$500-1k",
-      "payments": 154,
-      "frauds": 5,
-      "mean_p": 0.03065,
-      "mean_amount": 689.54,
-      "mean_fraud_amount": 836.6
+      "payments": 295,
+      "frauds": 8,
+      "mean_p": 0.02369,
+      "mean_amount": 682.72,
+      "mean_fraud_amount": 871.75
     },
     {
       "pbin": 21,
       "band": "<$50",
-      "payments": 924,
-      "frauds": 32,
-      "mean_p": 0.03019,
-      "mean_amount": 32.74,
-      "mean_fraud_amount": 30.18
+      "payments": 2049,
+      "frauds": 74,
+      "mean_p": 0.0236,
+      "mean_amount": 33.07,
+      "mean_fraud_amount": 28.89
     },
     {
       "pbin": 21,
       "band": ">$1k",
-      "payments": 57,
-      "frauds": 1,
-      "mean_p": 0.0314,
-      "mean_amount": 1564.93,
-      "mean_fraud_amount": 1052.0
+      "payments": 152,
+      "frauds": 6,
+      "mean_p": 0.02327,
+      "mean_amount": 1678.93,
+      "mean_fraud_amount": 1372.74
     },
     {
       "pbin": 22,
       "band": "$100-250",
-      "payments": 1351,
-      "frauds": 44,
-      "mean_p": 0.04741,
-      "mean_amount": 153.53,
-      "mean_fraud_amount": 146.6
+      "payments": 1369,
+      "frauds": 39,
+      "mean_p": 0.04231,
+      "mean_amount": 152.49,
+      "mean_fraud_amount": 133.95
     },
     {
       "pbin": 22,
       "band": "$250-500",
-      "payments": 345,
-      "frauds": 17,
-      "mean_p": 0.04683,
-      "mean_amount": 355.84,
-      "mean_fraud_amount": 358.34
+      "payments": 332,
+      "frauds": 11,
+      "mean_p": 0.04239,
+      "mean_amount": 354.18,
+      "mean_fraud_amount": 341.81
     },
     {
       "pbin": 22,
       "band": "$50-100",
-      "payments": 811,
-      "frauds": 31,
-      "mean_p": 0.04677,
-      "mean_amount": 76.48,
-      "mean_fraud_amount": 69.93
+      "payments": 813,
+      "frauds": 27,
+      "mean_p": 0.04198,
+      "mean_amount": 75.28,
+      "mean_fraud_amount": 71.61
     },
     {
       "pbin": 22,
       "band": "$500-1k",
-      "payments": 145,
-      "frauds": 11,
-      "mean_p": 0.04773,
-      "mean_amount": 707.75,
-      "mean_fraud_amount": 878.55
+      "payments": 151,
+      "frauds": 12,
+      "mean_p": 0.04249,
+      "mean_amount": 697.07,
+      "mean_fraud_amount": 895.08
     },
     {
       "pbin": 22,
       "band": "<$50",
-      "payments": 972,
-      "frauds": 64,
-      "mean_p": 0.0479,
-      "mean_amount": 31.35,
-      "mean_fraud_amount": 29.08
+      "payments": 925,
+      "frauds": 44,
+      "mean_p": 0.04241,
+      "mean_amount": 32.07,
+      "mean_fraud_amount": 28.92
     },
     {
       "pbin": 22,
       "band": ">$1k",
-      "payments": 73,
+      "payments": 81,
       "frauds": 5,
-      "mean_p": 0.04535,
-      "mean_amount": 1498.63,
+      "mean_p": 0.04193,
+      "mean_amount": 1536.66,
       "mean_fraud_amount": 1361.8
     },
     {
       "pbin": 23,
       "band": "$100-250",
-      "payments": 1312,
-      "frauds": 111,
-      "mean_p": 0.10437,
-      "mean_amount": 157.71,
-      "mean_fraud_amount": 157.49
+      "payments": 649,
+      "frauds": 38,
+      "mean_p": 0.05813,
+      "mean_amount": 155.54,
+      "mean_fraud_amount": 152.81
     },
     {
       "pbin": 23,
       "band": "$250-500",
-      "payments": 365,
-      "frauds": 27,
-      "mean_p": 0.10699,
-      "mean_amount": 362.02,
-      "mean_fraud_amount": 364.63
+      "payments": 159,
+      "frauds": 10,
+      "mean_p": 0.058,
+      "mean_amount": 358.86,
+      "mean_fraud_amount": 369.19
     },
     {
       "pbin": 23,
       "band": "$50-100",
-      "payments": 742,
-      "frauds": 74,
-      "mean_p": 0.10351,
-      "mean_amount": 77.59,
-      "mean_fraud_amount": 78.85
+      "payments": 389,
+      "frauds": 31,
+      "mean_p": 0.0581,
+      "mean_amount": 78.38,
+      "mean_fraud_amount": 79.1
     },
     {
       "pbin": 23,
       "band": "$500-1k",
-      "payments": 215,
-      "frauds": 37,
-      "mean_p": 0.10803,
-      "mean_amount": 703.61,
-      "mean_fraud_amount": 748.35
+      "payments": 91,
+      "frauds": 5,
+      "mean_p": 0.05817,
+      "mean_amount": 681.44,
+      "mean_fraud_amount": 752.0
     },
     {
       "pbin": 23,
       "band": "<$50",
-      "payments": 992,
-      "frauds": 115,
-      "mean_p": 0.10475,
-      "mean_amount": 31.01,
-      "mean_fraud_amount": 29.09
+      "payments": 511,
+      "frauds": 42,
+      "mean_p": 0.05822,
+      "mean_amount": 31.36,
+      "mean_fraud_amount": 31.58
     },
     {
       "pbin": 23,
       "band": ">$1k",
-      "payments": 71,
-      "frauds": 4,
-      "mean_p": 0.11372,
-      "mean_amount": 1461.83,
-      "mean_fraud_amount": 1215.25
+      "payments": 20,
+      "frauds": 1,
+      "mean_p": 0.05798,
+      "mean_amount": 1386.91,
+      "mean_fraud_amount": 1103.99
     },
     {
       "pbin": 24,
       "band": "$100-250",
-      "payments": 930,
-      "frauds": 373,
-      "mean_p": 0.50544,
-      "mean_amount": 155.52,
-      "mean_fraud_amount": 150.72
+      "payments": 505,
+      "frauds": 30,
+      "mean_p": 0.08799,
+      "mean_amount": 156.14,
+      "mean_fraud_amount": 162.72
     },
     {
       "pbin": 24,
       "band": "$250-500",
-      "payments": 342,
-      "frauds": 172,
-      "mean_p": 0.56634,
-      "mean_amount": 356.49,
-      "mean_fraud_amount": 358.56
+      "payments": 132,
+      "frauds": 10,
+      "mean_p": 0.08877,
+      "mean_amount": 361.66,
+      "mean_fraud_amount": 361.89
     },
     {
       "pbin": 24,
       "band": "$50-100",
-      "payments": 759,
-      "frauds": 389,
-      "mean_p": 0.58117,
-      "mean_amount": 76.47,
-      "mean_fraud_amount": 73.86
+      "payments": 262,
+      "frauds": 20,
+      "mean_p": 0.08682,
+      "mean_amount": 77.48,
+      "mean_fraud_amount": 75.34
     },
     {
       "pbin": 24,
       "band": "$500-1k",
-      "payments": 173,
-      "frauds": 81,
-      "mean_p": 0.45432,
-      "mean_amount": 781.38,
-      "mean_fraud_amount": 805.86
+      "payments": 65,
+      "frauds": 10,
+      "mean_p": 0.09262,
+      "mean_amount": 695.78,
+      "mean_fraud_amount": 719.0
     },
     {
       "pbin": 24,
       "band": "<$50",
-      "payments": 1446,
-      "frauds": 852,
-      "mean_p": 0.61251,
-      "mean_amount": 24.2,
-      "mean_fraud_amount": 25.94
+      "payments": 359,
+      "frauds": 42,
+      "mean_p": 0.0868,
+      "mean_amount": 31.55,
+      "mean_fraud_amount": 29.43
     },
     {
       "pbin": 24,
       "band": ">$1k",
-      "payments": 48,
+      "payments": 25,
+      "frauds": 0,
+      "mean_p": 0.08441,
+      "mean_amount": 1504.75,
+      "mean_fraud_amount": null
+    },
+    {
+      "pbin": 25,
+      "band": "$100-250",
+      "payments": 479,
+      "frauds": 47,
+      "mean_p": 0.14045,
+      "mean_amount": 158.96,
+      "mean_fraud_amount": 156.37
+    },
+    {
+      "pbin": 25,
+      "band": "$250-500",
+      "payments": 141,
+      "frauds": 12,
+      "mean_p": 0.14006,
+      "mean_amount": 367.93,
+      "mean_fraud_amount": 379.05
+    },
+    {
+      "pbin": 25,
+      "band": "$50-100",
+      "payments": 271,
+      "frauds": 30,
+      "mean_p": 0.14025,
+      "mean_amount": 77.12,
+      "mean_fraud_amount": 77.62
+    },
+    {
+      "pbin": 25,
+      "band": "$500-1k",
+      "payments": 93,
+      "frauds": 23,
+      "mean_p": 0.14046,
+      "mean_amount": 724.74,
+      "mean_fraud_amount": 751.87
+    },
+    {
+      "pbin": 25,
+      "band": "<$50",
+      "payments": 368,
+      "frauds": 48,
+      "mean_p": 0.14029,
+      "mean_amount": 30.5,
+      "mean_fraud_amount": 28.73
+    },
+    {
+      "pbin": 25,
+      "band": ">$1k",
+      "payments": 35,
+      "frauds": 3,
+      "mean_p": 0.14063,
+      "mean_amount": 1390.99,
+      "mean_fraud_amount": 1252.33
+    },
+    {
+      "pbin": 26,
+      "band": "$100-250",
+      "payments": 170,
+      "frauds": 31,
+      "mean_p": 0.15741,
+      "mean_amount": 155.79,
+      "mean_fraud_amount": 159.64
+    },
+    {
+      "pbin": 26,
+      "band": "$250-500",
+      "payments": 51,
+      "frauds": 6,
+      "mean_p": 0.15741,
+      "mean_amount": 347.2,
+      "mean_fraud_amount": 368.22
+    },
+    {
+      "pbin": 26,
+      "band": "$50-100",
+      "payments": 99,
+      "frauds": 12,
+      "mean_p": 0.15741,
+      "mean_amount": 79.91,
+      "mean_fraud_amount": 84.8
+    },
+    {
+      "pbin": 26,
+      "band": "$500-1k",
+      "payments": 30,
+      "frauds": 7,
+      "mean_p": 0.15741,
+      "mean_amount": 741.87,
+      "mean_fraud_amount": 674.71
+    },
+    {
+      "pbin": 26,
+      "band": "<$50",
+      "payments": 146,
+      "frauds": 33,
+      "mean_p": 0.15743,
+      "mean_amount": 27.81,
+      "mean_fraud_amount": 25.92
+    },
+    {
+      "pbin": 26,
+      "band": ">$1k",
+      "payments": 10,
+      "frauds": 3,
+      "mean_p": 0.15741,
+      "mean_amount": 1909.7,
+      "mean_fraud_amount": 1325.0
+    },
+    {
+      "pbin": 27,
+      "band": "$100-250",
+      "payments": 89,
+      "frauds": 13,
+      "mean_p": 0.26221,
+      "mean_amount": 157.08,
+      "mean_fraud_amount": 152.88
+    },
+    {
+      "pbin": 27,
+      "band": "$250-500",
+      "payments": 27,
+      "frauds": 4,
+      "mean_p": 0.26618,
+      "mean_amount": 354.64,
+      "mean_fraud_amount": 388.74
+    },
+    {
+      "pbin": 27,
+      "band": "$50-100",
+      "payments": 69,
       "frauds": 14,
-      "mean_p": 0.40204,
-      "mean_amount": 1553.96,
-      "mean_fraud_amount": 1598.93
+      "mean_p": 0.26347,
+      "mean_amount": 77.78,
+      "mean_fraud_amount": 72.41
+    },
+    {
+      "pbin": 27,
+      "band": "$500-1k",
+      "payments": 20,
+      "frauds": 6,
+      "mean_p": 0.26418,
+      "mean_amount": 798.8,
+      "mean_fraud_amount": 797.33
+    },
+    {
+      "pbin": 27,
+      "band": "<$50",
+      "payments": 92,
+      "frauds": 29,
+      "mean_p": 0.26718,
+      "mean_amount": 23.41,
+      "mean_fraud_amount": 24.61
+    },
+    {
+      "pbin": 28,
+      "band": "$100-250",
+      "payments": 140,
+      "frauds": 32,
+      "mean_p": 0.3222,
+      "mean_amount": 155.55,
+      "mean_fraud_amount": 139.48
+    },
+    {
+      "pbin": 28,
+      "band": "$250-500",
+      "payments": 58,
+      "frauds": 11,
+      "mean_p": 0.32212,
+      "mean_amount": 344.1,
+      "mean_fraud_amount": 370.12
+    },
+    {
+      "pbin": 28,
+      "band": "$50-100",
+      "payments": 87,
+      "frauds": 21,
+      "mean_p": 0.32191,
+      "mean_amount": 76.81,
+      "mean_fraud_amount": 70.24
+    },
+    {
+      "pbin": 28,
+      "band": "$500-1k",
+      "payments": 30,
+      "frauds": 11,
+      "mean_p": 0.32084,
+      "mean_amount": 774.4,
+      "mean_fraud_amount": 810.91
+    },
+    {
+      "pbin": 28,
+      "band": "<$50",
+      "payments": 158,
+      "frauds": 42,
+      "mean_p": 0.32196,
+      "mean_amount": 23.61,
+      "mean_fraud_amount": 26.54
+    },
+    {
+      "pbin": 28,
+      "band": ">$1k",
+      "payments": 12,
+      "frauds": 4,
+      "mean_p": 0.31856,
+      "mean_amount": 1501.17,
+      "mean_fraud_amount": 1451.25
+    },
+    {
+      "pbin": 29,
+      "band": "$100-250",
+      "payments": 198,
+      "frauds": 51,
+      "mean_p": 0.43523,
+      "mean_amount": 155.0,
+      "mean_fraud_amount": 143.89
+    },
+    {
+      "pbin": 29,
+      "band": "$250-500",
+      "payments": 62,
+      "frauds": 23,
+      "mean_p": 0.43584,
+      "mean_amount": 377.43,
+      "mean_fraud_amount": 384.37
+    },
+    {
+      "pbin": 29,
+      "band": "$50-100",
+      "payments": 110,
+      "frauds": 37,
+      "mean_p": 0.4345,
+      "mean_amount": 77.59,
+      "mean_fraud_amount": 73.34
+    },
+    {
+      "pbin": 29,
+      "band": "$500-1k",
+      "payments": 43,
+      "frauds": 20,
+      "mean_p": 0.43397,
+      "mean_amount": 771.15,
+      "mean_fraud_amount": 760.5
+    },
+    {
+      "pbin": 29,
+      "band": "<$50",
+      "payments": 247,
+      "frauds": 123,
+      "mean_p": 0.43467,
+      "mean_amount": 23.93,
+      "mean_fraud_amount": 26.02
+    },
+    {
+      "pbin": 29,
+      "band": ">$1k",
+      "payments": 10,
+      "frauds": 2,
+      "mean_p": 0.43271,
+      "mean_amount": 1626.4,
+      "mean_fraud_amount": 2420.5
+    },
+    {
+      "pbin": 30,
+      "band": "$100-250",
+      "payments": 72,
+      "frauds": 25,
+      "mean_p": 0.52298,
+      "mean_amount": 149.63,
+      "mean_fraud_amount": 132.58
+    },
+    {
+      "pbin": 30,
+      "band": "$250-500",
+      "payments": 22,
+      "frauds": 10,
+      "mean_p": 0.52334,
+      "mean_amount": 364.75,
+      "mean_fraud_amount": 346.44
+    },
+    {
+      "pbin": 30,
+      "band": "$50-100",
+      "payments": 63,
+      "frauds": 33,
+      "mean_p": 0.52376,
+      "mean_amount": 75.9,
+      "mean_fraud_amount": 73.77
+    },
+    {
+      "pbin": 30,
+      "band": "$500-1k",
+      "payments": 14,
+      "frauds": 5,
+      "mean_p": 0.52262,
+      "mean_amount": 769.86,
+      "mean_fraud_amount": 861.2
+    },
+    {
+      "pbin": 30,
+      "band": "<$50",
+      "payments": 114,
+      "frauds": 55,
+      "mean_p": 0.52309,
+      "mean_amount": 22.79,
+      "mean_fraud_amount": 27.98
+    },
+    {
+      "pbin": 31,
+      "band": "$100-250",
+      "payments": 107,
+      "frauds": 51,
+      "mean_p": 0.63172,
+      "mean_amount": 161.01,
+      "mean_fraud_amount": 154.19
+    },
+    {
+      "pbin": 31,
+      "band": "$250-500",
+      "payments": 27,
+      "frauds": 16,
+      "mean_p": 0.63036,
+      "mean_amount": 336.44,
+      "mean_fraud_amount": 344.31
+    },
+    {
+      "pbin": 31,
+      "band": "$50-100",
+      "payments": 95,
+      "frauds": 56,
+      "mean_p": 0.63564,
+      "mean_amount": 73.42,
+      "mean_fraud_amount": 70.24
+    },
+    {
+      "pbin": 31,
+      "band": "$500-1k",
+      "payments": 17,
+      "frauds": 9,
+      "mean_p": 0.63252,
+      "mean_amount": 797.76,
+      "mean_fraud_amount": 849.56
+    },
+    {
+      "pbin": 31,
+      "band": "<$50",
+      "payments": 173,
+      "frauds": 97,
+      "mean_p": 0.63405,
+      "mean_amount": 22.11,
+      "mean_fraud_amount": 26.54
+    },
+    {
+      "pbin": 32,
+      "band": "$100-250",
+      "payments": 21,
+      "frauds": 15,
+      "mean_p": 0.78663,
+      "mean_amount": 173.99,
+      "mean_fraud_amount": 168.58
+    },
+    {
+      "pbin": 32,
+      "band": "$250-500",
+      "payments": 12,
+      "frauds": 10,
+      "mean_p": 0.78799,
+      "mean_amount": 350.78,
+      "mean_fraud_amount": 345.64
+    },
+    {
+      "pbin": 32,
+      "band": "$50-100",
+      "payments": 50,
+      "frauds": 36,
+      "mean_p": 0.78655,
+      "mean_amount": 76.09,
+      "mean_fraud_amount": 73.96
+    },
+    {
+      "pbin": 32,
+      "band": "<$50",
+      "payments": 34,
+      "frauds": 22,
+      "mean_p": 0.78736,
+      "mean_amount": 24.38,
+      "mean_fraud_amount": 29.9
+    },
+    {
+      "pbin": 33,
+      "band": "$100-250",
+      "payments": 70,
+      "frauds": 59,
+      "mean_p": 0.8483,
+      "mean_amount": 151.74,
+      "mean_fraud_amount": 149.39
+    },
+    {
+      "pbin": 33,
+      "band": "$250-500",
+      "payments": 31,
+      "frauds": 25,
+      "mean_p": 0.85609,
+      "mean_amount": 353.92,
+      "mean_fraud_amount": 342.86
+    },
+    {
+      "pbin": 33,
+      "band": "$50-100",
+      "payments": 79,
+      "frauds": 57,
+      "mean_p": 0.8465,
+      "mean_amount": 72.62,
+      "mean_fraud_amount": 72.4
+    },
+    {
+      "pbin": 33,
+      "band": "$500-1k",
+      "payments": 12,
+      "frauds": 9,
+      "mean_p": 0.84077,
+      "mean_amount": 846.17,
+      "mean_fraud_amount": 889.56
+    },
+    {
+      "pbin": 33,
+      "band": "<$50",
+      "payments": 169,
+      "frauds": 130,
+      "mean_p": 0.84532,
+      "mean_amount": 25.31,
+      "mean_fraud_amount": 26.73
+    },
+    {
+      "pbin": 34,
+      "band": "$100-250",
+      "payments": 80,
+      "frauds": 68,
+      "mean_p": 0.93444,
+      "mean_amount": 151.67,
+      "mean_fraud_amount": 151.56
+    },
+    {
+      "pbin": 34,
+      "band": "$250-500",
+      "payments": 26,
+      "frauds": 22,
+      "mean_p": 0.93566,
+      "mean_amount": 377.26,
+      "mean_fraud_amount": 373.13
+    },
+    {
+      "pbin": 34,
+      "band": "$50-100",
+      "payments": 93,
+      "frauds": 75,
+      "mean_p": 0.93448,
+      "mean_amount": 76.44,
+      "mean_fraud_amount": 73.55
+    },
+    {
+      "pbin": 34,
+      "band": "$500-1k",
+      "payments": 10,
+      "frauds": 10,
+      "mean_p": 0.92916,
+      "mean_amount": 831.8,
+      "mean_fraud_amount": 831.8
+    },
+    {
+      "pbin": 34,
+      "band": "<$50",
+      "payments": 258,
+      "frauds": 227,
+      "mean_p": 0.93527,
+      "mean_amount": 25.34,
+      "mean_fraud_amount": 25.93
+    },
+    {
+      "pbin": 35,
+      "band": "<$50",
+      "payments": 20,
+      "frauds": 18,
+      "mean_p": 0.96429,
+      "mean_amount": 23.0,
+      "mean_fraud_amount": 22.94
+    },
+    {
+      "pbin": 36,
+      "band": "$100-250",
+      "payments": 38,
+      "frauds": 35,
+      "mean_p": 0.98407,
+      "mean_amount": 165.44,
+      "mean_fraud_amount": 168.5
+    },
+    {
+      "pbin": 36,
+      "band": "$250-500",
+      "payments": 45,
+      "frauds": 45,
+      "mean_p": 0.98854,
+      "mean_amount": 348.98,
+      "mean_fraud_amount": 348.98
+    },
+    {
+      "pbin": 36,
+      "band": "$50-100",
+      "payments": 47,
+      "frauds": 47,
+      "mean_p": 0.9833,
+      "mean_amount": 79.23,
+      "mean_fraud_amount": 79.23
+    },
+    {
+      "pbin": 36,
+      "band": "<$50",
+      "payments": 91,
+      "frauds": 87,
+      "mean_p": 0.9798,
+      "mean_amount": 22.34,
+      "mean_fraud_amount": 22.47
     }
   ]
 }

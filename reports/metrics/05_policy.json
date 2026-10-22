@@ -51,23 +51,23 @@
       "saving_per_1000_vs_rules": 2558.442320609778
     },
     "Model: expected-cost policy": {
-      "cost_per_1000": 4056.408790126261,
-      "fraud_loss_per_1000": 3936.0380148657855,
-      "fraud_dollars_stopped": 0.320841396722794,
+      "cost_per_1000": 3495.6621366700206,
+      "fraud_loss_per_1000": 3388.486659742284,
+      "fraud_dollars_stopped": 0.41532072140505316,
       "review_rate": 0.01482250857433434,
       "decline_rate": 0.002758934077704567,
       "good_decline_rate": 0.00010088102764140158,
-      "saving_per_1000_vs_rules": 1242.898107338765
+      "saving_per_1000_vs_rules": 1803.6447607950054
     }
   },
   "saving_ci_per_1000": [
-    901.972095049332,
-    1624.8819780789524
+    1402.393247271072,
+    2279.045214507138
   ],
-  "saving_vs_model_top_per_1000": 509.75142592532575,
+  "saving_vs_model_top_per_1000": 1070.4980793815662,
   "saving_vs_model_top_ci_per_1000": [
-    41.448748102865224,
-    948.5557219278064
+    699.0003828082811,
+    1424.8624466645474
   ],
   "guardrails": {
     "good_decline_rate_not_above_rules": false,
@@ -79,7 +79,7 @@
       "assumption": "chargeback_fee",
       "factor": 0.5,
       "value": 7.5,
-      "saving_per_1000": 1214.919151113851,
+      "saving_per_1000": 1728.226592748872,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -87,7 +87,7 @@
       "assumption": "chargeback_fee",
       "factor": 2.0,
       "value": 30.0,
-      "saving_per_1000": 1303.2426205978782,
+      "saving_per_1000": 1910.7936993843796,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -95,7 +95,7 @@
       "assumption": "margin",
       "factor": 0.5,
       "value": 0.15,
-      "saving_per_1000": 960.8858979140296,
+      "saving_per_1000": 1758.6106227401087,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -103,7 +103,7 @@
       "assumption": "margin",
       "factor": 2.0,
       "value": 0.6,
-      "saving_per_1000": 1435.244007032576,
+      "saving_per_1000": 1882.864998950523,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -111,7 +111,7 @@
       "assumption": "churn_prob",
       "factor": 0.5,
       "value": 0.05,
-      "saving_per_1000": 1246.7675923052789,
+      "saving_per_1000": 1802.520414013221,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -119,7 +119,7 @@
       "assumption": "churn_prob",
       "factor": 2.0,
       "value": 0.2,
-      "saving_per_1000": 1245.7455665660468,
+      "saving_per_1000": 1803.8811635777415,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -127,7 +127,7 @@
       "assumption": "future_margin",
       "factor": 0.5,
       "value": 25.0,
-      "saving_per_1000": 1246.7675923052789,
+      "saving_per_1000": 1802.520414013221,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -135,7 +135,7 @@
       "assumption": "future_margin",
       "factor": 2.0,
       "value": 100.0,
-      "saving_per_1000": 1245.7455665660468,
+      "saving_per_1000": 1803.8811635777415,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -143,7 +143,7 @@
       "assumption": "review_cost",
       "factor": 0.5,
       "value": 3.0,
-      "saving_per_1000": 1242.898107338765,
+      "saving_per_1000": 1803.6447607950054,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -151,7 +151,7 @@
       "assumption": "review_cost",
       "factor": 2.0,
       "value": 12.0,
-      "saving_per_1000": 1242.898107338764,
+      "saving_per_1000": 1803.644760795005,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.01482250857433434
     },
@@ -159,7 +159,7 @@
       "assumption": "capacity",
       "factor": 0.5,
       "value": 0.0075,
-      "saving_per_1000": 1097.1744160039807,
+      "saving_per_1000": 1629.9639019658753,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.007324699492572517
     },
@@ -167,41 +167,41 @@
       "assumption": "capacity",
       "factor": 2.0,
       "value": 0.03,
-      "saving_per_1000": 1289.29769304424,
+      "saving_per_1000": 2159.6447632834547,
       "policy_decline_rate": 0.002758934077704567,
       "policy_review_rate": 0.029818126737857987
     }
   ],
   "action_mix_by_amount": {
     "<$50": {
-      "approve": 0.9964363683061512,
+      "approve": 0.9957942725054578,
       "decline": 0.0035636316938487222,
-      "review": 0.0
+      "review": 0.0006420958006934634
     },
     "$50-100": {
-      "approve": 0.9978811065332549,
+      "approve": 0.991445948597214,
       "decline": 0.0020404159309397687,
-      "review": 7.847753580537571e-05
+      "review": 0.006513635471846184
     },
     "$100-250": {
-      "approve": 0.9881820274729491,
+      "approve": 0.9808917197452229,
       "decline": 0.0016499117489064538,
-      "review": 0.010168060778144425
+      "review": 0.017458368505870615
     },
     "$250-500": {
-      "approve": 0.9259694477085781,
+      "approve": 0.9432600302165519,
       "decline": 0.00805774718818197,
-      "review": 0.06597280510323988
+      "review": 0.04868222259526608
     },
     "$500-1k": {
-      "approve": 0.8278722521775197,
+      "approve": 0.8813770219825798,
       "decline": 0.00041476565740356696,
-      "review": 0.17171298216507674
+      "review": 0.11820821236001659
     },
     ">$1k": {
-      "approve": 0.782991202346041,
+      "approve": 0.8870967741935484,
       "decline": 0.0,
-      "review": 0.21700879765395895
+      "review": 0.11290322580645161
     }
   }
 }

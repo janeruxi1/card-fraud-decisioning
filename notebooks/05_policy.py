@@ -151,10 +151,16 @@ mix.round(4)
 #
 # The demo re-solves the policy when a viewer changes the costs. It cannot use transactions (the
 # data may not be redistributed), so it gets test payments grouped into cells of fraud probability ×
-# amount band: counts, frauds and average amounts only. Cells with fewer than 20 payments are left out.
+# amount band: counts, frauds and average amounts only. Probability bins hold equal counts below 1%,
+# where most payments sit, and are narrow above it, where reviews and declines are decided; one edge
+# sits at the decline threshold. Cells with fewer than 10 payments are left out.
 
 # %%
-pbin = pd.qcut(pd.Series(p).rank(method="first"), 25, labels=False).to_numpy()
+EDGES = sorted({0.01, 0.02, 0.03, 0.05, 0.07, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.97, round(TAU, 4)})
+low = p < EDGES[0]
+pbin = np.empty(len(p), int)
+pbin[low] = pd.qcut(pd.Series(p[low]).rank(method="first"), min(20, int(low.sum())), labels=False).to_numpy() if low.sum() else 0
+pbin[~low] = 20 + np.searchsorted(EDGES, p[~low], side="right") - 1
 cells = (pd.DataFrame({"pbin": pbin, "band": bands.astype(str), "p": p, "amount": amt, "fraud": y})
          .groupby(["pbin", "band"], observed=True)
          .agg(payments=("fraud", "size"), frauds=("fraud", "sum"), mean_p=("p", "mean"),
@@ -163,7 +169,7 @@ cells = (pd.DataFrame({"pbin": pbin, "band": bands.astype(str), "p": p, "amount"
 fa = (pd.DataFrame({"pbin": pbin, "band": bands.astype(str), "amount": amt, "fraud": y}).query("fraud == 1")
       .groupby(["pbin", "band"], observed=True)["amount"].mean())
 cells["mean_fraud_amount"] = [fa.get((r.pbin, r.band), np.nan) for r in cells.itertuples()]
-cells = cells[cells["payments"] >= 20].round({"mean_p": 5, "mean_amount": 2, "mean_fraud_amount": 2})
+cells = cells[cells["payments"] >= 10].round({"mean_p": 5, "mean_amount": 2, "mean_fraud_amount": 2})
 days_in_test = int(len(np.unique(day)))
 print(f"{len(cells)} cells covering {cells['payments'].sum() / len(T):.1%} of test payments")
 write_metrics("05_policy_cells", {"days": days_in_test, "payments": int(len(T)), "cells": cells.to_dict(orient="records")}, SOURCE)

@@ -38,3 +38,18 @@ def test_matches_transaction_level_costs_when_cells_are_single_payments():
     costs = policy.Costs(capacity=0.0)
     a = policy.choose(p, amt, np.zeros(n, int), costs)
     assert r["cost_per_1000"] == pytest.approx(policy.realized(a, y, amt, costs)["cost_per_1000"])
+
+
+@pytest.mark.parametrize("decline_min_p", [0.0, 0.7])
+def test_matches_transaction_level_with_reviews_and_guardrail(decline_min_p):
+    rng = np.random.default_rng(1)
+    n = 400
+    p = rng.uniform(0, 1, n)
+    amt = rng.uniform(10, 2000, n)
+    y = (rng.uniform(0, 1, n) < p).astype(int)
+    c = pd.DataFrame({"pbin": np.arange(n), "band": "x", "payments": 1, "frauds": y, "mean_p": p,
+                      "mean_amount": amt, "mean_fraud_amount": np.where(y == 1, amt, np.nan)})
+    r = demo.solve(c, capacity=0.05, decline_min_p=decline_min_p)
+    costs = policy.Costs(capacity=0.05)
+    a = policy.choose(p, amt, np.zeros(n, int), costs, decline_min_p=decline_min_p)
+    assert r["cost_per_1000"] == pytest.approx(policy.realized(a, y, amt, costs)["cost_per_1000"])
