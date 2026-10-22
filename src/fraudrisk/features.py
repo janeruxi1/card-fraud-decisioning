@@ -14,7 +14,7 @@ FEATURES = ["hour", "amount_cents", "cust_prior_tx", "cust_tx_1h", "cust_tx_24h"
 
 def build(con) -> None:
     """Create the ``features`` table from ``tx`` (``base`` is created if missing)."""
-    if not con.sql("SELECT COUNT(*) FROM duckdb_views() WHERE view_name = 'base'").fetchone()[0]:
+    if not con.sql("SELECT COUNT(*) FROM duckdb_views() WHERE view_name = 'base'").fetchall()[0][0]:
         audit.create_base(con)
     con.execute(audit.sql("10_features"))
 

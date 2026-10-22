@@ -193,7 +193,7 @@ show_verdict(
     [
         f"**Frozen, recall at capacity goes from {first['frozen']:.0%} in the first {WIDTH}-day window after training to "
         f"{last['frozen']:.0%} in the last.** Refitting before each window on only the labels a live system would have by "
-        f"then changes it by {gain:+.1%} on average" + (": no better. " if gain < 0.01 else ". ") + "Part of the frozen model's early lead is hindsight, since it "
+        f"then changes it by {100 * gain:+.1f} percentage points on average" + (": no better. " if gain < 0.01 else ". ") + "Part of the frozen model's early lead is hindsight, since it "
         "was trained on labels up to the day before the first window, which a live system would not yet have.",
         f"**{int((feature_psi > 0.25).sum())} of {len(feature_psi)} inputs drift strongly** (PSI > 0.25, train vs test); the "
         f"largest is `{feature_psi.index[0]}`" + (", which drifts by construction: the `_date` inputs are calendar dates"

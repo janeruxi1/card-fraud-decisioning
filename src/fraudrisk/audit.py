@@ -55,4 +55,4 @@ def same_rows_check(con, columns: list[str], table: str = "tx") -> bool:
         return True
     first = columns[0]
     cond = " OR ".join(f'(("{first}" IS NULL) <> ("{c}" IS NULL))' for c in columns[1:])
-    return con.sql(f"SELECT COUNT(*) FROM {table} WHERE {cond}").fetchone()[0] == 0
+    return con.sql(f"SELECT COUNT(*) FROM {table} WHERE {cond}").fetchall()[0][0] == 0

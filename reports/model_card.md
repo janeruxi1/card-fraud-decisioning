@@ -4,15 +4,15 @@
 |---|---|
 | **What it does** | Scores each payment's probability of fraud, then picks approve / review / decline by expected cost |
 | **Model** | LightGBM on 15 point-in-time features and the provider's raw fields (not its 339 `V` columns), parameters from an Optuna search inside the training months; isotonic calibration |
-| **Data** | IEEE-CIS release: 590,540 card-not-present payments over 182 days, 3.50% fraud; trained on days 0–119, tuned on 120–149, tested on 150–181 |
+| **Data** | IEEE-CIS release: 590,540 card-not-present payments over 182 days, 3.50% fraud; trained and tuned on days 0–119, chosen and calibrated on 120–149, tested on 150–181 |
 | **Status** | A scenario on public data, not a deployed system |
 
 ## Inputs
 
 Amount, product code, card and address codes, email domains, the provider's counts (`C`), time deltas
-(`D`, also as the dates they imply), match flags (`M`), device fields, the `V` columns, and features from
-the customer's earlier payments (velocity, amount against their history, email or device change). No
-input uses a fraud label: labels arrive weeks after a payment.
+(`D`, also as the dates they imply), match flags (`M`), device fields, and features from the customer's
+earlier payments (velocity, amount against their history, email or device change). The `V` columns were
+used only by candidate models. No input uses a fraud label: labels arrive weeks after a payment.
 
 ## Evaluation (test months, scored once)
 
@@ -22,7 +22,8 @@ input uses a fraud label: labels arrive weeks after a payment.
 - Top 1.5% of scores: 35% of fraud (95% interval 32–38%), 27% of fraud dollars, 82% precision.
 - PR-AUC 0.562 (logistic regression 0.249).
 - Fraud from customers new to fraud: 32% caught at capacity; from customers already labelled fraud: 50%.
-- Calibration: Brier 0.0213 (base rate alone 0.0336); predicted and observed fraud rates agree closely by decile.
+- Calibration: Brier 0.0213 (base rate alone 0.0336); predicted and observed fraud rates agree within 0.5 percentage points in the
+  nine lower deciles; in the top decile 27.9% is predicted and 25.5% observed.
 - Policy: $3,496 per 1,000 payments vs $4,566 for reviewing the top scores (see the decision memo).
 
 ## Known limitations

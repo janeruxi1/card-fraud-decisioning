@@ -42,14 +42,14 @@ def prepare(raw_dir: Path = RAW_DIR, out: Path = PARQUET, expected: dict | None 
     con.execute(f"CREATE VIEW t AS SELECT * FROM read_csv('{tx_csv.as_posix()}', header = true, sample_size = -1)")
     con.execute(f"CREATE VIEW i AS SELECT * FROM read_csv('{id_csv.as_posix()}', header = true, sample_size = -1)")
     info = {
-        "transaction_rows": con.sql("SELECT COUNT(*) FROM t").fetchone()[0],
+        "transaction_rows": con.sql("SELECT COUNT(*) FROM t").fetchall()[0][0],
         "transaction_columns": len(con.sql("DESCRIBE t").fetchall()),
-        "identity_rows": con.sql("SELECT COUNT(*) FROM i").fetchone()[0],
+        "identity_rows": con.sql("SELECT COUNT(*) FROM i").fetchall()[0][0],
         "identity_columns": len(con.sql("DESCRIBE i").fetchall()),
         "duplicate_transaction_ids": con.sql(
-            "SELECT COUNT(*) - COUNT(DISTINCT TransactionID) FROM t").fetchone()[0],
+            "SELECT COUNT(*) - COUNT(DISTINCT TransactionID) FROM t").fetchall()[0][0],
         "identity_without_transaction": con.sql(
-            "SELECT COUNT(*) FROM i ANTI JOIN t USING (TransactionID)").fetchone()[0],
+            "SELECT COUNT(*) FROM i ANTI JOIN t USING (TransactionID)").fetchall()[0][0],
     }
     if expected:
         bad = {k: (info[k], v) for k, v in expected.items() if info[k] != v}
@@ -62,9 +62,9 @@ def prepare(raw_dir: Path = RAW_DIR, out: Path = PARQUET, expected: dict | None 
     t0 = time.time()
     con.execute(f"""COPY (SELECT * FROM t LEFT JOIN i USING (TransactionID) ORDER BY TransactionDT, TransactionID)
                     TO '{out.as_posix()}' (FORMAT parquet, COMPRESSION zstd)""")
-    info["joined_rows"] = con.sql(f"SELECT COUNT(*) FROM read_parquet('{out.as_posix()}')").fetchone()[0]
+    info["joined_rows"] = con.sql(f"SELECT COUNT(*) FROM read_parquet('{out.as_posix()}')").fetchall()[0][0]
     info["joined_columns"] = len(con.sql(f"DESCRIBE SELECT * FROM read_parquet('{out.as_posix()}')").fetchall())
-    info["fraud_rate"] = con.sql(f"SELECT AVG(isFraud) FROM read_parquet('{out.as_posix()}')").fetchone()[0]
+    info["fraud_rate"] = con.sql(f"SELECT AVG(isFraud) FROM read_parquet('{out.as_posix()}')").fetchall()[0][0]
     info["seconds"] = round(time.time() - t0, 1)
     info["parquet_mb"] = round(out.stat().st_size / 1e6, 1)
     if info["joined_rows"] != info["transaction_rows"]:

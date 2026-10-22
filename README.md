@@ -2,9 +2,11 @@
 
 [![CI](https://github.com/janeruxi1/card-fraud-decisioning/actions/workflows/ci.yml/badge.svg)](https://github.com/janeruxi1/card-fraud-decisioning/actions)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![Live demo](https://img.shields.io/badge/Streamlit-Live%20demo-FF4B4B?logo=streamlit)](https://janeruxi1-card-fraud-decisioning.streamlit.app/)
 
-**[Decision memo](reports/decision_memo.md)** · **[Model card](reports/model_card.md)** · **[Notebooks](notebooks/)** ·
-Every number below is read from `reports/metrics/`, and CI checks the key ones in this README and the memo against those records.
+**[Decision memo](reports/decision_memo.md)** · **[Live demo](https://janeruxi1-card-fraud-decisioning.streamlit.app/)** ·
+**[Model card](reports/model_card.md)** · **[Notebooks](notebooks/)** · Every number below is read from
+`reports/metrics/`, and CI checks the key ones in this README and the memo against those records.
 
 An online merchant has to approve, decline or send to manual review every card payment, with a review
 team that can look at 1.5% of them. This project builds that decision on **590,540 real e-commerce
@@ -22,7 +24,7 @@ its costs and its review team are a scenario ([brief](reports/scenario_brief.md)
 | Question | Answer | Notebook |
 |---|---|---|
 | How is fraud labelled, and what would leak? | Labels follow the customer: after a payment labelled fraud, the customer's next payment is fraud **77%** of the time, against **0.96%** otherwise. Recognizing customers already labelled fraud finds **74%** of fraud in a random hold-out but **16%** in later months, so every result here is measured on later months. | [01](notebooks/01_audit.ipynb) |
-| Can the features see the future? | No: rebuilding them with everything after three cutoffs deleted changed **0** values. 40% of payments are a customer's first, with no history to use. | [02](notebooks/02_features.ipynb) |
+| Can the features see the future? | No: rebuilding them with everything after three cutoffs deleted changed **0** values. 40% of training payments are a customer's first, with no history to use. | [02](notebooks/02_features.ipynb) |
 | How well can fraud be ranked on unseen months? | The chosen model puts **35% of fraud** [95% interval 32–38%] and 27% of fraud dollars in the top 1.5% of scores, at 82% precision; logistic regression 19%. On fraud from customers new to fraud it finds **32%**. Calibrated: Brier 0.0213 vs 0.0336 for the base rate. | [03](notebooks/03_model.ipynb) |
 | Which model, and does tuning help? | 40 Optuna trials inside the training months raised PR-AUC there from 0.586 to 0.629. Four boosting models (default or tuned, with or without the provider's `V` columns) were compared by **the cost of their decisions on the validation months**; the tuned model without `V` won by **$45** per 1,000 payments. On the test months the default model with `V` was cheaper ($3,441 vs $3,496): a validation margin that small is noise. The tuned model also leans on returning fraudsters: it finds 50% of fraud from customers already labelled fraud and 32% from customers new to fraud. | [03](notebooks/03_model.ipynb) |
 | Do anomaly detectors that need no labels help? | No better than chance here (Isolation Forest PR-AUC **0.038** at a 0.035 fraud rate). Its most "unusual" payments come from heavy legitimate customers (median **702** earlier payments). With just 111 fraud labels, a supervised model already reaches PR-AUC 0.37. | [04](notebooks/04_anomaly.ipynb) |
@@ -99,6 +101,8 @@ the same labelling rule; this is what CI does, and synthetic runs never overwrit
 pip install -r app/requirements.txt
 streamlit run app/streamlit_app.py             # the demo: reads only reports/metrics
 ```
+
+The same demo runs online: [janeruxi1-card-fraud-decisioning.streamlit.app](https://janeruxi1-card-fraud-decisioning.streamlit.app/).
 
 ## Repository layout
 

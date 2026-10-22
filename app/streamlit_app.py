@@ -417,7 +417,7 @@ with tab_leak:
     st.markdown(
         "In this release, once a customer's payment is labelled fraud, their later payments usually are too. "
         f"After a fraud-labelled payment, the next one is fraud **{lp['previous transaction fraud']['fraud_rate']:.0%}** "
-        f"of the time, against **{lp['previous transaction not fraud']['fraud_rate']:.1%}** otherwise. A model can "
+        f"of the time, against **{lp['previous transaction not fraud']['fraud_rate']:.2%}** otherwise. A model can "
         "look excellent by recognizing customers it has already seen, which does not help with new fraud.")
     left, right = st.columns([3, 2], gap="large")
     with left:

@@ -233,7 +233,7 @@ show_verdict(
         f"${top_q['cost_per_1000']:,.0f}.",
         f"It stops {pol['fraud_dollars_stopped']:.0%} of fraud dollars (rules {rules['fraud_dollars_stopped']:.0%}), reviews "
         f"{pol['review_rate']:.2%} of payments and declines {pol['decline_rate']:.2%}; good customers declined "
-        f"{pol['good_decline_rate']:.2%} vs {rules['good_decline_rate']:.2%} under the rules. Guardrails: "
+        f"{pol['good_decline_rate']:.3%} vs {rules['good_decline_rate']:.3%} under the rules. Guardrails: "
         + ", ".join(f"{k.replace('_', ' ')} {'met' if v else 'NOT met'}" for k, v in guard.items()) + ".",
         f"**The good-customer guardrail has a price**: without it the policy would decline {free['good_decline_rate']:.2%} of "
         f"good customers and cost ${free['cost_per_1000']:,.0f} per 1,000 payments, "

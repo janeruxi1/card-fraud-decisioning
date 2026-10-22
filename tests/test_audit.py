@@ -30,7 +30,7 @@ def con():
 def test_uid_is_constant_within_a_customer(con):
     uids = con.sql("SELECT card1, COUNT(DISTINCT uid) AS n FROM base GROUP BY card1").df()
     assert (uids["n"] == 1).all()
-    assert con.sql("SELECT uid FROM base WHERE card1 = 2000 LIMIT 1").fetchone()[0].split("_")[1] == "na"
+    assert con.sql("SELECT uid FROM base WHERE card1 = 2000 LIMIT 1").fetchall()[0][0].split("_")[1] == "na"
 
 
 def test_splits_follow_days(con):

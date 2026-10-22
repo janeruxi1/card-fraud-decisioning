@@ -205,7 +205,7 @@ show_verdict(
          f"{pr['fraud rate']:.2%} for the rest (median {pt['median cust_prior_tx']:.0f} earlier payments by the customer, "
          f"rest {pr['median cust_prior_tx']:.0f})."),
         f"**Of {int(missed.sum())} test frauds outside the supervised queue**, "
-        f"{overlap[best_detector]:.0%} are in {best_detector}'s top {cap:.1%}. Giving it part of the queue "
+        f"{overlap[best_detector]:.1%} are in {best_detector}'s top {cap:.1%}. Giving it part of the queue "
         + ("does not raise recall: no share tested catches more fraud than the supervised queue alone "
            f"({s0['recall']:.0%})." if best_blend["share of capacity to anomalies"] == 0 else
            f"raises recall to {best_blend['recall']:.0%} at {best_blend['share of capacity to anomalies']:.0%} of capacity "

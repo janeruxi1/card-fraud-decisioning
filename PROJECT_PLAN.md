@@ -99,6 +99,9 @@ Recorded here rather than edited into the plan above, so the plan still shows wh
 - **Phase 3: the rules baseline.** The merchant's rules are not in the data; a stand-in was written
   before any model was fitted (`config.RULES`). It turned out close to chance, so results are also
   compared with approving everything and with the model's own top scores.
+- **Phase 3: no gap between training and validation months.** Features use only earlier payments and
+  no input uses a label, so a gap was not needed against feature leakage. Training does use every label
+  up to day 119 as if it were known at once; what late labels do is measured in phase 6 instead.
 - **Phase 6: retraining cadence** was tested as one refit per 15-day window on the labels a live system
   would have by then (median chargeback delay of 30 days, an assumption), not as a sweep of cadences.
 
