@@ -1,7 +1,7 @@
-numpy>=1.24
-pandas>=2.0
+numpy>=1.24,<3
+pandas>=2.0,<4
 pyarrow>=14
-duckdb>=1.0
+duckdb>=1.0,<3
 matplotlib>=3.7
 scipy>=1.10
 scikit-learn>=1.3
