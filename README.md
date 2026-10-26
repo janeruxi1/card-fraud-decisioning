@@ -5,7 +5,7 @@
 [![Live demo](https://img.shields.io/badge/Streamlit-Live%20demo-FF4B4B?logo=streamlit)](https://janeruxi1-card-fraud-decisioning.streamlit.app/)
 
 **[Decision memo](reports/decision_memo.md)** · **[Live demo](https://janeruxi1-card-fraud-decisioning.streamlit.app/)** ·
-**[Model card](reports/model_card.md)** · **[Notebooks](notebooks/)** · Every number below is read from
+**[Model card](reports/model_card.md)** · **[Serving design](reports/serving_design.md)** · **[Notebooks](notebooks/)** · Every number below is read from
 `reports/metrics/`, and CI checks the key ones in this README and the memo against those records.
 
 An online merchant has to approve, decline or send to manual review every card payment, with a review
@@ -110,6 +110,7 @@ The same demo runs online: [janeruxi1-card-fraud-decisioning.streamlit.app](http
 reports/decision_memo.md     the recommendation
 reports/model_card.md        what the model is, how it was checked, where it fails
 reports/metrics/*.json       every result, written by the notebooks (aggregates only)
+reports/serving_design.md    how the model and policy would run live at checkout (design, not built)
 notebooks/0N_*.py / .ipynb   one notebook per phase
 sql/                         DuckDB SQL: audit queries and point-in-time features
 src/fraudrisk/               data, synthetic table, audit, features, model, anomaly, policy, monitoring, demo

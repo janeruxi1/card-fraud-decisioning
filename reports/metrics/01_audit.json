@@ -6,7 +6,7 @@
     "fraud_rate": 0.03499000914417313,
     "days": 182,
     "identity_share": 0.2442391709283029,
-    "fraud_dollar_share": 0.0386742603072233
+    "fraud_dollar_share": 0.038674260307216844
   },
   "splits": {
     "train": {
@@ -171,64 +171,64 @@
       "decile": 1,
       "min_amount": 0.251,
       "max_amount": 25.95,
-      "fraud_rate": 0.056304399363294615,
-      "share_of_fraud_dollars": 0.017673217841444877
+      "fraud_rate": 0.05632133301723846,
+      "share_of_fraud_dollars": 0.017681632661637872
     },
     {
       "decile": 2,
       "min_amount": 25.95,
       "max_amount": 35.95,
-      "fraud_rate": 0.03332543096149287,
-      "share_of_fraud_dollars": 0.01968866585590822
+      "fraud_rate": 0.03334236461543672,
+      "share_of_fraud_dollars": 0.019703566086654595
     },
     {
       "decile": 3,
       "min_amount": 35.95,
       "max_amount": 49.0,
-      "fraud_rate": 0.031598198259220375,
-      "share_of_fraud_dollars": 0.02584419373158743
+      "fraud_rate": 0.03103938767907339,
+      "share_of_fraud_dollars": 0.025328311749119616
     },
     {
       "decile": 4,
       "min_amount": 49.0,
       "max_amount": 57.95,
-      "fraud_rate": 0.023182172249127917,
-      "share_of_fraud_dollars": 0.023116624615156543
+      "fraud_rate": 0.02360551359772412,
+      "share_of_fraud_dollars": 0.02349644268421465
     },
     {
       "decile": 5,
       "min_amount": 57.95,
       "max_amount": 68.758,
-      "fraud_rate": 0.024384461679141125,
-      "share_of_fraud_dollars": 0.028583688869484692
+      "fraud_rate": 0.02448606360280421,
+      "share_of_fraud_dollars": 0.02869643773195504
     },
     {
       "decile": 6,
       "min_amount": 68.78,
       "max_amount": 100.0,
-      "fraud_rate": 0.039218342533951976,
-      "share_of_fraud_dollars": 0.06343862803785798
+      "fraud_rate": 0.03713550309885867,
+      "share_of_fraud_dollars": 0.05945010054753541
     },
     {
       "decile": 7,
       "min_amount": 100.0,
       "max_amount": 117.0,
-      "fraud_rate": 0.01825447895146815,
-      "share_of_fraud_dollars": 0.036978484060316806
+      "fraud_rate": 0.02052358857994378,
+      "share_of_fraud_dollars": 0.04138434771974876
     },
     {
       "decile": 8,
       "min_amount": 117.0,
       "max_amount": 159.95,
-      "fraud_rate": 0.035001862701933825,
-      "share_of_fraud_dollars": 0.09028834511474099
+      "fraud_rate": 0.03484945981643919,
+      "share_of_fraud_dollars": 0.08997474308743278
     },
     {
       "decile": 9,
       "min_amount": 159.95,
       "max_amount": 275.293,
-      "fraud_rate": 0.0377451146408372,
-      "share_of_fraud_dollars": 0.15056428098007532
+      "fraud_rate": 0.037711247332949505,
+      "share_of_fraud_dollars": 0.15046054683827417
     },
     {
       "decile": 10,

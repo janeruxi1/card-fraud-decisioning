@@ -135,8 +135,18 @@ st.caption(f"Test months, against a rules stand-in. Turning scores into decision
            f"reviewing the highest scores, saves {money(m5['saving_vs_model_top_per_1000'])} per 1,000 payments "
            f"(95% interval {money(lo)} – {money(hi)}).")
 
+with st.expander("How to use this demo", icon="🧭"):
+    st.markdown(
+        "1. **Decide one payment**: set a fraud probability and an order amount and see whether to approve, review "
+        "or decline, and why.\n"
+        "2. **Policy calculator**: the same rule applied to every test payment; change the business assumptions in "
+        "the sidebar (or pick a scenario) and watch cost, fraud stopped and good customers declined move.\n"
+        "3. **The model**: how well each model ranks fraud, whether its probabilities can be trusted, and why.\n"
+        "4. **Monitoring**: how fast the model decays after launch, and what to watch while fraud labels arrive late.\n"
+        "5. **Why a random split misleads**: the labelling trap in this data, and how the project avoids it.")
+
 tab_one, tab_policy, tab_model, tab_monitor, tab_leak = st.tabs(
-    ["Decide one payment", "Policy calculator", "The model", "Monitoring", "Why a random split misleads"])
+    ["⚖️ Decide one payment", "🧮 Policy calculator", "🤖 The model", "📉 Monitoring", "⚠️ Why a random split misleads"])
 
 # ------------------------------------------------------------------------------------- one payment
 with tab_one:
@@ -295,9 +305,9 @@ with tab_model:
         table = pd.DataFrame({
             "PR-AUC": [t[k]["pr_auc"] for k in names_map],
             "ROC AUC": [t[k]["roc_auc"] for k in names_map],
-            "Fraud share of top 1.5%": [t[k]["precision_at_capacity"] for k in names_map],
+            "Fraud in top 1.5%": [t[k]["precision_at_capacity"] for k in names_map],
         }, index=list(names_map.values()))
-        st.dataframe(table.style.format({"PR-AUC": "{:.3f}", "ROC AUC": "{:.3f}", "Fraud share of top 1.5%": "{:.0%}"}),
+        st.dataframe(table.style.format({"PR-AUC": "{:.3f}", "ROC AUC": "{:.3f}", "Fraud in top 1.5%": "{:.0%}"}),
                      width="stretch")
         st.caption(f"Fraud is {t[PRIMARY]['base_rate']:.1%} of test payments, so a random ranking scores a PR-AUC "
                    f"of about {t[PRIMARY]['base_rate']:.3f}. Of the payments the model would send to review, "
@@ -374,7 +384,7 @@ with tab_monitor:
                                      name=f"{model_name} model", line=dict(color=color),
                                      hovertemplate="day %{x}: %{y:.0%}<extra></extra>"))
         styled(fig, 320, "Fraud caught in the top 1.5%, by window",
-               xaxis=dict(title="first day of window"), yaxis=dict(tickformat=".0%", rangemode="tozero"))
+               xaxis=dict(title="first day of window (days since the first payment)"), yaxis=dict(tickformat=".0%", rangemode="tozero"))
         st.plotly_chart(fig, width="stretch")
         st.caption("Recall falls over the two months after training. Refitting on the labels known at the time does "
                    "not help: the newest fraud is not labelled yet.")
@@ -398,7 +408,7 @@ with tab_monitor:
                                    line=dict(color=ORANGE), name="review-queue hit rate",
                                    hovertemplate="day %{x}: %{y:.0%}<extra></extra>"))
         styled(fig, 300, "Early warning: share of reviewed payments that are fraud",
-               xaxis=dict(title="first day of window"), yaxis=dict(tickformat=".0%", range=[0, 1]))
+               xaxis=dict(title="first day of window (days since the first payment)"), yaxis=dict(tickformat=".0%", range=[0, 1]))
         st.plotly_chart(fig, width="stretch")
     with right:
         st.markdown("#### What to watch")
