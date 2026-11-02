@@ -10,6 +10,14 @@
 # The check that matters is mechanical: delete everything after a cutoff, rebuild the features, and
 # confirm that no feature of an earlier transaction changed.
 
+
+# %% [markdown]
+# | | |
+# |---|---|
+# | **Question** | Which features can a fraud model use at the moment a payment arrives, without seeing the future? |
+# | **Answer** | Thirteen customer-history features built as SQL windows over strictly earlier payments (velocity, amount against the customer's own history, changes of email or device). Rebuilding them with all later data deleted changed none of 13 million values. The strongest single ones (payments in the last 7 days, hours since the previous payment) reach AUC 0.64 on their own. |
+# | **Next** | [Notebook 03](03_model.ipynb) trains and compares the models. |
+
 # %%
 import sys
 from pathlib import Path
@@ -117,6 +125,10 @@ ax.axvline(0.5, color="grey", lw=1)
 ax.set(title="Single-feature ROC AUC on the training months", xlabel="AUC (0.5 = no signal)")
 fig.tight_layout()
 data.savefig(fig, "02_feature_signal", SOURCE)
+
+
+# %% [markdown]
+# **How to read the figure.** Each bar is how well one feature alone separates fraud from good payments on the training months (ROC AUC; 0.5 is no signal, 1.0 perfect). No single feature is strong, which is normal for fraud: the model's job is to combine many weak signals.
 
 # %% [markdown]
 # ## 5. Save for phase 3 (real data only; never committed)

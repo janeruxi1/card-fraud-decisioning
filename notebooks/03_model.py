@@ -20,6 +20,14 @@
 # **recall at review capacity**: the share of fraud (and of fraud dollars) in the top 1.5% of scores,
 # the payments the team can actually look at.
 
+
+# %% [markdown]
+# | | |
+# |---|---|
+# | **Question** | Which model should rank payments for manual review, judged on months it never saw? |
+# | **Answer** | Tuned gradient boosting (LightGBM). Reviewing its top 1.5% of payments finds 35% of fraud and 27% of fraud dollars on the test months, against 2% and 14% for a rules stand-in. Its lead over a close runner-up did not hold on the test months, a reminder that small validation differences are noise. |
+# | **Next** | [Notebook 04](04_anomaly.ipynb) asks whether label-free anomaly detection adds anything. |
+
 # %%
 import sys
 from pathlib import Path
@@ -241,6 +249,10 @@ ax.plot([0, lim], [0, lim], color="grey", ls=":")
 ax.set(title="Calibration, test months", xlabel="predicted fraud %", ylabel="observed fraud %")
 fig.tight_layout()
 data.savefig(fig, "03_model", SOURCE)
+
+
+# %% [markdown]
+# **How to read the figure.** Precision–recall: moving right catches more fraud, moving down means more good payments flagged along the way; higher curves are better. The review panel shows how much fraud (and how many fraud dollars) each model catches if the team can review only the top 1.5% of payments, the real constraint. The calibration panel compares predicted with observed fraud rates; points near the diagonal mean the probabilities can be used in the cost calculation of notebook 05.
 
 # %% [markdown]
 # ## 9. Save scores for phases 4–6 (real data only; never committed) and the record

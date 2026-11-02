@@ -9,6 +9,14 @@
 # 2. Which inputs drift, and does the score's own distribution move (a signal available at once)?
 # 3. With chargebacks arriving weeks late, what can monitoring see in time, and what fills the gap?
 
+
+# %% [markdown]
+# | | |
+# |---|---|
+# | **Question** | After launch, how fast does the model decay, what drifts, and how do late chargeback labels affect monitoring? |
+# | **Answer** | Recall at review capacity falls from 40% to 29% over the later months, and refitting on the labels a live system would have does not help. The score's own distribution barely moves while recall falls, so a score-drift alarm alone would miss the decay. With chargebacks arriving weeks late, performance can only be measured with a lag, so dashboards need to say how complete their labels are. |
+# | **Next** | Back to the [README](../README.md) or the [decision memo](../reports/decision_memo.md). |
+
 # %%
 import sys
 from pathlib import Path
@@ -160,6 +168,10 @@ ax.set(title="Share of a window's fraud labels known", xlabel="first day of wind
 ax.legend(fontsize=8, frameon=False)
 fig.tight_layout()
 data.savefig(fig, "06_monitoring", SOURCE)
+
+
+# %% [markdown]
+# **How to read the figure.** Left: recall at review capacity in each 15-day window after training, for the frozen model and for one refitted before each window. Middle: the inputs that drifted most between training and test months (PSI; above 0.25 is strong drift). Right: for each window, the share of its fraud labels already known a given number of days later; this is how long performance monitoring has to wait before its numbers are complete.
 
 # %% [markdown]
 # ## Record and verdict

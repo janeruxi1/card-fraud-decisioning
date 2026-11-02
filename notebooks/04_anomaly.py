@@ -9,6 +9,14 @@
 # 3. When labels are scarce (a new merchant, a new product), at what point does the supervised model
 #    overtake them?
 
+
+# %% [markdown]
+# | | |
+# |---|---|
+# | **Question** | Can anomaly detection, which needs no fraud labels, catch fraud the supervised model misses? |
+# | **Answer** | No. Both label-free detectors do no better than chance here: the most unusual payments come from heavy legitimate customers, not fraudsters. Giving them part of the review queue does not raise recall, and a supervised model beats them with very few labels. |
+# | **Next** | [Notebook 05](05_policy.ipynb) turns scores into approve, review or decline. |
+
 # %%
 import sys
 from pathlib import Path
@@ -163,6 +171,10 @@ ax.set(title=f"Giving part of the review queue to {best_detector}", xlabel="% of
 ax.legend(fontsize=8, frameon=False)
 fig.tight_layout()
 data.savefig(fig, "04_anomaly", SOURCE)
+
+
+# %% [markdown]
+# **How to read the figure.** Left: test PR-AUC as the supervised model gets more fraud labels to learn from, against the label-free detectors, which use none; the supervised line passes them with very few labels. Right: the share of test fraud (and fraud dollars) caught if part of the review queue goes to the anomaly detector instead; moving right never helps, so the whole queue should stay with the supervised model.
 
 # %% [markdown]
 # ## Record and verdict

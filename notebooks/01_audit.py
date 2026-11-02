@@ -9,6 +9,14 @@
 #
 # All data work is SQL (`sql/`), run by DuckDB on the Parquet file. Outputs are aggregates only.
 
+
+# %% [markdown]
+# | | |
+# |---|---|
+# | **Question** | Before any model: what does the card-payment data contain, and how could a model cheat? |
+# | **Answer** | 590,540 payments over 182 days, 3.5% fraud. The key finding is about the label: once a customer is defrauded, their later payments are labelled fraud too (77% vs 1.0%), so a random train/test split would let a model score well just by recognizing customers. Every later notebook therefore validates on later months. |
+# | **Next** | [Notebook 02](02_features.ipynb) builds features that only use the past. |
+
 # %%
 import sys
 from pathlib import Path
@@ -144,6 +152,10 @@ ax.bar(amount["decile"], 100 * amount["share_of_fraud_dollars"], color="#2c3e50"
 ax.set(title="Share of fraud dollars by amount decile", xlabel="amount decile (1 = smallest)", ylabel="%")
 fig.tight_layout()
 data.savefig(fig, "01_audit", SOURCE)
+
+
+# %% [markdown]
+# **How to read the figure.** Left: the weekly fraud rate moves between about 2% and 5%, so a model must cope with a changing base rate. Middle: fraud rate split by the customer's previous payment (their first payment, previous not fraud, previous fraud); fraud repeats within a customer, which is the leak a random split would exploit. Right: the share of fraud dollars in each tenth of payment amounts; large payments carry a big share of the losses, which matters for the cost-based decision in notebook 05.
 
 # %% [markdown]
 # ## Record and verdict

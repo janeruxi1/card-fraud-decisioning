@@ -20,6 +20,14 @@
 # keeps good-customer declines within the rules' rate there. The unconstrained policy is reported
 # alongside, so the guardrail's price is visible.
 
+
+# %% [markdown]
+# | | |
+# |---|---|
+# | **Question** | Given a fraud score, should each payment be approved, reviewed or declined, and is the decision layer worth anything on its own? |
+# | **Answer** | Choose the action with the lowest expected cost. On the test months this costs $3,496 per 1,000 payments against $5,795 for approving everything. Even with the same model and the same review capacity, sending reviews where they save the most dollars (rather than to the highest scores) is worth about $1,070 per 1,000 payments. |
+# | **Next** | [Notebook 06](06_monitoring.ipynb) looks at decay, drift and late labels after launch. |
+
 # %%
 import sys
 from pathlib import Path
@@ -192,6 +200,10 @@ ax.axvline(0, color="grey", lw=1)
 ax.set(title="Saving vs today's rules when an assumption changes", xlabel="$ per 1,000 payments")
 fig.tight_layout()
 data.savefig(fig, "05_policy", SOURCE)
+
+
+# %% [markdown]
+# **How to read the figure.** Left: the realized cost per 1,000 test payments of each policy, from approving everything to the expected-cost policy; lower is better. Right: a sensitivity check; the saving against today's rules when one assumption (chargeback fee, margin, how likely a declined customer is to leave, and so on) is halved or doubled. Every bar staying positive means the conclusion does not hinge on any single assumption.
 
 # %% [markdown]
 # ## Record and verdict
