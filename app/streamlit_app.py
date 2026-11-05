@@ -60,6 +60,7 @@ cells = pd.DataFrame(M["05_policy_cells"]["cells"])
 PRIMARY = m3["primary_model"]
 POL = m5["policies"]
 TAU = float(m5["decline_threshold"])
+m3b, m5b = M.get("03b_model_checks"), M.get("05b_policy_checks")   # checks added after the first results
 
 # ------------------------------------------------------------------------------------- sidebar
 PRESETS = {
@@ -224,6 +225,15 @@ with tab_one:
 # ------------------------------------------------------------------------------------- policy
 with tab_policy:
     st.subheader("The policy on the test months, under your assumptions")
+    if m5b:
+        cp = pd.DataFrame(m5b["capacity"])
+        now = cp.loc[(cp["capacity"] - BASE.capacity).abs().idxmin()]
+        nxt = cp[cp["capacity"] > BASE.capacity].head(1)
+        if len(nxt):
+            st.caption(f"Recorded on the test months at the brief's costs: around today's {BASE.capacity:.1%} capacity "
+                       f"({now['reviews_per_day']:.0f} reviews a day), one more review a day saves about "
+                       f"{money(float(nxt['net_value_per_extra_review'].iloc[0]))} after its "
+                       f"{money(BASE.review_cost)} cost. Try the capacity slider to see the curve.")
     st.caption(f"Re-solved on {len(cells)} cells (fraud-probability bin × amount band) covering "
                f"{M['05_policy_cells']['payments']:,} test payments, so figures are close to, not identical to, the "
                "transaction-level results in the decision memo. Change the assumptions in the sidebar.")
@@ -340,8 +350,44 @@ with tab_model:
         styled(fig, 320, "Top reason code on payments sent to review",
                xaxis=dict(tickformat=".0%", range=[0, 1.15 * rs.max()]))
         st.plotly_chart(fig, width="stretch")
-        st.caption("Each reviewed payment comes with its largest SHAP contributions. The release anonymizes most "
-                   "columns: C1, C14 and C13 are the provider's counts linked to the card, with their meaning masked.")
+        top3 = ", ".join(f"`{c}`" for c in list(m3["top_reason_share"])[:3])
+        st.caption(f"Each reviewed payment comes with its largest SHAP contributions; the most common are {top3}. "
+                   "The release masks what most columns mean (`C` are counts, `V` the provider's engineered "
+                   "features), so a reviewer learns which signal fired, not why.")
+
+    if m5b:
+        st.markdown("#### Where the model is weak")
+        sg = pd.DataFrame(m5b["segments"])
+        sg["label"] = sg["dimension"] + ": " + sg["group"]
+        sg = sg.iloc[::-1]
+        left, right = st.columns([3, 2], gap="large")
+        with left:
+            fig = go.Figure(go.Bar(x=sg["model_recall_top"], y=sg["label"], orientation="h", marker_color=BLUE,
+                                   customdata=np.c_[sg["share_of_fraud"], sg["frauds"]],
+                                   hovertemplate="%{y}: %{x:.0%} found<br>%{customdata[0]:.0%} of all fraud, "
+                                                 "%{customdata[1]:,} frauds<extra></extra>"))
+            styled(fig, 460, "Share of each group's fraud found in the top 1.5%", xaxis=dict(tickformat=".0%"))
+            st.plotly_chart(fig, width="stretch")
+        with right:
+            seg = {(r["dimension"], r["group"]): r for r in m5b["segments"]}
+            w, c = seg.get(("product", "W")), seg.get(("product", "C"))
+            miss, pres = seg.get(("device data", "missing")), seg.get(("device data", "present"))
+            big = seg.get(("amount", ">$1k"))
+            lines = []
+            if w and c:
+                lines.append(f"- **Product W** carries {w['share_of_fraud']:.0%} of the fraud, but the top 1.5% finds "
+                             f"only {w['model_recall_top']:.0%} of it (product C: {c['model_recall_top']:.0%}).")
+            if miss and pres:
+                lines.append(f"- **No device data**: {miss['model_recall_top']:.0%} found, against "
+                             f"{pres['model_recall_top']:.0%} when the device is known.")
+            if big:
+                sv = big["saving_vs_rules_per_1000"]
+                lines.append(f"- **Orders over \\$1,000**: the policy costs {money(-sv)} more per 1,000 such payments "
+                             f"than the rules (on {big['frauds']} frauds), so keep the large-order rule as a floor."
+                             if sv < 0 else
+                             f"- **Orders over \\$1,000**: the policy saves {money(sv)} per 1,000 such payments "
+                             f"against the rules, on {big['frauds']} frauds.")
+            st.markdown("\n".join(lines))
 
     with st.expander("How the primary model was chosen"):
         sel = pd.DataFrame(m3["selection"]).T
@@ -354,8 +400,13 @@ with tab_model:
                     f"with default or tuned settings. Tuning ran {tu['trials']} Optuna trials inside the training "
                     f"months only (PR-AUC {tu['default_pr_auc']:.3f} → {tu['best_pr_auc']:.3f} on the later training "
                     f"days). The model with the lowest **policy cost on the validation months** became primary: "
-                    f"**{PRIMARY}**. On the test months the ranking between the top two flipped, a difference "
-                    "within noise.")
+                    f"**{PRIMARY}**.")
+        if m3b:
+            pv, pt = m3b["paired_policy_cost"]["valid"], m3b["paired_policy_cost"]["test"]
+            st.markdown(f"Priced on the same payments, with customers resampled, its lead over **{m3b['runner_up']}** "
+                        f"is {money(pv['diff_per_1000'])} per 1,000 payments on the validation months (95% interval "
+                        f"{money(pv['ci'][0])} to {money(pv['ci'][1])}) and {money(pt['diff_per_1000'])} on the test months "
+                        f"({money(pt['ci'][0])} to {money(pt['ci'][1])}): the two cannot be told apart.")
 
     with st.expander("Can unsupervised anomaly detection find fraud without labels?"):
         a = m4["test"]
@@ -380,14 +431,23 @@ with tab_monitor:
         fig = go.Figure()
         for model_name, color in [("frozen", BLUE), ("refitted", ORANGE)]:
             s = d[d["model"] == model_name]
+            err = (dict(type="data", symmetric=False, array=s["recall_ci_high"] - s["recall_at_capacity"],
+                        arrayminus=s["recall_at_capacity"] - s["recall_ci_low"], color=color)
+                   if "recall_ci_low" in s else None)
             fig.add_trace(go.Scatter(x=s["first_day"], y=s["recall_at_capacity"], mode="lines+markers",
-                                     name=f"{model_name} model", line=dict(color=color),
+                                     name=f"{model_name} model", line=dict(color=color), error_y=err,
                                      hovertemplate="day %{x}: %{y:.0%}<extra></extra>"))
         styled(fig, 320, "Fraud caught in the top 1.5%, by window",
                xaxis=dict(title="first day of window (days since the first payment)"), yaxis=dict(tickformat=".0%", rangemode="tozero"))
         st.plotly_chart(fig, width="stretch")
-        st.caption("Recall falls over the two months after training. Refitting on the labels known at the time does "
-                   "not help: the newest fraud is not labelled yet.")
+        if "frozen_recall_change_ci" in m6:
+            lo, hi = m6["frozen_recall_change_ci"]
+            st.caption(f"Bars are 95% intervals. The last window is {-100 * m6['frozen_recall_change_first_to_last']:.0f} "
+                       f"points below the first ({-100 * hi:.0f} to {-100 * lo:.0f}), though not in a straight line. "
+                       "Refitting on the labels known at the time does not help: the newest fraud is not labelled yet.")
+        else:
+            st.caption("Recall falls over the two months after training. Refitting on the labels known at the time "
+                       "does not help: the newest fraud is not labelled yet.")
     with right:
         lag = pd.DataFrame(m6["label_lag"])
         lag = lag[lag["days after window"] != "final"]
@@ -419,6 +479,24 @@ with tab_monitor:
             "alone would have missed it.\n"
             f"- **Input drift** is real but mostly in date-like columns: {m6['features_psi_over_0_25']} features "
             "have PSI above 0.25.")
+
+    if m5b:
+        st.markdown("#### How long a shadow trial needs")
+        sz = m5b["shadow_trial"]["sizing"]
+        main, half = sz["policy vs rules: the measured saving"], sz["policy vs rules: half the measured saving"]
+        models = sz.get("leading model vs runner-up: the validation margin")
+        k1, k2, k3 = st.columns(3)
+        k1.metric("Traffic to detect the saving", f"{main['days_of_payments']:.0f} days", border=True,
+                  help="Days of payments for 80% power at 5% significance, with the policy and the rules deciding "
+                       f"the same payments. Half the saving: {half['days_of_payments']:.0f} days.")
+        k2.metric("Wait for 80% of chargebacks", f"{main['days_until_80pct_labels']} days", border=True,
+                  help=f"After a {main['trial_days']:.0f}-day trial, with a {m5b['shadow_trial']['label_delay_median_days']}"
+                       "-day median chargeback delay (a scenario assumption).")
+        if models:
+            k3.metric("Traffic to tell the two leading models apart", f"{models['days_of_payments']:,.0f} days",
+                      border=True, help="Their validation margin is far inside the noise.")
+        st.caption("Labels, not traffic, set the length of the trial; and no trial of sensible length can choose "
+                   "between the two leading models.")
 
 # ------------------------------------------------------------------------------------- leakage
 with tab_leak:

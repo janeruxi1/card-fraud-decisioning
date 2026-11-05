@@ -66,7 +66,7 @@ Deploy one versioned bundle, never its parts separately:
 
 - the LightGBM booster and the exact list and order of its features;
 - the isotonic calibration map, which was fitted on the validation months;
-- the decline guardrail (fraud probability ≥ 0.94) and the cost assumptions from `config.py`;
+- the decline guardrail (fraud probability ≥ 0.96) and the cost assumptions from `config.py`;
 - a hash of `sql/10_features.sql` and of the online feature code that passed the parity test.
 
 Every decision is logged with the bundle version, the features as served, the probability, the action,
@@ -92,7 +92,7 @@ held, not refused. That allows a close live equivalent:
 
 On a quiet day the threshold over-admits and the end-of-window rule absorbs it. On a busy day it
 under-admits, which costs some value. **The gap between this rule and the daily ranking has not been
-measured.** Before trusting the memo's $3,496 per 1,000 payments as the live figure, measure it by
+measured.** Before trusting the memo's $3,430 per 1,000 payments as the live figure, measure it by
 replaying the test months through the live rule.
 
 **Fallback.** If the feature store or the model cannot answer in time, use today's rules (the `RULES`
@@ -106,8 +106,8 @@ notebook 06.
 
 **Daily (no chargebacks needed):**
 - **Review-queue hit rate.** Reviewers' verdicts arrive the same day, so this is the leading indicator.
-  In notebook 06 it fell from 94% to 76% as recall decayed, while the score distribution barely moved
-  (PSI ≤ 0.012).
+  In notebook 06 it fell from 88% to 72% as recall decayed, while the score distribution moved little
+  (PSI ≤ 0.069).
 - **Reviews within capacity**, and the share of held orders that timed out to their default action.
 - **Score PSI and input PSI** against the validation months. Use PSI > 0.1 as "investigate" and leave
   out the `_date` inputs, which drift by construction. Treat a stable PSI as reassurance, not as proof
@@ -129,11 +129,13 @@ automatic retrain.
 
 This follows the memo's shadow-mode trial:
 
-1. **Shadow, four weeks.** Score every payment with both leading models and log what the policy would
+1. **Shadow, one to two weeks of traffic, read about ten weeks later.** Notebook 05 sizes it: 4 days
+   of traffic detect the saving against the rules, but 80% of a one-week trial's chargebacks arrive only
+   67 days after it ends. Score every payment with both leading models and log what the policy would
    have done, but act on the rules only. Check feature parity and the live-versus-daily review gap
    (section 4) on real traffic.
-2. **Switch** to the cheaper model's policy if its realized cost is below the rules' and good-customer
-   declines stay at or below today's level.
+2. **Switch** to the policy if its realized cost is below the rules' and good-customer declines stay within
+   the margin finance sets. The trial cannot separate the two leading models; choose on explainability.
 3. **Monthly:** recalibrate, re-check the guardrail, and re-run the parity test on any change to the
    features.
 
@@ -141,7 +143,7 @@ This follows the memo's shadow-mode trial:
 
 1. An `online_features.py` with the read-compute-write logic, plus the replay parity test against
    `sql/10_features.sql`. This is most of the value and most of the risk.
-2. A replay of the live review rule (section 4) on the test months, reported next to the $3,496 daily
+2. A replay of the live review rule (section 4) on the test months, reported next to the $3,430 daily
    figure.
 3. A thin FastAPI `/score` endpoint and a Dockerfile following the P5 pattern, run in CI on the
    synthetic table only.

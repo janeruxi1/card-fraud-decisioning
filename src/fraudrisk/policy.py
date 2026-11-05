@@ -116,3 +116,19 @@ def sensitivity(p, amount, day, y, c: Costs, baseline, factors=(0.5, 2.0), decli
                          "saving_per_1000": base["cost_per_1000"] - pol["cost_per_1000"],
                          "policy_decline_rate": pol["decline_rate"], "policy_review_rate": pol["review_rate"]})
     return pd.DataFrame(rows)
+
+
+def paired_bootstrap(cost_a: np.ndarray, cost_b: np.ndarray, groups, n_boot: int = 500, seed: int = 0) -> dict:
+    """Difference in cost per 1,000 payments, A minus B, on the same payments, with a 95% interval
+    from resampling customers (labels are shared within one). Positive: B is cheaper."""
+    diff = np.asarray(cost_a, float) - np.asarray(cost_b, float)
+    rng = np.random.default_rng(seed)
+    codes, uniq = pd.factorize(pd.Series(groups))
+    sums = np.bincount(codes, weights=diff, minlength=len(uniq))
+    counts = np.bincount(codes, minlength=len(uniq)).astype(float)
+    draws = np.empty(n_boot)
+    for i in range(n_boot):
+        w = np.bincount(rng.integers(0, len(uniq), len(uniq)), minlength=len(uniq))
+        draws[i] = 1000 * (w @ sums) / (w @ counts)
+    return {"diff_per_1000": float(1000 * diff.mean()), "ci": (float(np.percentile(draws, 2.5)), float(np.percentile(draws, 97.5))),
+            "se": float(draws.std(ddof=1)), "share_of_draws_above_zero": float((draws > 0).mean()), "payments": int(len(diff))}

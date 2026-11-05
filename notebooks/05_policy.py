@@ -25,7 +25,7 @@
 # | | |
 # |---|---|
 # | **Question** | Given a fraud score, should each payment be approved, reviewed or declined, and is the decision layer worth anything on its own? |
-# | **Answer** | Choose the action with the lowest expected cost. On the test months this costs $3,496 per 1,000 payments against $5,795 for approving everything. Even with the same model and the same review capacity, sending reviews where they save the most dollars (rather than to the highest scores) is worth about $1,070 per 1,000 payments. |
+# | **Answer** | Choose the action with the lowest expected cost. On the test months this costs $3,430 per 1,000 payments against $5,795 for approving everything. Even with the same model and the same review capacity, sending reviews where they save the most dollars (rather than to the highest scores) is worth about $1,150 per 1,000 payments. The model is weakest on product `W` and on payments without device data; a shadow trial needs only days of traffic but about ten weeks for chargebacks to arrive. |
 # | **Next** | [Notebook 06](06_monitoring.ipynb) looks at decay, drift and late labels after launch. |
 
 # %%
@@ -47,8 +47,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from fraudrisk import config, data, model, policy
-from fraudrisk.records import show_verdict, write_metrics
+from dataclasses import replace
+
+from fraudrisk import config, data, features, model, policy
+from fraudrisk.records import metrics_dir, read_metrics, show_verdict, write_metrics
 
 SOURCE = data.source()
 con = data.connect()
@@ -137,6 +139,74 @@ print(f"saving per 1,000 payments vs today's rules: {results.loc['Model: expecte
       f"(95% interval {saving_ci[0]:.0f} to {saving_ci[1]:.0f})")
 
 # %% [markdown]
+# ### 3b. Is the good-customer guardrail really broken?
+#
+# The guardrail compares two very small rates. Count the customers behind them, and resample customers
+# to see how far apart the two rates could plausibly be.
+
+# %%
+good = y == 0
+bad_pol = (a_pol == policy.DECLINE) & good
+bad_rules = (a_rules == policy.DECLINE) & good
+gcodes = pd.factorize(T["uid"])[0]
+g_pol = np.bincount(gcodes, weights=bad_pol.astype(float))
+g_rules = np.bincount(gcodes, weights=bad_rules.astype(float))
+g_good = np.bincount(gcodes, weights=good.astype(float))
+gd = []
+for _ in range(2000):
+    w = np.bincount(rng.integers(0, len(g_good), len(g_good)), minlength=len(g_good))
+    gd.append(10_000 * (w @ g_pol - w @ g_rules) / max(w @ g_good, 1))
+guard_test = {
+    "good_payments": int(good.sum()), "good_declined_policy": int(bad_pol.sum()), "good_declined_rules": int(bad_rules.sum()),
+    "extra_per_10000_good": float(10_000 * (bad_pol.sum() - bad_rules.sum()) / good.sum()),
+    "extra_per_10000_good_ci": [float(np.percentile(gd, 2.5)), float(np.percentile(gd, 97.5))],
+}
+guard_test
+
+# %% [markdown]
+# ### 3c. How long must the shadow trial run?
+#
+# In shadow mode the policy and the rules decide on the same payments, so the trial measures a paired
+# difference in cost. Its spread per payment comes from the bootstrap above (resampling customers), and
+# shrinks with the square root of the number of payments. Two clocks run: **payments** (enough to detect
+# a difference with 80% power at 5% significance) and **labels** (a payment's cost is only known once its
+# chargeback could have arrived; delays are exponential with a 30-day median, a scenario assumption).
+
+# %%
+per_day = len(T) / len(np.unique(day))
+pr = policy.paired_bootstrap(cost_rules, cost_pol, T["uid"])
+Z = 1.96 + 0.84
+
+
+def days_to_detect(effect, se_full):
+    return float(len(T) * (Z * se_full / abs(effect)) ** 2 / per_day) if effect else float("inf")
+
+
+def labels_known(trial_days, wait_days, median=config.LABEL_DELAY_MEDIAN_DAYS):
+    """Share of the trial's fraud labels in, ``wait_days`` after it ends (payments spread evenly)."""
+    lam = np.log(2) / median
+    return 1 - np.exp(-lam * wait_days) * (1 - np.exp(-lam * trial_days)) / (lam * trial_days)
+
+
+try:
+    m3b = read_metrics("03b_model_checks", metrics_dir(SOURCE))
+except FileNotFoundError:
+    m3b = None
+effects = {"policy vs rules: the measured saving": (pr["diff_per_1000"], pr["se"]),
+           "policy vs rules: half the measured saving": (pr["diff_per_1000"] / 2, pr["se"])}
+if m3b:
+    mt = m3b["paired_policy_cost"]
+    effects["leading model vs runner-up: the validation margin"] = (mt["valid"]["diff_per_1000"], mt["test"]["se"])
+sizing = {}
+for name, (eff, se) in effects.items():
+    d = days_to_detect(eff, se)
+    trial = max(7.0, np.ceil(d))
+    wait = next((w for w in range(0, 366) if labels_known(trial, w) >= 0.8), None)
+    sizing[name] = {"effect_per_1000": float(eff), "days_of_payments": d, "trial_days": float(trial),
+                    "days_until_80pct_labels": wait, "total_days": None if wait is None else float(trial + wait)}
+pd.DataFrame(sizing).T.round(1)
+
+# %% [markdown]
 # ## 4. Sensitivity to every assumption
 #
 # Each assumption halved and doubled; the policy is re-solved under the new value and compared with
@@ -153,6 +223,62 @@ sens.round(3)
 bands = pd.cut(amt, [0, 50, 100, 250, 500, 1000, np.inf], labels=["<$50", "$50-100", "$100-250", "$250-500", "$500-1k", ">$1k"])
 mix = pd.crosstab(bands, pd.Series(a_pol).map(policy.ACTIONS), normalize="index")
 mix.round(4)
+
+# %% [markdown]
+# ## 5b. Where the model misses fraud
+#
+# The test months split by what the model can see: a customer's first payment (no history), product
+# code, whether device data came with the payment, and order size. For each group: its share of fraud,
+# the recall of the model's top 1.5% (ranked over all payments, as the team would), and what the
+# policy saves there against the rules.
+
+# %%
+features.build(con)
+seg = (con.sql("SELECT f.TransactionID, f.cust_prior_tx, t.ProductCD, t.DeviceInfo IS NOT NULL AS has_device "
+               "FROM features f JOIN tx t USING (TransactionID)").df()
+       .set_index("TransactionID").loc[T["TransactionID"]].reset_index())
+segments = {
+    "history": np.where(seg["cust_prior_tx"].fillna(0).to_numpy() == 0, "first payment", "has earlier payments"),
+    "product": seg["ProductCD"].astype(str).to_numpy(),
+    "device data": np.where(seg["has_device"].fillna(False).to_numpy(), "present", "missing"),
+    "amount": np.asarray(bands.astype(str)),
+}
+flag_top = actions["Model: review the top 1.5%"] == policy.REVIEW
+seg_rows = []
+for dim, lab in segments.items():
+    for v in pd.unique(lab):
+        m = lab == v
+        if (y[m] == 1).sum() < 20:
+            continue
+        rp, rr = policy.realized(a_pol[m], y[m], amt[m], C), policy.realized(a_rules[m], y[m], amt[m], C)
+        seg_rows.append({"dimension": dim, "group": str(v), "payments": int(m.sum()), "frauds": int(y[m].sum()),
+                         "fraud_rate": float(y[m].mean()), "share_of_fraud": float(y[m].sum() / y.sum()),
+                         "model_recall_top": float(flag_top[m & (y == 1)].mean()),
+                         "policy_fraud_dollars_stopped": rp["fraud_dollars_stopped"],
+                         "saving_vs_rules_per_1000": rr["cost_per_1000"] - rp["cost_per_1000"]})
+seg_tab = pd.DataFrame(seg_rows)
+seg_tab.round(3)
+
+# %% [markdown]
+# ## 5c. What is more review capacity worth?
+#
+# The policy re-solved at other capacities, with everything else fixed. The slope is the net value of
+# one more review a day, after its $6 cost: the number to set against an analyst's cost.
+
+# %%
+CAPS = [0.0025, 0.005, 0.01, 0.015, 0.02, 0.03, 0.04, 0.05]
+cap_rows = []
+for cap in CAPS:
+    ck = replace(C, capacity=cap)
+    r_ = policy.realized(policy.choose(p, amt, day, ck, TAU), y, amt, ck)
+    cap_rows.append({"capacity": cap, "reviews_per_day": cap * per_day, "cost_per_1000": r_["cost_per_1000"],
+                     "fraud_dollars_stopped": r_["fraud_dollars_stopped"]})
+cap_tab = pd.DataFrame(cap_rows)
+total = cap_tab["cost_per_1000"] * len(T) / 1000
+cap_tab["net_value_per_extra_review"] = (-total.diff() / (cap_tab["capacity"].diff() * len(T))).round(2)
+cap_now = cap_tab.set_index("capacity")
+value_next = float(cap_now.loc[0.02, "net_value_per_extra_review"])
+cap_tab.round(3)
 
 # %% [markdown]
 # ## 6. Aggregates for the demo
@@ -206,6 +332,9 @@ data.savefig(fig, "05_policy", SOURCE)
 # **How to read the figure.** Left: the realized cost per 1,000 test payments of each policy, from approving everything to the expected-cost policy; lower is better. Right: a sensitivity check; the saving against today's rules when one assumption (chargeback fee, margin, how likely a declined customer is to leave, and so on) is halved or doubled. Every bar staying positive means the conclusion does not hinge on any single assumption.
 
 # %% [markdown]
+# **How to read the checks figure** (`05b_policy_checks`). Left: in each group, how much of its fraud the model's top 1.5% finds; bars well short of the dotted line are where the model is weakest. Middle: the policy's cost if the team could review more or fewer payments a day; where the curve flattens, extra reviewers stop paying for themselves. Right: how long after a shadow trial ends its chargebacks are mostly in, which is when its cost can be read.
+
+# %% [markdown]
 # ## Record and verdict
 
 # %%
@@ -218,6 +347,37 @@ record = {
     "action_mix_by_amount": {str(k): {kk: float(vv) for kk, vv in row.items()} for k, row in mix.iterrows()},
 }
 write_metrics("05_policy", record, SOURCE)
+write_metrics("05b_policy_checks", {
+    "added": "2026-11-05, after the results above; see PROJECT_PLAN.md",
+    "guardrail_test": guard_test,
+    "shadow_trial": {"payments_per_day": per_day, "policy_vs_rules": {**pr, "ci": list(pr["ci"])},
+                     "label_delay_median_days": config.LABEL_DELAY_MEDIAN_DAYS, "power": 0.8, "alpha": 0.05,
+                     "sizing": sizing},
+    "segments": seg_tab.to_dict(orient="records"),
+    "capacity": cap_tab.to_dict(orient="records"),
+}, SOURCE)
+
+fig, axes = plt.subplots(1, 3, figsize=(16, 4.5))
+ax = axes[0]
+st_ = seg_tab.assign(label=seg_tab["dimension"] + ": " + seg_tab["group"]).iloc[::-1]
+ax.barh(st_["label"], 100 * st_["model_recall_top"], color="#2c3e50")
+ax.axvline(100 * flag_top[y == 1].mean(), color="#c0392b", ls=":", label="all payments")
+ax.set(title="Fraud found in the top 1.5%, by group", xlabel="% of the group's fraud")
+ax.legend(fontsize=8, frameon=False)
+ax = axes[1]
+ax.plot(cap_tab["reviews_per_day"], cap_tab["cost_per_1000"], marker="o", color="#2c3e50")
+ax.axvline(C.capacity * per_day, color="#c0392b", ls=":", label="today's team")
+ax.set(title="Cost against review capacity", xlabel="reviews per day", ylabel="$ per 1,000 payments")
+ax.legend(fontsize=8, frameon=False)
+ax = axes[2]
+tt = np.arange(0, 181)
+for trial in sorted({v["trial_days"] for v in sizing.values() if np.isfinite(v["trial_days"]) and v["trial_days"] <= 120}):
+    ax.plot(tt, 100 * labels_known(trial, tt), label=f"{trial:.0f}-day trial")
+ax.axhline(80, color="grey", ls=":")
+ax.set(title="Share of the trial's fraud labels in", xlabel="days after the trial ends", ylabel="%")
+ax.legend(fontsize=8, frameon=False)
+fig.tight_layout()
+data.savefig(fig, "05b_policy_checks", SOURCE)
 
 # %%
 always_positive = bool((sens["saving_per_1000"] > 0).all())
@@ -251,6 +411,25 @@ show_verdict(
         f"good customers and cost ${free['cost_per_1000']:,.0f} per 1,000 payments, "
         f"${pol['cost_per_1000'] - free['cost_per_1000']:,.0f} less, by these costs. Whether that is worth it depends on how "
         "much a wrongly declined customer is really worth, which the brief prices only roughly.",
+        (f"**The guardrail is met, by {guard_test['good_declined_rules'] - guard_test['good_declined_policy']} customer(s)**: "
+         if guard_test['good_declined_policy'] <= guard_test['good_declined_rules'] else
+         f"**The guardrail is missed by {guard_test['good_declined_policy'] - guard_test['good_declined_rules']} customer(s)**: ")
+        + f"{guard_test['good_declined_policy']} good payments declined against {guard_test['good_declined_rules']} under the rules, "
+        f"out of {guard_test['good_payments']:,}; the difference is {guard_test['extra_per_10000_good']:+.1f} per 10,000 good "
+        f"payments (95% interval {guard_test['extra_per_10000_good_ci'][0]:+.1f} to {guard_test['extra_per_10000_good_ci'][1]:+.1f}). "
+        "A strict 'no more than the rules' test cannot be decided at this volume; finance should set a margin.",
+        f"**Shadow trial**: detecting the measured saving against the rules takes "
+        f"{sizing['policy vs rules: the measured saving']['days_of_payments']:.1f} days of payments (half of it: "
+        f"{sizing['policy vs rules: half the measured saving']['days_of_payments']:.0f} days), but its cost is only known once "
+        f"chargebacks arrive: 80% of a {sizing['policy vs rules: half the measured saving']['trial_days']:.0f}-day trial's labels are in "
+        f"{sizing['policy vs rules: half the measured saving']['days_until_80pct_labels']} days after it ends. Labels, not traffic, set the length."
+        + (f" Telling the two leading models apart would take {sizing['leading model vs runner-up: the validation margin']['days_of_payments']:,.0f} "
+           "days of payments" + (", so the trial cannot settle that choice." if
+                                 sizing['leading model vs runner-up: the validation margin']['days_of_payments'] > 90 else ".") if "leading model vs runner-up: the validation margin" in sizing else ""),
+        "**Where it is weakest**: " + ", ".join(
+            f"{r.dimension} {r.group} {r.model_recall_top:.0%}" for r in seg_tab.nsmallest(3, "model_recall_top").itertuples())
+        + f" of fraud found in the top 1.5% (all payments {flag_top[y == 1].mean():.0%}). One more review a day beyond today's team "
+        f"is worth ${value_next:,.2f} net.",
         ("**The saving survives every assumption halved or doubled**; the smallest is "
          if always_positive else "**The saving changes sign when an assumption moves**: the worst case is ")
         + f"${worst['saving_per_1000']:,.0f} per 1,000 payments with {worst['assumption'].replace('_', ' ')} ×{worst['factor']}.",

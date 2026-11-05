@@ -76,3 +76,18 @@ def test_tuning_stays_inside_the_training_months(synthetic):
         model.fit_lightgbm = real_fit
     assert len(seen) == 2 and out["default_value"] > 0
     assert len(out["trials"]) == 2
+
+
+def test_recall_draws_bracket_the_point_value():
+    rng = np.random.default_rng(0)
+    y = rng.random(5000) < 0.05
+    score = y + rng.normal(0, 0.8, 5000)
+    point = model.at_capacity(score, y.astype(int), np.ones(5000), capacity=0.05)["recall"]
+    d = monitoring.recall_draws(score, y, np.arange(5000) // 2, capacity=0.05, n_boot=200)
+    assert np.percentile(d, 2.5) < point < np.percentile(d, 97.5)
+
+
+def test_feature_labels_say_when_a_field_is_masked():
+    assert model.feature_label("C1") == "C1 (masked count)"
+    assert "masked" in model.feature_label("D4_date")
+    assert model.feature_label("cust_tx_1h") == "customer's payments, past hour"

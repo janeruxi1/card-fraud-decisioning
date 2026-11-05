@@ -14,7 +14,7 @@
 # | | |
 # |---|---|
 # | **Question** | After launch, how fast does the model decay, what drifts, and how do late chargeback labels affect monitoring? |
-# | **Answer** | Recall at review capacity falls from 40% to 29% over the later months, and refitting on the labels a live system would have does not help. The score's own distribution barely moves while recall falls, so a score-drift alarm alone would miss the decay. With chargebacks arriving weeks late, performance can only be measured with a lag, so dashboards need to say how complete their labels are. |
+# | **Answer** | Recall at review capacity ends two months after training 9 points below where it started (37% to 28%, 95% interval -13 to -5), though not in a straight line, and refitting on the labels a live system would have does not help. The score's own distribution barely moves while recall falls, so a score-drift alarm alone would miss the decay. With chargebacks arriving weeks late, performance can only be measured with a lag, so dashboards need to say how complete their labels are. |
 # | **Next** | Back to the [README](../README.md) or the [decision memo](../reports/decision_memo.md). |
 
 # %%
@@ -54,6 +54,8 @@ F = features.frame(con)
 raw = con.sql(f"SELECT {', '.join(model.raw_columns(with_v=False))} FROM tx").df()
 D = model.design(F, raw, with_v=False)
 del raw
+groups = (con.sql("SELECT TransactionID, COALESCE(uid, 'tx_' || CAST(TransactionID AS VARCHAR)) AS uid FROM base").df()
+          .set_index("TransactionID").loc[D.transaction_id, "uid"].to_numpy())
 y, amount, day, split = D.y, D.amount, D.day, D.split
 win = monitoring.windows(day, data.TRAIN_END, WIDTH)
 print(SOURCE, D.X.shape, f"{win.max() + 1} windows of {WIDTH} days after day {data.TRAIN_END}")
@@ -61,9 +63,14 @@ print(SOURCE, D.X.shape, f"{win.max() + 1} windows of {WIDTH} days after day {da
 # %% [markdown]
 # ## 1. Decay, and refitting
 #
-# **Frozen**: fitted once on days 0–119 (validation months only for early stopping). **Refitted**:
-# before each window, refitted on every transaction whose label would have arrived by then, i.e.
-# older than the median chargeback delay, so the refit does not use labels it could not have had.
+# **Frozen**: fitted once on days 0–104, with days 105–119 for early stopping, so **no window below
+# was used to fit or stop it**. (An earlier version stopped on days 120–149, which are the first two
+# windows here; that flattered them.) **Refitted**: before each window, refitted on every transaction
+# whose label would have arrived by then, i.e. older than the median chargeback delay, so the refit
+# does not use labels it could not have had.
+#
+# Each window's recall carries a 95% interval from resampling customers, because a window holds only
+# 1,300–1,800 frauds and the top 1.5% of a window is a few hundred payments.
 
 # %%
 def fit_on(mask_train, mask_stop):
@@ -72,7 +79,8 @@ def fit_on(mask_train, mask_stop):
     return model.fit_lightgbm(d, GBM_PARAMS, GBM_ROUNDS)
 
 
-frozen = fit_on(split == "train", split == "valid")
+STOP_START = data.TRAIN_END - WIDTH                 # days 105-119: early stopping, inside the training months
+frozen = fit_on((split == "train") & (day < STOP_START), (split == "train") & (day >= STOP_START))
 s_frozen = frozen.predict(D.X, num_iteration=frozen.best_iteration)
 delay = config.LABEL_DELAY_MEDIAN_DAYS
 rows = []
@@ -89,7 +97,20 @@ for w in range(win.max() + 1):
         rows.append({"window": w, "first_day": start, "model": name, "payments": int(in_w.sum()),
                      "frauds": int(y[in_w].sum()), "pr_auc": e["pr_auc"], "recall_at_capacity": e["recall_at_capacity"]})
 decay = pd.DataFrame(rows)
-decay.pivot(index="first_day", columns="model", values=["pr_auc", "recall_at_capacity"]).round(3)
+draws = {}
+for w in range(win.max() + 1):
+    in_w = win == w
+    for name, s in (("frozen", s_frozen), ("refitted", s_refit)):
+        draws[(w, name)] = monitoring.recall_draws(s[in_w], y[in_w], groups[in_w], config.REVIEW_CAPACITY, seed=w)
+decay["recall_ci_low"] = [float(np.percentile(draws[(r.window, r.model)], 2.5)) for r in decay.itertuples()]
+decay["recall_ci_high"] = [float(np.percentile(draws[(r.window, r.model)], 97.5)) for r in decay.itertuples()]
+# windows hold different payments, so the draws are independent: the change is the difference of draws
+n_w = int(win.max())
+n_d = min(len(draws[(0, "frozen")]), len(draws[(n_w, "frozen")]))
+change = draws[(n_w, "frozen")][:n_d] - draws[(0, "frozen")][:n_d]
+change_ci = (float(np.percentile(change, 2.5)), float(np.percentile(change, 97.5)))
+print(f"frozen recall, last window minus first: 95% interval {100 * change_ci[0]:+.1f} to {100 * change_ci[1]:+.1f} points")
+decay.pivot(index="first_day", columns="model", values=["pr_auc", "recall_at_capacity", "recall_ci_low", "recall_ci_high"]).round(3)
 
 # %% [markdown]
 # ## 2. Drift
@@ -152,8 +173,10 @@ lags.pivot(index="window_first_day", columns="days after window", values="measur
 # %%
 fig, axes = plt.subplots(1, 3, figsize=(15, 4))
 ax = axes[0]
-for name, g in decay.groupby("model"):
-    ax.plot(g["first_day"], 100 * g["recall_at_capacity"], marker="o", label=name)
+for (name, g), dx in zip(decay.groupby("model"), (-0.6, 0.6)):
+    ax.errorbar(g["first_day"] + dx, 100 * g["recall_at_capacity"],
+                yerr=[100 * (g["recall_at_capacity"] - g["recall_ci_low"]), 100 * (g["recall_ci_high"] - g["recall_at_capacity"])],
+                marker="o", capsize=3, label=name)
 ax.set(title="Recall at review capacity, by window", xlabel="first day of window", ylabel="% of fraud")
 ax.legend(fontsize=8, frameon=False)
 ax = axes[1]
@@ -171,7 +194,7 @@ data.savefig(fig, "06_monitoring", SOURCE)
 
 
 # %% [markdown]
-# **How to read the figure.** Left: recall at review capacity in each 15-day window after training, for the frozen model and for one refitted before each window. Middle: the inputs that drifted most between training and test months (PSI; above 0.25 is strong drift). Right: for each window, the share of its fraud labels already known a given number of days later; this is how long performance monitoring has to wait before its numbers are complete.
+# **How to read the figure.** Left: recall at review capacity in each 15-day window after training, for the frozen model and for one refitted before each window; the bars are 95% intervals, so two windows whose bars overlap a lot are not clearly different. Middle: the inputs that drifted most between training and test months (PSI; above 0.25 is strong drift). Right: for each window, the share of its fraud labels already known a given number of days later; this is how long performance monitoring has to wait before its numbers are complete.
 
 # %% [markdown]
 # ## Record and verdict
@@ -180,6 +203,9 @@ data.savefig(fig, "06_monitoring", SOURCE)
 piv = decay.pivot(index="first_day", columns="model", values="recall_at_capacity")
 record = {
     "window_days": WIDTH, "label_delay_median_days": delay,
+    "frozen_fit_days": [0, STOP_START - 1], "frozen_early_stopping_days": [STOP_START, data.TRAIN_END - 1],
+    "frozen_recall_change_first_to_last": float(piv["frozen"].iloc[-1] - piv["frozen"].iloc[0]),
+    "frozen_recall_change_ci": list(change_ci),
     "decay": decay.to_dict(orient="records"),
     "feature_psi_top10": {k: float(v) for k, v in feature_psi.head(10).items()},
     "features_psi_over_0_25": int((feature_psi > 0.25).sum()),
@@ -204,7 +230,13 @@ show_verdict(
     "Verdict: phase 6, decay and monitoring",
     [
         f"**Frozen, recall at capacity goes from {first['frozen']:.0%} in the first {WIDTH}-day window after training to "
-        f"{last['frozen']:.0%} in the last.** Refitting before each window on only the labels a live system would have by "
+        f"{last['frozen']:.0%} in the last** (change {100 * (last['frozen'] - first['frozen']):+.0f} points, 95% interval "
+        f"{100 * change_ci[0]:+.0f} to {100 * change_ci[1]:+.0f}" + ("; a real decline, not noise" if change_ci[1] < 0 else
+                                                                   "; within noise, so decay is not established") + "). "
+        + (f"It is not a steady slide: window by window it ranges from {piv['frozen'].min():.0%} to {piv['frozen'].max():.0%}, "
+           "so four windows cannot separate decay from fraud arriving in waves. "
+           if not (np.diff(piv["frozen"].to_numpy()) <= 0).all() else "")
+        + f"No window was used to fit or stop the model. Refitting before each window on only the labels a live system would have by "
         f"then changes it by {100 * gain:+.1f} percentage points on average" + (": no better. " if gain < 0.01 else ". ") + "Part of the frozen model's early lead is hindsight, since it "
         "was trained on labels up to the day before the first window, which a live system would not yet have.",
         f"**{int((feature_psi > 0.25).sum())} of {len(feature_psi)} inputs drift strongly** (PSI > 0.25, train vs test); the "

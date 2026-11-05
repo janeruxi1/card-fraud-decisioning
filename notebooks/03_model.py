@@ -25,7 +25,7 @@
 # | | |
 # |---|---|
 # | **Question** | Which model should rank payments for manual review, judged on months it never saw? |
-# | **Answer** | Tuned gradient boosting (LightGBM). Reviewing its top 1.5% of payments finds 35% of fraud and 27% of fraud dollars on the test months, against 2% and 14% for a rules stand-in. Its lead over a close runner-up did not hold on the test months, a reminder that small validation differences are noise. |
+# | **Answer** | Tuned gradient boosting (LightGBM) with the provider's `V` columns. Reviewing its top 1.5% of payments finds 35% of fraud and 26% of fraud dollars on the test months, against 2% and 14% for a rules stand-in. Its lead over the runner-up ($12 per 1,000 payments) is well within noise, so the choice between the two is a tie. |
 # | **Next** | [Notebook 04](04_anomaly.ipynb) asks whether label-free anomaly detection adds anything. |
 
 # %%
@@ -171,6 +171,29 @@ ci = {k: model.bootstrap(scores[k][te], y[te], amount[te], groups[te]) for k in 
 test[["pr_auc", "roc_auc", "recall_at_capacity", "dollar_recall_at_capacity", "precision_at_capacity"]].round(3)
 
 # %% [markdown]
+# ## 4b. Is the chosen model's lead real?
+#
+# The primary model won on validation cost by a small margin. Price both leading models' policies on
+# the same payments and resample customers: if the interval for the difference spans zero, the
+# choice between them is a coin toss on these data, and should rest on something else.
+
+# %%
+runner_up = selection["valid_policy_cost_per_1000"].sort_values().index[1]
+
+
+def policy_costs(name, mask):
+    s = scores[name]
+    prob_ = model.calibrate(s[va], y[va])(s)
+    a = policy.choose(prob_[mask], amount[mask], day[mask], C, selection.loc[name, "decline_threshold"])
+    return policy.action_costs(y[mask].astype(float), amount[mask], C)[np.arange(mask.sum()), a]
+
+
+pair = {label: policy.paired_bootstrap(policy_costs(runner_up, mask), policy_costs(PRIMARY, mask), groups[mask], seed=i)
+        for i, (label, mask) in enumerate((("valid", va), ("test", te)))}
+print(f"{runner_up} minus {PRIMARY}, $ per 1,000 payments (positive: {PRIMARY} cheaper)")
+pd.DataFrame(pair).T[["diff_per_1000", "ci", "share_of_draws_above_zero"]]
+
+# %% [markdown]
 # ## 5. How much comes from customers already known as fraud?
 #
 # Phase 1 showed labels are shared within a customer. Split the test fraud by whether the customer
@@ -220,6 +243,44 @@ imp.head(15).round(4)
 
 # %%
 top_reasons.round(3)
+
+# %% [markdown]
+# ### What the explanations look like
+#
+# SHAP contributions on a sample of test payments: how far each input moves a payment's score, in
+# log-odds. Most inputs are masked by the provider (`C` columns are counts, `D` columns time deltas), so
+# the labels say so rather than guess. The middle panel is the average contribution of an input across
+# its range of values (deciles), an aggregate over many payments; no single payment is shown.
+
+# %%
+contrib, Xs = model.contributions(booster, D.X[te])
+share = (contrib.abs().mean() / contrib.abs().mean().sum()).sort_values(ascending=False)
+numeric_top = [c for c in share.index if str(Xs[c].dtype) != "category" and Xs[c].nunique() > 10][:3]
+profiles = {}
+for c in numeric_top:
+    q = pd.qcut(Xs[c].rank(method="first"), 10, labels=False)
+    profiles[c] = contrib[c].groupby(q).mean()
+fig, axes = plt.subplots(1, 3, figsize=(16, 4.5))
+ax = axes[0]
+top12 = share.head(12)[::-1]
+ax.barh([model.feature_label(c) for c in top12.index], 100 * top12.to_numpy(), color="#2c3e50")
+ax.set(title="What drives the score (share of mean |SHAP|)", xlabel="% of total")
+ax = axes[1]
+for c, prof in profiles.items():
+    ax.plot(np.arange(1, 11), prof.to_numpy(), marker="o", label=model.feature_label(c))
+ax.axhline(0, color="grey", lw=1)
+ax.set(title="Average push on the score, by input decile", xlabel="decile of the input (1 = lowest)",
+       ylabel="mean SHAP (log-odds)")
+ax.legend(fontsize=8, frameon=False)
+ax = axes[2]
+tr_ = top_reasons[::-1]
+ax.barh([model.feature_label(c) for c in tr_.index], 100 * tr_.to_numpy(), color="#e67e22")
+ax.set(title=f"Top reason on the {config.REVIEW_CAPACITY:.1%} sent to review", xlabel="% of flagged payments")
+fig.tight_layout()
+data.savefig(fig, "03b_explain", SOURCE)
+
+# %% [markdown]
+# **How to read the figure.** Left: the inputs that move the score most, as a share of all movement. Middle: for the three strongest numeric inputs, whether low or high values push a payment towards fraud (above zero) or away from it (below). Right: the reason a reviewer would see first on the payments sent to review. Masked counts dominate, which is why the model card lists explainability as a limitation: a reviewer can be told *which* signal fired, not what it means.
 
 # %% [markdown]
 # ## 8. Figure
@@ -287,8 +348,19 @@ record = {
     "top_reason_share": {k: float(v) for k, v in top_reasons.items()},
 }
 write_metrics("03_model", record, SOURCE)
+write_metrics("03b_model_checks", {
+    "added": "2026-11-05, after the results above; see PROJECT_PLAN.md",
+    "primary_model": PRIMARY, "runner_up": runner_up,
+    "paired_policy_cost": {k: {**v, "ci": list(v["ci"])} for k, v in pair.items()},
+    "shap_share_top10": {k: float(v) for k, v in share.head(10).items()},
+    "shap_profiles": {c: [float(x) for x in prof] for c, prof in profiles.items()},
+}, SOURCE)
 
 # %%
+def usd(x):
+    return f"-${-x:,.0f}" if x < 0 else f"${x:,.0f}"
+
+
 t, r = test.loc[PRIMARY], test.loc["Rules"]
 sel = selection.sort_values("valid_policy_cost_per_1000")
 runner = sel.index[1]
@@ -321,6 +393,14 @@ show_verdict(
         f"**{share_known:.0%} of test fraud comes from customers already labelled fraud** in the training months. The model "
         f"flags {bg['customer already labelled fraud'] or 0:.0%} of that fraud and {bg['new to fraud'] or 0:.0%} of fraud from "
         "customers new to fraud; the second number is the one that measures recognizing fraud rather than fraudsters.",
+        f"**The lead over the runner-up is not established**: {runner_up} minus {PRIMARY} is "
+        f"{usd(pair['valid']['diff_per_1000'])} per 1,000 payments on the validation months (95% interval "
+        f"{usd(pair['valid']['ci'][0])} to {usd(pair['valid']['ci'][1])}) and {usd(pair['test']['diff_per_1000'])} on the "
+        f"test months ({usd(pair['test']['ci'][0])} to {usd(pair['test']['ci'][1])})."
+        if pair["valid"]["ci"][0] <= 0 <= pair["valid"]["ci"][1] else
+        f"**The lead over the runner-up holds on validation**: {usd(pair['valid']['diff_per_1000'])} per 1,000 payments "
+        f"(95% interval {usd(pair['valid']['ci'][0])} to {usd(pair['valid']['ci'][1])}); test months "
+        f"{usd(pair['test']['diff_per_1000'])} ({usd(pair['test']['ci'][0])} to {usd(pair['test']['ci'][1])}).",
         f"**Calibrated probabilities** (isotonic, fitted on validation): Brier {brier['calibrated']:.4f} against "
         f"{brier['base rate only']:.4f} for the base rate alone, so phase 5 can price decisions with them.",
         "**Most common top reason among flagged payments**: " + ", ".join(f"`{k}` ({v:.0%})" for k, v in top_reasons.head(3).items()) + ".",

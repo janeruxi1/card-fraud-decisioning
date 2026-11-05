@@ -105,3 +105,13 @@ Recorded here rather than edited into the plan above, so the plan still shows wh
 - **Phase 6: retraining cadence** was tested as one refit per 15-day window on the labels a live system
   would have by then (median chargeback delay of 30 days, an assumption), not as a sweep of cadences.
 
+- **2026-11-05: checks added after the results.** Recorded separately (`03b_model_checks.json`,
+  `05b_policy_checks.json`) so the original records stay as they were:
+  - Phase 3: a paired, customer-resampled interval for the cost difference between the two leading
+    models (the "within noise" claim was stated, not tested), and a SHAP figure with plain labels.
+  - Phase 5: the good-customer guardrail as counts with an interval; the shadow-trial length from
+    the paired cost spread and the label delay (the "four weeks" was asserted); errors by segment
+    (first payment, product, device data, amount); the value of more review capacity.
+  - Phase 6 changed in place: the frozen model stopped early on days 120–149, which are the first two
+    monitoring windows, so those windows were flattered. It now stops on days 105–119, and every
+    window's recall has a customer-resampled interval.

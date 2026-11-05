@@ -1,0 +1,278 @@
+{
+  "source": "real",
+  "added": "2026-11-05, after the results above; see PROJECT_PLAN.md",
+  "guardrail_test": {
+    "good_payments": 89214,
+    "good_declined_policy": 3,
+    "good_declined_rules": 8,
+    "extra_per_10000_good": -0.560450153563342,
+    "extra_per_10000_good_ci": [
+      -1.3442825144296773,
+      0.11338408486839925
+    ]
+  },
+  "shadow_trial": {
+    "payments_per_day": 2888.34375,
+    "policy_vs_rules": {
+      "diff_per_1000": 1869.4159070076926,
+      "ci": [
+        1444.7959871491016,
+        2373.7196621938683
+      ],
+      "se": 234.7573259379787,
+      "share_of_draws_above_zero": 1.0,
+      "payments": 92427
+    },
+    "label_delay_median_days": 30,
+    "power": 0.8,
+    "alpha": 0.05,
+    "sizing": {
+      "policy vs rules: the measured saving": {
+        "effect_per_1000": 1869.4159070076926,
+        "days_of_payments": 3.9563297450920616,
+        "trial_days": 7.0,
+        "days_until_80pct_labels": 67,
+        "total_days": 74.0
+      },
+      "policy vs rules: half the measured saving": {
+        "effect_per_1000": 934.7079535038463,
+        "days_of_payments": 15.825318980368246,
+        "trial_days": 16.0,
+        "days_until_80pct_labels": 62,
+        "total_days": 78.0
+      },
+      "leading model vs runner-up: the validation margin": {
+        "effect_per_1000": 11.77441623290376,
+        "days_of_payments": 10215.862272177379,
+        "trial_days": 10216.0,
+        "days_until_80pct_labels": 0,
+        "total_days": 10216.0
+      }
+    }
+  },
+  "segments": [
+    {
+      "dimension": "history",
+      "group": "has earlier payments",
+      "payments": 65064,
+      "frauds": 2317,
+      "fraud_rate": 0.03561109061846797,
+      "share_of_fraud": 0.7211328976034859,
+      "model_recall_top": 0.29607250755287007,
+      "policy_fraud_dollars_stopped": 0.3938282957481961,
+      "saving_vs_rules_per_1000": 1615.4683748616744
+    },
+    {
+      "dimension": "history",
+      "group": "first payment",
+      "payments": 27363,
+      "frauds": 896,
+      "fraud_rate": 0.03274494755691993,
+      "share_of_fraud": 0.2788671023965142,
+      "model_recall_top": 0.42410714285714285,
+      "policy_fraud_dollars_stopped": 0.49431155746707955,
+      "saving_vs_rules_per_1000": 2473.2547489310386
+    },
+    {
+      "dimension": "product",
+      "group": "W",
+      "payments": 72603,
+      "frauds": 1337,
+      "fraud_rate": 0.018415217002052255,
+      "share_of_fraud": 0.41612200435729846,
+      "model_recall_top": 0.09498878085265519,
+      "policy_fraud_dollars_stopped": 0.37527558382239135,
+      "saving_vs_rules_per_1000": 1175.2212049088885
+    },
+    {
+      "dimension": "product",
+      "group": "C",
+      "payments": 9757,
+      "frauds": 1320,
+      "fraud_rate": 0.13528748590755355,
+      "share_of_fraud": 0.41083099906629317,
+      "model_recall_top": 0.5106060606060606,
+      "policy_fraud_dollars_stopped": 0.3568070960904183,
+      "saving_vs_rules_per_1000": 2613.823500768679
+    },
+    {
+      "dimension": "product",
+      "group": "R",
+      "payments": 4358,
+      "frauds": 221,
+      "fraud_rate": 0.050711335474988524,
+      "share_of_fraud": 0.06878306878306878,
+      "model_recall_top": 0.665158371040724,
+      "policy_fraud_dollars_stopped": 0.7999668132415166,
+      "saving_vs_rules_per_1000": 10438.88825149151
+    },
+    {
+      "dimension": "product",
+      "group": "H",
+      "payments": 2647,
+      "frauds": 170,
+      "fraud_rate": 0.06422364941443143,
+      "share_of_fraud": 0.05291005291005291,
+      "model_recall_top": 0.38235294117647056,
+      "policy_fraud_dollars_stopped": 0.5753156208780855,
+      "saving_vs_rules_per_1000": 5467.547412164715
+    },
+    {
+      "dimension": "product",
+      "group": "S",
+      "payments": 3062,
+      "frauds": 165,
+      "fraud_rate": 0.05388634879163945,
+      "share_of_fraud": 0.051353874883286646,
+      "model_recall_top": 0.3212121212121212,
+      "policy_fraud_dollars_stopped": 0.21127200750078134,
+      "saving_vs_rules_per_1000": 650.4147615937295
+    },
+    {
+      "dimension": "device data",
+      "group": "missing",
+      "payments": 76764,
+      "frauds": 1764,
+      "fraud_rate": 0.0229795216507738,
+      "share_of_fraud": 0.5490196078431373,
+      "model_recall_top": 0.1899092970521542,
+      "policy_fraud_dollars_stopped": 0.37223043549850743,
+      "saving_vs_rules_per_1000": 1235.3232646292527
+    },
+    {
+      "dimension": "device data",
+      "group": "present",
+      "payments": 15663,
+      "frauds": 1449,
+      "fraud_rate": 0.09251101321585903,
+      "share_of_fraud": 0.45098039215686275,
+      "model_recall_top": 0.5044858523119393,
+      "policy_fraud_dollars_stopped": 0.5653215504216011,
+      "saving_vs_rules_per_1000": 4977.089251803613
+    },
+    {
+      "dimension": "amount",
+      "group": "$50-100",
+      "payments": 25485,
+      "frauds": 693,
+      "fraud_rate": 0.027192466156562685,
+      "share_of_fraud": 0.21568627450980393,
+      "model_recall_top": 0.2943722943722944,
+      "policy_fraud_dollars_stopped": 0.20442479460702567,
+      "saving_vs_rules_per_1000": 458.49995405140294
+    },
+    {
+      "dimension": "amount",
+      "group": "<$50",
+      "payments": 31148,
+      "frauds": 1323,
+      "fraud_rate": 0.04247463721587261,
+      "share_of_fraud": 0.4117647058823529,
+      "model_recall_top": 0.39531368102796677,
+      "policy_fraud_dollars_stopped": 0.09280817914649031,
+      "saving_vs_rules_per_1000": 166.75835687684616
+    },
+    {
+      "dimension": "amount",
+      "group": "$100-250",
+      "payments": 26062,
+      "frauds": 709,
+      "fraud_rate": 0.027204358836620368,
+      "share_of_fraud": 0.22066604419545596,
+      "model_recall_top": 0.2947813822284908,
+      "policy_fraud_dollars_stopped": 0.33539712564878466,
+      "saving_vs_rules_per_1000": 1369.113163763333
+    },
+    {
+      "dimension": "amount",
+      "group": "$250-500",
+      "payments": 5957,
+      "frauds": 292,
+      "fraud_rate": 0.04901796206144032,
+      "share_of_fraud": 0.09088079676314971,
+      "model_recall_top": 0.3698630136986301,
+      "policy_fraud_dollars_stopped": 0.5484389829901257,
+      "saving_vs_rules_per_1000": 9060.841397347658
+    },
+    {
+      "dimension": "amount",
+      "group": "$500-1k",
+      "payments": 2411,
+      "frauds": 151,
+      "fraud_rate": 0.06262961426793862,
+      "share_of_fraud": 0.046996576408341116,
+      "model_recall_top": 0.1390728476821192,
+      "policy_fraud_dollars_stopped": 0.6983936319866855,
+      "saving_vs_rules_per_1000": 32742.564160099544
+    },
+    {
+      "dimension": "amount",
+      "group": ">$1k",
+      "payments": 1364,
+      "frauds": 45,
+      "fraud_rate": 0.032991202346041054,
+      "share_of_fraud": 0.014005602240896359,
+      "model_recall_top": 0.022222222222222223,
+      "policy_fraud_dollars_stopped": 0.38650193769437446,
+      "saving_vs_rules_per_1000": -9306.552976539584
+    }
+  ],
+  "capacity": [
+    {
+      "capacity": 0.0025,
+      "reviews_per_day": 7.220859375,
+      "cost_per_1000": 4727.272615144924,
+      "fraud_dollars_stopped": 0.18776772834662891,
+      "net_value_per_extra_review": null
+    },
+    {
+      "capacity": 0.005,
+      "reviews_per_day": 14.44171875,
+      "cost_per_1000": 4246.195690296126,
+      "fraud_dollars_stopped": 0.2739310301606427,
+      "net_value_per_extra_review": 192.43
+    },
+    {
+      "capacity": 0.01,
+      "reviews_per_day": 28.8834375,
+      "cost_per_1000": 3754.451199606176,
+      "fraud_dollars_stopped": 0.36497502035746976,
+      "net_value_per_extra_review": 98.35
+    },
+    {
+      "capacity": 0.015,
+      "reviews_per_day": 43.32515625,
+      "cost_per_1000": 3429.890990457333,
+      "fraud_dollars_stopped": 0.42709869783600485,
+      "net_value_per_extra_review": 64.91
+    },
+    {
+      "capacity": 0.02,
+      "reviews_per_day": 57.766875,
+      "cost_per_1000": 3234.2941417118373,
+      "fraud_dollars_stopped": 0.46714496828787977,
+      "net_value_per_extra_review": 39.12
+    },
+    {
+      "capacity": 0.03,
+      "reviews_per_day": 86.6503125,
+      "cost_per_1000": 2934.1025566122453,
+      "fraud_dollars_stopped": 0.5310088223683586,
+      "net_value_per_extra_review": 30.02
+    },
+    {
+      "capacity": 0.04,
+      "reviews_per_day": 115.53375,
+      "cost_per_1000": 2675.3848161576166,
+      "fraud_dollars_stopped": 0.5877289027682882,
+      "net_value_per_extra_review": 25.87
+    },
+    {
+      "capacity": 0.05,
+      "reviews_per_day": 144.4171875,
+      "cost_per_1000": 2464.880077304251,
+      "fraud_dollars_stopped": 0.6360872762305988,
+      "net_value_per_extra_review": 21.05
+    }
+  ]
+}

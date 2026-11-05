@@ -39,3 +39,22 @@ def windows(day: np.ndarray, start: int, width: int) -> np.ndarray:
     if n_full >= 1 and (last - start + 1) % width < width / 2:
         w = np.where(w >= n_full, n_full - 1, w)
     return w
+
+
+def recall_draws(score, y, groups, capacity: float, n_boot: int = 300, seed: int = 0) -> np.ndarray:
+    """Bootstrap draws of recall at capacity, resampling customers (labels are shared within one).
+    Capacity is re-applied to each resample, as a team reviewing that share of payments would."""
+    score, y = np.asarray(score, float), np.asarray(y, int)
+    rng = np.random.default_rng(seed)
+    codes, uniq = pd.factorize(pd.Series(groups))
+    idx_by = pd.Series(np.arange(len(y))).groupby(codes).apply(np.array).to_numpy()
+    out = []
+    for _ in range(n_boot):
+        idx = np.concatenate(idx_by[rng.integers(0, len(uniq), len(uniq))])
+        yy = y[idx]
+        if yy.sum() == 0:
+            continue
+        k = max(1, int(round(capacity * len(idx))))
+        top = np.argsort(-score[idx], kind="stable")[:k]
+        out.append(yy[top].sum() / yy.sum())
+    return np.asarray(out)

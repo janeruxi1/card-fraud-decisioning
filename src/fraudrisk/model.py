@@ -177,6 +177,46 @@ def calibration_table(prob: np.ndarray, y: np.ndarray, bins: int = 10) -> pd.Dat
             .agg(predicted=("pred", "mean"), observed=("obs", "mean"), n=("obs", "size")).reset_index())
 
 
+# Plain-language names for the inputs a reviewer sees. The provider masks what most raw fields mean;
+# its own description is used where it gives one ("C" columns are counts, "D" columns time deltas).
+FEATURE_LABELS = {
+    "log_amount": "order amount (log)", "amount_cents": "cents part of the amount", "card6": "card type",
+    "card4": "card network", "P_emaildomain": "buyer e-mail domain", "R_emaildomain": "recipient e-mail domain",
+    "ProductCD": "product code", "DeviceInfo": "device", "DeviceType": "device type", "dist1": "distance (masked)",
+    "cust_prior_tx": "customer's earlier payments", "cust_tx_1h": "customer's payments, past hour",
+    "cust_tx_24h": "customer's payments, past day", "cust_tx_7d": "customer's payments, past week",
+    "cust_amt_24h": "customer's spend, past day", "hours_since_prev": "hours since customer's last payment",
+    "cust_mean_amt": "customer's average order", "amt_vs_cust_mean": "amount vs customer's average",
+    "amt_vs_cust_max": "amount vs customer's largest", "email_changed": "e-mail changed", "device_changed": "device changed",
+    "card_tx_24h": "card's payments, past day", "card_tx_1h": "card's payments, past hour", "hour": "hour of day",
+}
+
+
+def feature_label(name: str) -> str:
+    """Readable name for a model input, keeping the raw name for masked fields."""
+    if name in FEATURE_LABELS:
+        return FEATURE_LABELS[name]
+    if name.endswith("_freq"):
+        return f"how common {name[:-5]} is (masked)"
+    if name.endswith("_date"):
+        return f"{name[:-5]} as a date (masked time delta)"
+    if name[:1] == "C" and name[1:].isdigit():
+        return f"{name} (masked count)"
+    if name[:1] == "D" and name[1:].isdigit():
+        return f"{name} (masked days)"
+    if name[:1] == "M" and name[1:].isdigit():
+        return f"{name} (masked match flag)"
+    return name
+
+
+def contributions(booster, X: pd.DataFrame, sample: int = 20_000, seed: int = 0) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """SHAP contributions (log-odds, from LightGBM's tree path) for a sample of rows, with those rows."""
+    rng = np.random.default_rng(seed)
+    idx = np.sort(rng.choice(len(X), min(sample, len(X)), replace=False))
+    Xs = X.iloc[idx]
+    return pd.DataFrame(booster.predict(Xs, pred_contrib=True)[:, :-1], columns=X.columns, index=Xs.index), Xs
+
+
 def reason_codes(booster, X: pd.DataFrame, top: int = 3) -> pd.DataFrame:
     """Top contributions (SHAP values from LightGBM's tree path) per row: the 'why' a reviewer sees."""
     contrib = booster.predict(X, pred_contrib=True)[:, :-1]

@@ -57,3 +57,13 @@ def test_realized_counts():
     r = policy.realized(a, y, amt, C)
     assert r["good_decline_rate"] == 0.5 and r["review_rate"] == 0.25
     assert r["fraud_dollars_stopped"] == pytest.approx(1 - (115 + 0.1 * 115) / 230)
+
+
+def test_paired_bootstrap_known_difference():
+    rng = np.random.default_rng(1)
+    b = rng.exponential(5, 4000)
+    r = policy.paired_bootstrap(b + 0.002, b, np.arange(4000) // 4, n_boot=300)
+    assert r["diff_per_1000"] == pytest.approx(2.0)
+    assert r["ci"][0] == pytest.approx(2.0) and r["ci"][1] == pytest.approx(2.0) and r["se"] < 1e-6
+    noisy = policy.paired_bootstrap(rng.normal(0, 1, 4000), rng.normal(0, 1, 4000), np.arange(4000), n_boot=300)
+    assert noisy["ci"][0] < 0 < noisy["ci"][1]
