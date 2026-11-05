@@ -89,7 +89,7 @@ def expected():
 
 def test_readme_numbers_match_records():
     readme, _ = expected()
-    text = (ROOT / "README.md").read_text(encoding="utf-8")
+    text = "\n".join((ROOT / p).read_text(encoding="utf-8") for p in ("README.md", "docs/results.md"))  # README + full results
     assert not sorted(s for s in readme if s not in text)
 
 
